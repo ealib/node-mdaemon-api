@@ -1,2 +1,3 @@
-# node-mdaemon-api
-Unofficial Node.js binding for MDaemon APIs
+# Unofficial Node.js binding for MDaemon APIs
+
+TBD.
