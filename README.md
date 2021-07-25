@@ -1,6 +1,6 @@
 # Unofficial Node.js binding for MDaemon APIs
 
-> node-mdaemon-api 21.0.2-alpha.2
+> node-mdaemon-api 21.0.2-alpha.3
 
 ## Requirements
 
@@ -67,7 +67,7 @@ regarding Third Party Products or Services.
 
 ## License
 
-node-mdaemon-api 21.0.2-alpha.2 license
+node-mdaemon-api 21.0.2-alpha.3 license
 
 Copyright (c) 2016-2021 Emanuele Aliberti, MTKA
 

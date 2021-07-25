@@ -1,4 +1,4 @@
-// Type definitions for node-mdaemon-api 21.0.2-alpha.2
+// Type definitions for node-mdaemon-api 21.0.2-alpha.3
 // Project: Unofficial Node.js binding for MDaemon APIs
 // Definitions by: MTKA https://mtka.eu/
 
@@ -6,10 +6,11 @@ declare module "node-mdaemon-api" {
 
     export interface VersionInfo {
         build: number;
-        full: string;
+        full?: string;
         major: number;
         minor: number;
         release: number;
+        tag?: string;
     }
     export interface ModuleInfo {
         isPrerelease: boolean;
@@ -30,6 +31,10 @@ declare module "node-mdaemon-api" {
     export interface SimpleListItem {
         id: string;
         name: string;
+    }
+    export interface UserListItem {
+        Email: string;
+        FullName: string;
     }
 
     // ----------------------------------------------------------------
@@ -118,17 +123,23 @@ declare module "node-mdaemon-api" {
     /**
      * 
      */
-    export function readUsersSync(): SimpleListItem[];
+    export function readUsersSync(): UserListItem[];
     /**
      * 
      * @param callback 
      */
-    export function readUsers(callback: (err: Error | null, users?: SimpleListItem[]) => void): void;
+    export function readUsers(callback: (err: Error | null, users?: UserListItem[]) => void): void;
     /**
      * @summary True if MDaemon is present. False otherwise.
      * @readonly
      */
     export const isReady: boolean;
+    /**
+     * Predicate that holds when handle is a bad handle.
+     * 
+     * @param handle MDaemon handle or rule handle.
+     */
+    export function isBadHandle(handle: Buffer): boolean;
     /**
      * @summary Full path where mdaemon.exe is stored.
      * @readonly
@@ -146,7 +157,7 @@ declare module "node-mdaemon-api" {
      * version number of the corresponding *.exe or *.dll.
      * @readonly
      */
-    export const versions: { [moduleName: string]: string };
+    export const versions: { [moduleName: string]: VersionInfo };
 
     // ----------------------------------------------------------------
     // MDaemon APIs - MDUser
