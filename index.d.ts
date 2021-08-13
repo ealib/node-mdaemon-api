@@ -1,4 +1,4 @@
-// Type definitions for node-mdaemon-api 21.0.2-alpha.3
+// Type definitions for node-mdaemon-api 21.0.3-alpha.4
 // Project: Unofficial Node.js binding for MDaemon APIs
 // Definitions by: MTKA https://mtka.eu/
 
@@ -175,6 +175,32 @@ declare module "node-mdaemon-api" {
         Script: string;
         StartTime: string;
     }
+    export interface MdDomainFlags {
+        ANTISPAM: boolean;
+        ANTIVIRUS: boolean;
+        BIND: boolean;
+        RECURSEIMAP: boolean;
+    }
+    export interface MD_Domain {
+        AdminList: string[];
+        DomainName: string;
+        DomainPOP_Throttle: number;
+        FQDN: string;
+        Flags: MdDomainFlags;
+        IMAP_Throttle: number;
+        IP6: string;
+        IP: string;
+        InboundSMTP_Throttle: number;
+        MaxDeletedIMAPMessageAge: number;
+        MaxInactive: number;
+        MaxLists: number;
+        MaxMessageAge: number;
+        MaxUsers: number;
+        MultiPOP_Throttle: number;
+        OutboundSMTP_Throttle: number;
+        POP_Throttle: number;
+        SuppressList: string[];
+    }
     export interface MD_Forwarding {
         AUTHLogon: string;
         AUTHPassword: string;
@@ -325,7 +351,27 @@ declare module "node-mdaemon-api" {
         RecurseIMAP?: boolean;             // IMAP pruning flag 
         UseDomainDefaults?: boolean;
     }
+    export enum MdSpoolMessageResult {
+        NOERROR = 0,
+        MISSINGRAWPATH = 1,
+        CANTGENRAWFILENAME = 2,
+        CANTLOCKRAWFILE = 3,
+        CANTCREATERAWFILE = 4,
+        CANTACCESSBODYFILE = 5,
+    }
+    export enum MdVerifyMessageInfoResult {
+        NOERROR = 0,
+        MISSINGTO = 1,
+        MISSINGFROM = 2,
+        MISSINGBODY = 3,
+        MISSINGBODYFILE = 4,
+        MISSINGATTACHMENTFILE = 5,
+    }
+    export function MD_ClearListSettingsCache(ListName?: string): void;
+    export function MD_ClusterGetEnabled(): boolean;
+    export function MD_ClusterLocalNodeIsPrimary(): boolean;
     export function MD_CreateFileName(RootPath: string, Importance: number, Prefix: string, Extension: string): string | undefined;
+    export function MD_DeleteDomain(Name: string): void;
     export function MD_GetAppDir(): string;
     export function MD_GetAutoRespInfo(hUser: Buffer): MD_AutoResponder;
     export function MD_GetByEmail(Email: string): Buffer | undefined;
@@ -341,12 +387,20 @@ declare module "node-mdaemon-api" {
     export function MD_GetFileCount(hUser: Buffer): number | undefined;
     export function MD_GetForwardingInfo(hUser: Buffer): MD_Forwarding;
     export function MD_GetFree(hUser: Buffer): void;
+    export function MD_GetIsDomainAdmin(hUser: Buffer, Domain: string): boolean;
     export function MD_GetPruningFlags(hUser: Buffer): MdPruningFlags;
     export function MD_GetSharedUserInfo(): MD_UserInfo;
     export function MD_GetUserInfo(hUser: Buffer): MD_UserInfo | undefined;
     export function MD_GroupClearCache(): void;
     export function MD_GroupGetCount(): number;
     export function MD_GroupInit(GroupName?: string): MD_Group;
+    /**
+     * 
+     * @param Name name of existing domain
+     * 
+     * @returns {MD_Domain}
+     */
+    export function MD_InitDomainInfo(Name: string): MD_Domain;
     /**
      * Create a blank MD_MessageInfo
      * 
@@ -357,6 +411,7 @@ declare module "node-mdaemon-api" {
     export function MD_LogonUser(Email: string, Password: string, IP?: string): boolean;
     export function MD_RegisterWindow(hWnd: Buffer): boolean;
     export function MD_ReloadUsers(): void;
+    export function MD_RenameDomain(OldDomainName: string, NewDomainName: string): boolean;
     export function MD_SendInstantMessage(MessageInfo: MD_MessageInfo): number;
     /**
      * @summary Set a user's right to modify the global address book (GAB).
@@ -367,14 +422,7 @@ declare module "node-mdaemon-api" {
      * @deprecated
      */
     export function MD_SetCanModifyGAB(hUser: Buffer, Value: boolean): void;
-    export enum MdSpoolMessageResult {
-        NOERROR = 0,
-        MISSINGRAWPATH = 1,
-        CANTGENRAWFILENAME = 2,
-        CANTLOCKRAWFILE = 3,
-        CANTCREATERAWFILE = 4,
-        CANTACCESSBODYFILE = 5,
-    }
+    export function MD_SetIsDomainAdmin(hUser: Buffer, Domain: string, Value: boolean): void;
     /**
      * @summary Spool a message in the raw queue.
      * 
@@ -395,14 +443,6 @@ declare module "node-mdaemon-api" {
     export function MD_UserExists(address: string): boolean;
     export function MD_UserLicenseFull(): boolean;
     export function MD_ValidateUser(hUser: Buffer, Password: string): boolean;
-    export enum MdVerifyMessageInfoResult {
-        NOERROR = 0,
-        MISSINGTO = 1,
-        MISSINGFROM = 2,
-        MISSINGBODY = 3,
-        MISSINGBODYFILE = 4,
-        MISSINGATTACHMENTFILE = 5,
-    }
     export function MD_VerifyMessageInfo(MessageInfo: MD_MessageInfo): MdVerifyMessageInfoResult;
 
 }
