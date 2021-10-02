@@ -1,6 +1,10 @@
-// Type definitions for node-mdaemon-api 21.0.3-alpha.4
-// Project: Unofficial Node.js binding for MDaemon APIs
-// Definitions by: MTKA https://mtka.eu/
+/**
+ * Type definitions for node-mdaemon-api 21.0.3-alpha.5
+ * Project: Unofficial Node.js binding for MDaemon APIs
+ * Definitions by: MTKA https://mtka.eu/
+ * 
+ * @module node-mdaemon-api
+ */
 
 declare module "node-mdaemon-api" {
 
@@ -163,6 +167,18 @@ declare module "node-mdaemon-api" {
     // MDaemon APIs - MDUser
     // ----------------------------------------------------------------
 
+    export interface MD_AD {
+        Attribute: string;
+        BaseDN: string;
+        BindFlags: number;
+        ContactSearchFilter: string;
+        PageSize: number;
+        Password: string;
+        SearchFilter: string;
+        SearchFlags: number;
+        SearchScope: number;
+        UserName: string;
+    }
     export interface MD_AutoResponder {
         AddToList: string;
         Days: number;
@@ -219,6 +235,63 @@ declare module "node-mdaemon-api" {
         GroupName: string;
         Priority: number;
         TemplateName: string;
+    }
+    export interface MD_ListMember {
+        Email: string;
+        ListName: string;
+        RealName: string;
+    }
+    export interface MD_List {
+        AD: MD_AD;
+        AUTHLogon: string;
+        AUTHPassword: string;
+        ArchiveURL: string;
+        CacheDirty: boolean;
+        CatalogName: string;
+        DefaultMode: number;
+        DigestFlags: number;
+        DigestMBF: string;
+        FooterFilePath: string;
+        HeaderFilePath: string;
+        HelpURL: string;
+        KillFilePath: string;
+        LastAccessTime: string;
+        ListDescription: string;
+        ListFlags: number;
+        ListIDText: string;
+        ListName: string;
+        ListPassword: string;
+        MaxLineCount: number;
+        MaxMembers: number;
+        MaxMessageCount: number;
+        MaxMessageSize: number;
+        ModeratorEmail: string;
+        NotificationEmail: string;
+        ODBC: MD_ODBC;
+        OwnerURL: string;
+        PrecedenceLevel: number;
+        PublicFolderName: string;
+        RemoteHost: string;
+        ReplyAddress: string;
+        RoutingLimit: number;
+        SendNotesTo: string;
+        SubscribeURL: string;
+        UnsubscribeURL: string;
+        UserDefined: string;
+        WelcomeFilePath: string;
+    }
+    export interface MD_ODBC {
+        DSN: string;
+        DigestQuery: string;
+        EmailFieldMapping: string;
+        FirstNameFieldMapping: string;
+        LastNameFieldMapping: string;
+        NormalQuery: string;
+        Pass: string;
+        PostOnlyQuery: string;
+        ReadOnlyQuery: string;
+        Table: string;
+        User: string;    
     }
     export enum MdMessagePriority {
         URGENT = 10,
@@ -372,6 +445,7 @@ declare module "node-mdaemon-api" {
     export function MD_ClusterLocalNodeIsPrimary(): boolean;
     export function MD_CreateFileName(RootPath: string, Importance: number, Prefix: string, Extension: string): string | undefined;
     export function MD_DeleteDomain(Name: string): void;
+    export function MD_DeleteList(ListName: string): void;
     export function MD_GetAppDir(): string;
     export function MD_GetAutoRespInfo(hUser: Buffer): MD_AutoResponder;
     export function MD_GetByEmail(Email: string): Buffer | undefined;
@@ -387,6 +461,8 @@ declare module "node-mdaemon-api" {
     export function MD_GetFileCount(hUser: Buffer): number | undefined;
     export function MD_GetForwardingInfo(hUser: Buffer): MD_Forwarding;
     export function MD_GetFree(hUser: Buffer): void;
+    export function MD_GetGatewayCount(): number;
+    export function MD_GetIsAdmin(hUser: Buffer): boolean;
     export function MD_GetIsDomainAdmin(hUser: Buffer, Domain: string): boolean;
     export function MD_GetPruningFlags(hUser: Buffer): MdPruningFlags;
     export function MD_GetSharedUserInfo(): MD_UserInfo;
@@ -401,6 +477,7 @@ declare module "node-mdaemon-api" {
      * @returns {MD_Domain}
      */
     export function MD_InitDomainInfo(Name: string): MD_Domain;
+    export function MD_InitListInfo(ListName: string): MD_List;
     /**
      * Create a blank MD_MessageInfo
      * 
