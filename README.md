@@ -1,6 +1,8 @@
 # Unofficial Node.js binding for MDaemon APIs
 
-> node-mdaemon-api 21.0.3-alpha.5
+[![NPM](https://nodei.co/npm/node-mdaemon-api.png)](https://nodei.co/npm/node-mdaemon-api/)
+
+![Node-API v6 Badge](https://img.shields.io/badge/Node--API-v6-green.svg)
 
 - [1. Requirements](#1-requirements)
 - [2. How to install](#2-how-to-install)
@@ -20,7 +22,6 @@
     - [4.11.1. Application](#4111-application)
     - [4.11.2. Accounts](#4112-accounts)
     - [4.11.3. Clustering](#4113-clustering)
-    - [4.11.4. Domains](#4114-domains)
     - [4.11.5. Messagging](#4115-messagging)
 - [5. Legal disclaimer](#5-legal-disclaimer)
 - [6. License](#6-license)
@@ -29,10 +30,10 @@
 
 This package is intended for
 
-- Microsoft Windows 10 64 bit (or newer)
-- Microsoft Windows Server 2012 R2 64 bit (or newer)
-- MDaemon 21.0.0 64-bit (or newer)
-- Node.js 14.x LTS for Windows 64 bit, i.e. with N-API 7 support (or newer)
+- Microsoft Windows 10 64 bit (or newer);
+- Microsoft Windows Server 2012 R2 64 bit (or newer);
+- MDaemon 21.0.0 64-bit (or newer);
+- Node.js 14.x LTS for Windows 64 bit (N-API 6 support, or newer).
 
 ## 2. How to install
 
@@ -41,12 +42,66 @@ This package is intended for
 2. install [Node.js LTS (64 bit) for Windows](https://nodejs.org/en/download/)
    on that host;
 3. open a command shell (aka "DOS prompt");
-4. create a new directory, say `test-md-node`;
-5. CD to that directory (`cd test-md-node`);
-6. run `node --version` and check it correctly reports Node's version;
-7. initialize a Node.js project with `npm init -y`;
-8. run `npm install node-mdaemon-api`;
-9. import `node-mdaemon-api` in your `index.js` as `const md = require('node-mdaemon-api');`;
+4. create a new directory, say `test-md-node`
+   ```cmd
+   C:\> mkdir test-md-node
+
+   C:\> _
+   ```
+5. CD to that directory
+   ```cmd
+   C:\> cd test-md-node
+
+   C:\test-md-node> _
+   ```
+6. run `node --version` and check it correctly reports Node's version
+   ```cmd
+   C:\test-md-node>node --version
+   v14.18.0
+
+   C:\test-md-node>
+   ```
+7. initialize a Node.js project with `npm init -y`
+   ```cmd
+   C:\test-md-node>npm init -y
+   Wrote to C:\test-md-node\package.json:
+
+   {
+    "name": "test-md-node",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+   }
+
+   C:\test-md-node>
+   ```
+8. run `npm install node-mdaemon-api`
+   ```cmd
+   C:\test-md-node>npm install node-mdaemon-api
+   npm notice created a lockfile as package-lock.json. You should commit this file.
+   npm WARN node-mdaemon-api@21.0.3-alpha.6 requires a peer of mdaemon@21.x but none is installed. You must install peer dependencies yourself.
+   npm WARN test-md-node@1.0.0 No description
+   npm WARN test-md-node@1.0.0 No repository field.
+
+   + node-mdaemon-api@21.0.3-alpha.6
+   added 1 package from 1 contributor and audited 1 package in 2.278s
+   found 0 vulnerabilities
+
+
+   C:\test-md-node>
+   ```
+9.  import `node-mdaemon-api` in your `index.js` as `const md = require('node-mdaemon-api');`
+    ```javascript
+    const md = require('node-mdaemon-api');
+
+    // use "md" to access MDaemon's APIs...
+    ```
 10. use MDaemon's native APIs via `md` object.
 
 ## 3. How to use
@@ -89,6 +144,10 @@ Unimplemented APIs are due either to:
 
 APIs are grouped below as documented in official MDaemon® SDK.
 
+MDaemon® SDK is not available separately from the very MDaemon®.
+After installing MDaemon® - for instance in `C:\MDaemon` directory -
+look into `C:\MDaemon\Docs\API` for the SDK documentation and examples.
+
 ### 4.1. Application level functions
 
 - [x] `MD_RegisterWindow(Handle: Buffer): boolean;`
@@ -113,12 +172,12 @@ APIs are grouped below as documented in official MDaemon® SDK.
 - [x] `MD_GetDomainNames(): string[];`
 - [x] `MD_GetDomainCount(): number;`
 - [x] `MD_GetDomainNameUsingIP(IP?: string): string;`
-- [ ] `MD_GetDomainsGab();`
+- [x] `MD_GetDomainsGAB(Domain: string): string;`
 - [x] `MD_InitDomainInfo(Name: string): MD_Domain;`
-- [ ] `MD_VerifyDomainInfo();`
-- [ ] `MD_UpdatesuppressionList();`
+- [x] `MD_VerifyDomainInfo(Domain: MD_Domain): MdVerifyDomainInfoResult;`
+- [x] `MD_UpdateSuppressList(Domain: MD_Domain, Email: string, Flag: 0 | 1): MD_Domain | undefined;`
 - [x] `MD_RenameDomain(OldDomainName: string, NewDomainName: string): boolean;`
-- [ ] `MD_WriteDomain();`
+- [x] `MD_WriteDomain(Domain: MD_Domain): boolean;`
 - [x] `MD_DeleteDomain(Name: string): void;`
 
 ### 4.5. Account grouping functions
@@ -129,7 +188,7 @@ APIs are grouped below as documented in official MDaemon® SDK.
 - [ ] `MD_GroupWrite();`
 - [ ] `MD_GroupSetUserGroups()`
 - [ ] `MD_GroupGetUserGroups();`
-- [ ] `MD_GroupExists();`
+- [x] `MD_GroupExists(GroupName: string): boolean;`
 - [ ] `MD_GroupGetMembers();`
 - [ ] `MD_GroupAddMember();`
 - [ ] `MD_GroupRemoveMember();`
@@ -149,7 +208,7 @@ APIs are grouped below as documented in official MDaemon® SDK.
 - [x] `MD_InitUserInfo(): MD_UserInfo;`
 - [x] `MD_GetUserInfo(hUser: Buffer): MD_UserInfo | undefined;`
 - [ ] `MD_SetUserInfo();`
-- [ ] `MD_VerifyUserInfo();`
+- [x] `MD_VerifyUserInfo(UserInfo: MD_UserInfo, Level?: MdVerifyUserInfoLevel[]): MdVerifyUserInfoResult;`
 - [ ] `MD_AddUser();`
 - [ ] `MD_ChangeUser();`
 - [ ] `MD_DeleteUser();`
@@ -369,9 +428,9 @@ APIs are grouped below as documented in official MDaemon® SDK.
 
 ### 4.10. Alias related functions
 
-- [ ] `MD_DeleteAllAliases();`
-- [ ] `MD_DeleteAlias();`
-- [ ] `MD_CreateAlias();`
+- [x] `MD_DeleteAllAliases(Email: string): boolean;`
+- [x] `MD_DeleteAlias(Alias: string, Email: string): boolean;`
+- [x] `MD_CreateAlias(Email: string, Alias: string): boolean;`
 
 ### 4.11. Undocumented APIs
 
@@ -390,10 +449,6 @@ APIs are grouped below as documented in official MDaemon® SDK.
 - [x] `MD_ClusterGetEnabled(): boolean;`
 - [x] `MD_ClusterLocalNodeIsPrimary(): boolean;`
 
-#### 4.11.4. Domains
-
-- [x] `MD_GetDomainsGAB(Domain: string): string;`
-
 #### 4.11.5. Messagging
 
 - [x] `MD_SendInstantMessage(MessageInfo: MD_MessageInfo): number;`
@@ -406,7 +461,7 @@ regarding Third Party Products or Services.
 
 ## 6. License
 
-node-mdaemon-api 21.0.3-alpha.5 license
+node-mdaemon-api 21.0.3-alpha.6 license
 
 Copyright (c) 2016-2021 Emanuele Aliberti, MTKA
 

@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 21.0.3-alpha.5
+ * Type definitions for node-mdaemon-api 21.0.3-alpha.6
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -291,7 +291,7 @@ declare module "node-mdaemon-api" {
         PostOnlyQuery: string;
         ReadOnlyQuery: string;
         Table: string;
-        User: string;    
+        User: string;
     }
     export enum MdMessagePriority {
         URGENT = 10,
@@ -417,6 +417,16 @@ declare module "node-mdaemon-api" {
         'UIDLDB' |
         'UNSUBUSERDB' |
         'USERLISTDB';
+    export type MdVerifyUserInfoLevel =
+        'ACCOUNT' |
+        'MAILDIR' |
+        'FWD' |
+        'QUOTAS' |
+        'WEBCONFIG' |
+        'OPTIONS' |
+        'MULTIPOP' |
+        'AUTORESP' |
+        'ALL';
     export interface MdPruningFlags {
         MaxDeletedIMAPMessageAge?: number; // the maximum age for deleted IMAP messages
         MaxInactive?: number;              // max inactivity
@@ -440,10 +450,29 @@ declare module "node-mdaemon-api" {
         MISSINGBODYFILE = 4,
         MISSINGATTACHMENTFILE = 5,
     }
+    export enum MdVerifyDomainInfoResult {
+        NOERROR = 0,
+        NODOMAINNAME = 1,
+        INVALIDDOMAINNAME = 2,
+    }
+    export enum MdVerifyUserInfoResult {
+        NOERROR = 0,
+        INVALIDMAILBOX = 1,
+        INVALIDDOMAIN = 2,
+        NONLOCALDOMAIN = 4,
+        POSTMASTER = 5,
+        MBXHASDOMAIN = 6,
+        INVALIDFULLNAME = 7,
+        INVALIDPASSWORD = 8,
+        INVALIDMAILDIR = 9,
+    }
     export function MD_ClearListSettingsCache(ListName?: string): void;
     export function MD_ClusterGetEnabled(): boolean;
     export function MD_ClusterLocalNodeIsPrimary(): boolean;
+    export function MD_CreateAlias(Email: string, Alias: string): boolean;
     export function MD_CreateFileName(RootPath: string, Importance: number, Prefix: string, Extension: string): string | undefined;
+    export function MD_DeleteAlias(Alias: string, Email: string): boolean;
+    export function MD_DeleteAllAliases(Email: string): boolean;
     export function MD_DeleteDomain(Name: string): void;
     export function MD_DeleteList(ListName: string): void;
     export function MD_GetAppDir(): string;
@@ -468,6 +497,7 @@ declare module "node-mdaemon-api" {
     export function MD_GetSharedUserInfo(): MD_UserInfo;
     export function MD_GetUserInfo(hUser: Buffer): MD_UserInfo | undefined;
     export function MD_GroupClearCache(): void;
+    export function MD_GroupExists(GroupName: string): boolean;
     export function MD_GroupGetCount(): number;
     export function MD_GroupInit(GroupName?: string): MD_Group;
     /**
@@ -511,6 +541,7 @@ declare module "node-mdaemon-api" {
      */
     export function MD_SpoolMessage(MessageInfo: MD_MessageInfo): MdSpoolMessageResult;
     export function MD_UnregisterWindow(hWnd: Buffer): boolean;
+    export function MD_UpdateSuppressList(Domain: MD_Domain, Email: string, Flag: 0 | 1): MD_Domain | undefined;
     /**
      * Get the total number of mailboxes managed by MDaemon in all domains.
      * 
@@ -520,6 +551,9 @@ declare module "node-mdaemon-api" {
     export function MD_UserExists(address: string): boolean;
     export function MD_UserLicenseFull(): boolean;
     export function MD_ValidateUser(hUser: Buffer, Password: string): boolean;
+    export function MD_VerifyDomainInfo(Domain: MD_Domain): MdVerifyDomainInfoResult;
     export function MD_VerifyMessageInfo(MessageInfo: MD_MessageInfo): MdVerifyMessageInfoResult;
+    export function MD_VerifyUserInfo(UserInfo: MD_UserInfo, Level?: MdVerifyUserInfoLevel[]): MdVerifyUserInfoResult;
+    export function MD_WriteDomain(Domain: MD_Domain): boolean;
 
 }
