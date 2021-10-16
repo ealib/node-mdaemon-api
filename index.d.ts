@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 21.0.3-alpha.6
+ * Type definitions for node-mdaemon-api 21.0.3-alpha.7
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -39,6 +39,11 @@ declare module "node-mdaemon-api" {
     export interface UserListItem {
         Email: string;
         FullName: string;
+    }
+
+    export interface GroupListItem {
+        Description: string;
+        GroupName: string;
     }
 
     // ----------------------------------------------------------------
@@ -157,14 +162,14 @@ declare module "node-mdaemon-api" {
     export const version: string;
     /**
      * @summary Object that contains as many keys as *.exe and *.dll
-     * are present in mdAppPath. Each key has a string value that is the
-     * version number of the corresponding *.exe or *.dll.
+     * are present in mdAppPath. Each key has a VersionInfo value that
+     * contains version information of the corresponding *.exe or *.dll.
      * @readonly
      */
     export const versions: { [moduleName: string]: VersionInfo };
 
     // ----------------------------------------------------------------
-    // MDaemon APIs - MDUser
+    // MDaemon APIs
     // ----------------------------------------------------------------
 
     export interface MD_AD {
@@ -225,6 +230,36 @@ declare module "node-mdaemon-api" {
         Port: string;
         Schedule: MD_AutoResponder;
         SendAs: string;
+    }
+    export interface MD_Gateway {
+        AUTHLogon: string;
+        AUTHPassword: string;
+        CacheDirty: boolean;
+        ETRNHost: string;
+        ETRNPort: string;
+        Email: string;
+        FWDAddress: string;
+        FWDHost: string;
+        FWDPort: string;
+        FWDSendAs: string;
+        Flags: number;
+        GatewayName: string;
+        IPList: string[];
+        LDAPBaseEntry: string;
+        LDAPHost: string;
+        LDAPPort: string;
+        LDAPRootDN: string;
+        LDAPRootPass: string;
+        LDAPSearchFilter: string;
+        LDAPSearchScope: number;
+        MBF: string;
+        MailDir: string;
+        MaxDiskSpace: string;
+        MaxMessageCount: string;
+        Password: string;
+        SendWarningFrom: string;
+        SendWarningTo: string;
+        SharedSecret: string;
     }
     export interface MD_Group {
         ADGroupName: string;
@@ -428,10 +463,10 @@ declare module "node-mdaemon-api" {
         'AUTORESP' |
         'ALL';
     export interface MdPruningFlags {
-        MaxDeletedIMAPMessageAge?: number; // the maximum age for deleted IMAP messages
-        MaxInactive?: number;              // max inactivity
-        MaxMessageAge?: number;            // max message age
-        RecurseIMAP?: boolean;             // IMAP pruning flag 
+        MaxDeletedIMAPMessageAge?: number;
+        MaxInactive?: number;
+        MaxMessageAge?: number;
+        RecurseIMAP?: boolean;
         UseDomainDefaults?: boolean;
     }
     export enum MdSpoolMessageResult {
@@ -466,40 +501,57 @@ declare module "node-mdaemon-api" {
         INVALIDPASSWORD = 8,
         INVALIDMAILDIR = 9,
     }
-    export function MD_ClearListSettingsCache(ListName?: string): void;
-    export function MD_ClusterGetEnabled(): boolean;
-    export function MD_ClusterLocalNodeIsPrimary(): boolean;
+
+
+    // --- Alias APIs
+
     export function MD_CreateAlias(Email: string, Alias: string): boolean;
-    export function MD_CreateFileName(RootPath: string, Importance: number, Prefix: string, Extension: string): string | undefined;
     export function MD_DeleteAlias(Alias: string, Email: string): boolean;
     export function MD_DeleteAllAliases(Email: string): boolean;
-    export function MD_DeleteDomain(Name: string): void;
-    export function MD_DeleteList(ListName: string): void;
+
+
+    // --- Application level APIs
+
+    export function MD_CreateFileName(RootPath: string, Importance: number, Prefix: string, Extension: string): string | undefined;
     export function MD_GetAppDir(): string;
-    export function MD_GetAutoRespInfo(hUser: Buffer): MD_AutoResponder;
-    export function MD_GetByEmail(Email: string): Buffer | undefined;
-    export function MD_GetByFullName(FullName: string, Domain: string): Buffer | undefined;
-    export function MD_GetByMailDir(MailDir: string, Domain: string): Buffer | undefined;
-    export function MD_GetByMailbox(Mailbox: string, Domain: string): Buffer | undefined;
-    export function MD_GetDBPath(db: MdDatabase): string;
-    export function MD_GetDomainCount(): number;
-    export function MD_GetDomainNames(): string[];
-    export function MD_GetDomainNameUsingIP(IP?: string): string;
-    export function MD_GetDomainsGAB(Domain: string): string;
-    export function MD_GetEnableActiveSync(hUser: Buffer): boolean;
-    export function MD_GetFileCount(hUser: Buffer): number | undefined;
-    export function MD_GetForwardingInfo(hUser: Buffer): MD_Forwarding;
-    export function MD_GetFree(hUser: Buffer): void;
-    export function MD_GetGatewayCount(): number;
-    export function MD_GetIsAdmin(hUser: Buffer): boolean;
-    export function MD_GetIsDomainAdmin(hUser: Buffer, Domain: string): boolean;
-    export function MD_GetPruningFlags(hUser: Buffer): MdPruningFlags;
     export function MD_GetSharedUserInfo(): MD_UserInfo;
-    export function MD_GetUserInfo(hUser: Buffer): MD_UserInfo | undefined;
-    export function MD_GroupClearCache(): void;
-    export function MD_GroupExists(GroupName: string): boolean;
-    export function MD_GroupGetCount(): number;
-    export function MD_GroupInit(GroupName?: string): MD_Group;
+    export function MD_RegisterWindow(hWnd: Buffer): boolean;
+    export function MD_ReloadUsers(): void;
+    export function MD_UnregisterWindow(hWnd: Buffer): boolean;
+    /**
+     * Get the total number of mailboxes managed by MDaemon in all domains.
+     * 
+     * @returns {number}
+     */
+    export function MD_UserCount(): number;
+    /**
+     * Undocumented
+     */
+    export function MD_UserLicenseFull(): boolean;
+
+
+    // --- Authentication APIs
+
+    export function MD_LogonUser(Email: string, Password: string, IP?: string): boolean;
+    export function MD_UserExists(address: string): boolean;
+    export function MD_ValidateUser(hUser: Buffer, Password: string): boolean;
+    export function MD_VerifyUserInfo(UserInfo: MD_UserInfo, Level?: MdVerifyUserInfoLevel[]): MdVerifyUserInfoResult;
+
+
+    // --- Clustering APIs
+
+    export function MD_ClusterGetEnabled(): boolean;
+    export function MD_ClusterGetLocalServerGUID(): string | undefined;
+    export function MD_ClusterLocalNodeIsPrimary(): boolean;
+
+
+    // --- Domain APIs
+
+    export function MD_DeleteDomain(Name: string): void;
+    export function MD_GetDomainCount(): number;
+    export function MD_GetDomainNameUsingIP(IP?: string): string;
+    export function MD_GetDomainNames(): string[];
+    export function MD_GetDomainsGAB(Domain: string): string;
     /**
      * 
      * @param Name name of existing domain
@@ -507,19 +559,62 @@ declare module "node-mdaemon-api" {
      * @returns {MD_Domain}
      */
     export function MD_InitDomainInfo(Name: string): MD_Domain;
-    export function MD_InitListInfo(ListName: string): MD_List;
-    /**
-     * Create a blank MD_MessageInfo
-     * 
-     * @returns {MD_MessageInfo}
-     */
-    export function MD_InitMessageInfo(): MD_MessageInfo;
-    export function MD_InitUserInfo(): MD_UserInfo;
-    export function MD_LogonUser(Email: string, Password: string, IP?: string): boolean;
-    export function MD_RegisterWindow(hWnd: Buffer): boolean;
-    export function MD_ReloadUsers(): void;
     export function MD_RenameDomain(OldDomainName: string, NewDomainName: string): boolean;
-    export function MD_SendInstantMessage(MessageInfo: MD_MessageInfo): number;
+    export function MD_UpdateSuppressList(Domain: MD_Domain, Email: string, Flag: 0 | 1): MD_Domain | undefined;
+    export function MD_VerifyDomainInfo(Domain: MD_Domain): MdVerifyDomainInfoResult;
+    export function MD_WriteDomain(Domain: MD_Domain): boolean;
+
+
+    // --- Gateway APIs
+
+    export function MD_DeleteGateway(GatewayName: string, RemoveDir: boolean): void;
+    export function MD_GetGatewayNames(): string[];
+    export function MD_GatewayLicenseFull(): boolean;
+    export function MD_GetGatewayCount(): number;
+    export function MD_InitGatewayInfo(GatewayName: string): MD_Gateway;
+
+
+    // --- Group APIs
+
+    export function MD_GroupAddMember(Email: string, GroupName: string): boolean;
+    export function MD_GroupClearCache(): void;
+    export function MD_GroupDelete(GroupName: string): boolean;
+    export function MD_GroupExists(GroupName: string): boolean;
+    export function MD_GroupGetAll(): string[];
+    export function MD_GroupGetAllWithDesc(): GroupListItem[];
+    export function MD_GroupGetCount(): number;
+    export function MD_GroupGetMembers(GroupName: string): string[];
+    export function MD_GroupInit(GroupName?: string): MD_Group;
+    export function MD_GroupRemoveMember(Email: string, GroupName: string): boolean;
+    export function MD_GroupRename(GroupName: string, NewName: string): boolean;
+
+
+    // --- List APIs
+
+    export function MD_ClearListSettingsCache(ListName?: string): void;
+    export function MD_DeleteList(ListName: string): void;
+    export function MD_InitListInfo(ListName: string): MD_List;
+    export function MD_ListGetCount(): number;
+    export function MD_ListGetNames(): string[];
+
+
+    // --- User APIs
+
+    export function MD_GetAutoRespInfo(hUser: Buffer): MD_AutoResponder;
+    export function MD_GetByEmail(Email: string): Buffer | undefined;
+    export function MD_GetByFullName(FullName: string, Domain: string): Buffer | undefined;
+    export function MD_GetByMailDir(MailDir: string, Domain: string): Buffer | undefined;
+    export function MD_GetByMailbox(Mailbox: string, Domain: string): Buffer | undefined;
+    export function MD_GetDBPath(db: MdDatabase): string;
+    export function MD_GetEnableActiveSync(hUser: Buffer): boolean;
+    export function MD_GetFileCount(hUser: Buffer): number | undefined;
+    export function MD_GetForwardingInfo(hUser: Buffer): MD_Forwarding;
+    export function MD_GetFree(hUser: Buffer): void;
+    export function MD_GetIsAdmin(hUser: Buffer): boolean;
+    export function MD_GetIsDomainAdmin(hUser: Buffer, Domain: string): boolean;
+    export function MD_GetPruningFlags(hUser: Buffer): MdPruningFlags;
+    export function MD_GetUserInfo(hUser: Buffer): MD_UserInfo | undefined;
+    export function MD_InitUserInfo(): MD_UserInfo;
     /**
      * @summary Set a user's right to modify the global address book (GAB).
      * 
@@ -530,6 +625,22 @@ declare module "node-mdaemon-api" {
      */
     export function MD_SetCanModifyGAB(hUser: Buffer, Value: boolean): void;
     export function MD_SetIsDomainAdmin(hUser: Buffer, Domain: string, Value: boolean): void;
+
+
+    // --- Message APIs
+
+    /**
+     * @summary Create a blank {MD_MessageInfo} object.
+     * 
+     * @returns {MD_MessageInfo}
+     */
+    export function MD_InitMessageInfo(): MD_MessageInfo;
+    /**
+     * Post an instant message.
+     * 
+     * @param MessageInfo 
+     */
+    export function MD_SendInstantMessage(MessageInfo: MD_MessageInfo): number;
     /**
      * @summary Spool a message in the raw queue.
      * 
@@ -540,20 +651,11 @@ declare module "node-mdaemon-api" {
      * @see MD_InitMessageInfo
      */
     export function MD_SpoolMessage(MessageInfo: MD_MessageInfo): MdSpoolMessageResult;
-    export function MD_UnregisterWindow(hWnd: Buffer): boolean;
-    export function MD_UpdateSuppressList(Domain: MD_Domain, Email: string, Flag: 0 | 1): MD_Domain | undefined;
     /**
-     * Get the total number of mailboxes managed by MDaemon in all domains.
+     * Check a MD_MessageInfo object for invalid data.
      * 
-     * @returns {number}
+     * @param MessageInfo message to validate
      */
-    export function MD_UserCount(): number;
-    export function MD_UserExists(address: string): boolean;
-    export function MD_UserLicenseFull(): boolean;
-    export function MD_ValidateUser(hUser: Buffer, Password: string): boolean;
-    export function MD_VerifyDomainInfo(Domain: MD_Domain): MdVerifyDomainInfoResult;
     export function MD_VerifyMessageInfo(MessageInfo: MD_MessageInfo): MdVerifyMessageInfoResult;
-    export function MD_VerifyUserInfo(UserInfo: MD_UserInfo, Level?: MdVerifyUserInfoLevel[]): MdVerifyUserInfoResult;
-    export function MD_WriteDomain(Domain: MD_Domain): boolean;
 
 }
