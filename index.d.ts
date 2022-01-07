@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 21.0.3-alpha.7
+ * Type definitions for node-mdaemon-api 21.5.1-alpha.1
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -17,8 +17,10 @@ declare module "node-mdaemon-api" {
         tag?: string;
     }
     export interface ModuleInfo {
+        fileName: string;
         isPrerelease: boolean;
         isFreeVersion: boolean;
+        name: string;
         version: VersionInfo;
     }
     export interface MdInfo {
@@ -167,6 +169,11 @@ declare module "node-mdaemon-api" {
      * @readonly
      */
     export const versions: { [moduleName: string]: VersionInfo };
+    /**
+     * @summary true if MDaemon's version major.minor match module's.
+     * @readonly
+     */
+    export const versionsMatch: boolean;
 
     // ----------------------------------------------------------------
     // MDaemon APIs
@@ -502,19 +509,55 @@ declare module "node-mdaemon-api" {
         INVALIDMAILDIR = 9,
     }
 
-
+    // -----------------------------------------------------------------
     // --- Alias APIs
+    // -----------------------------------------------------------------
 
     export function MD_CreateAlias(Email: string, Alias: string): boolean;
     export function MD_DeleteAlias(Alias: string, Email: string): boolean;
     export function MD_DeleteAllAliases(Email: string): boolean;
+    export function MD_InvalidateAliases(): void;
+    export function MD_IsValidAlias(Alias: string): boolean;
 
-
+    // -----------------------------------------------------------------
     // --- Application level APIs
+    // -----------------------------------------------------------------
 
+    /**
+     * Undocumented
+     */
+    export function MD_ClearSettingsCache(UnknownInt: number): string;
     export function MD_CreateFileName(RootPath: string, Importance: number, Prefix: string, Extension: string): string | undefined;
     export function MD_GetAppDir(): string;
+    /**
+     * Undocumented
+     */
+    export function MD_GetLicensesUsed(): number;
     export function MD_GetSharedUserInfo(): MD_UserInfo;
+    /**
+     * Undocumented
+     */
+    export function MD_InvalidateBadPasswords(): void;
+    /**
+     * Undocumented
+     */
+     export function MD_InvalidateLANIPs(): void;
+    /**
+     * Undocumented
+     */
+    export function MD_IsAVLicenseTooSmall(UserCount: number): boolean;
+    /**
+     * Undocumented
+     */
+    export function MD_IsProVersion(): boolean;
+    /**
+     * Undocumented
+     */
+     export function MD_IsTrialVersion(): boolean;
+     /**
+     * Undocumented
+     */
+    export function MD_IsLicenseActive(): boolean;
     export function MD_RegisterWindow(hWnd: Buffer): boolean;
     export function MD_ReloadUsers(): void;
     export function MD_UnregisterWindow(hWnd: Buffer): boolean;
@@ -529,23 +572,87 @@ declare module "node-mdaemon-api" {
      */
     export function MD_UserLicenseFull(): boolean;
 
+    // -----------------------------------------------------------------
+    // --- AppPassword APIs
+    // -----------------------------------------------------------------
 
+    export function MD_AppPasswordGetCount(hUser: Buffer): number | undefined;
+
+    // -----------------------------------------------------------------
     // --- Authentication APIs
+    // -----------------------------------------------------------------
 
     export function MD_LogonUser(Email: string, Password: string, IP?: string): boolean;
     export function MD_UserExists(address: string): boolean;
     export function MD_ValidateUser(hUser: Buffer, Password: string): boolean;
     export function MD_VerifyUserInfo(UserInfo: MD_UserInfo, Level?: MdVerifyUserInfoLevel[]): MdVerifyUserInfoResult;
 
+    // -----------------------------------------------------------------
+    // --- Calendar APIs
+    // -----------------------------------------------------------------
 
+    export function MD_CalGetDefaultFolder(hUser: Buffer): string;
+
+    // -----------------------------------------------------------------
     // --- Clustering APIs
+    // -----------------------------------------------------------------
 
     export function MD_ClusterGetEnabled(): boolean;
+    export function MD_ClusterGetLocalNodeId(): number;
     export function MD_ClusterGetLocalServerGUID(): string | undefined;
+    export function MD_ClusterGetLocalServerId(): number;
+    export function MD_ClusterGetNodeId(ComputerName: string): number;
+    export function MD_ClusterGetPrimaryComputerName(): string;
+    export function MD_ClusterGetServerGUID(ComputerName: string): string | undefined;
+    export function MD_ClusterGetServerId(ComputerName: string): number;
     export function MD_ClusterLocalNodeIsPrimary(): boolean;
 
+    // -----------------------------------------------------------------
+    // --- Contacts APIs
+    // -----------------------------------------------------------------
 
+    export function MD_ContactGetDefaultFolder(hUser: Buffer): string;
+
+    // -----------------------------------------------------------------
+    // --- Document APIs
+    // -----------------------------------------------------------------
+
+    export function MD_DocumentDeleteDocument(Path: string, Id: number, Requester?: string): boolean;
+    export function MD_DocumentFreeItem(hDocument: Buffer): void;
+    export function MD_DocumentGetDefaultFolder(hUser: Buffer): string;
+    export function MD_DocumentGetFileName(hDocument: Buffer): string;
+    export function MD_DocumentGetFileSize(hDocument: Buffer): BigInt;
+    export function MD_DocumentGetId(hDocument: Buffer): number;
+    export function MD_DocumentGetItem(Id: number, Path: string, Requester?: string): Buffer | undefined;
+    export function MD_DocumentGetModifiedBy(hDocument: Buffer): string;
+    export function MD_DocumentGetModifiedTime(hDocument: Buffer): Date;
+    export interface MdDocumentCopyDocumentOptions {
+        MoveInsteadOfCopy?: boolean;
+        OverwriteExisting?: boolean;
+        Requester?: string;
+    }
+    export function MD_DocumentCopyDocument(
+        SrcPath: string,
+        Id: number,
+        DestPath: string,
+        Options?: MdDocumentCopyDocumentOptions
+    ): boolean;
+    export interface MdDocumentCopyFileIntoFolderOptions {
+        OverwriteExisting?: boolean;
+        Requester?: string;
+    }
+
+    export function MD_DocumentCopyFileIntoFolder(
+        InputFile: string,
+        DestPath: string,
+        NewFileName: string,
+        ModifiedBy: string,
+        Options?: MdDocumentCopyFileIntoFolderOptions
+    ): boolean;
+
+    // -----------------------------------------------------------------
     // --- Domain APIs
+    // -----------------------------------------------------------------
 
     export function MD_DeleteDomain(Name: string): void;
     export function MD_GetDomainCount(): number;
@@ -564,8 +671,9 @@ declare module "node-mdaemon-api" {
     export function MD_VerifyDomainInfo(Domain: MD_Domain): MdVerifyDomainInfoResult;
     export function MD_WriteDomain(Domain: MD_Domain): boolean;
 
-
+    // -----------------------------------------------------------------
     // --- Gateway APIs
+    // -----------------------------------------------------------------
 
     export function MD_DeleteGateway(GatewayName: string, RemoveDir: boolean): void;
     export function MD_GetGatewayNames(): string[];
@@ -573,61 +681,80 @@ declare module "node-mdaemon-api" {
     export function MD_GetGatewayCount(): number;
     export function MD_InitGatewayInfo(GatewayName: string): MD_Gateway;
 
-
+    // -----------------------------------------------------------------
     // --- Group APIs
+    // -----------------------------------------------------------------
 
     export function MD_GroupAddMember(Email: string, GroupName: string): boolean;
     export function MD_GroupClearCache(): void;
+    export function MD_GroupCreate(Group: MD_Group): boolean;
     export function MD_GroupDelete(GroupName: string): boolean;
     export function MD_GroupExists(GroupName: string): boolean;
+    export function MD_GroupFindMember(Email: string, GroupName: string): boolean;
     export function MD_GroupGetAll(): string[];
     export function MD_GroupGetAllWithDesc(): GroupListItem[];
     export function MD_GroupGetCount(): number;
     export function MD_GroupGetMembers(GroupName: string): string[];
+    export function MD_GroupGetUserGroups(hUser: Buffer): string[];
     export function MD_GroupInit(GroupName?: string): MD_Group;
     export function MD_GroupRemoveMember(Email: string, GroupName: string): boolean;
     export function MD_GroupRename(GroupName: string, NewName: string): boolean;
+    export function MD_GroupRenameMember(OldEmail: string, NewEmail: string): void;
 
-
+    // -----------------------------------------------------------------
     // --- List APIs
+    // -----------------------------------------------------------------
 
     export function MD_ClearListSettingsCache(ListName?: string): void;
     export function MD_DeleteList(ListName: string): void;
     export function MD_InitListInfo(ListName: string): MD_List;
+    export function MD_ListExists(ListName: string): boolean;
     export function MD_ListGetCount(): number;
     export function MD_ListGetNames(): string[];
 
+    // -----------------------------------------------------------------
+    // --- Note APIs
+    // -----------------------------------------------------------------
 
+    export function MD_NoteGetDefaultFolder(hUser: Buffer): string;
+
+    // -----------------------------------------------------------------
+    // --- Task APIs
+    // -----------------------------------------------------------------
+
+    export function MD_TaskGetDefaultFolder(hUser: Buffer): string;
+
+    // -----------------------------------------------------------------
     // --- User APIs
+    // -----------------------------------------------------------------
 
+    /**
+     * Undocumented
+     */
+    export function MD_FlagReloadUsers(): void;
     export function MD_GetAutoRespInfo(hUser: Buffer): MD_AutoResponder;
+    export function MD_GetByAlias(): Buffer | undefined;
     export function MD_GetByEmail(Email: string): Buffer | undefined;
     export function MD_GetByFullName(FullName: string, Domain: string): Buffer | undefined;
     export function MD_GetByMailDir(MailDir: string, Domain: string): Buffer | undefined;
     export function MD_GetByMailbox(Mailbox: string, Domain: string): Buffer | undefined;
     export function MD_GetDBPath(db: MdDatabase): string;
-    export function MD_GetEnableActiveSync(hUser: Buffer): boolean;
+    export function MD_GetDirSize(hUser: Buffer): number;
     export function MD_GetFileCount(hUser: Buffer): number | undefined;
     export function MD_GetForwardingInfo(hUser: Buffer): MD_Forwarding;
     export function MD_GetFree(hUser: Buffer): void;
     export function MD_GetIsAdmin(hUser: Buffer): boolean;
     export function MD_GetIsDomainAdmin(hUser: Buffer, Domain: string): boolean;
+    export function MD_GetPassword(hUser: Buffer): string;
     export function MD_GetPruningFlags(hUser: Buffer): MdPruningFlags;
     export function MD_GetUserInfo(hUser: Buffer): MD_UserInfo | undefined;
     export function MD_InitUserInfo(): MD_UserInfo;
-    /**
-     * @summary Set a user's right to modify the global address book (GAB).
-     * 
-     * @param hUser User handle to update.
-     * @param Value new value of can-modify-gab flag.
-     * 
-     * @deprecated
-     */
-    export function MD_SetCanModifyGAB(hUser: Buffer, Value: boolean): void;
     export function MD_SetIsDomainAdmin(hUser: Buffer, Domain: string, Value: boolean): void;
+    export function MD_VerifyAccountDB(): boolean;
 
-
+    // -----------------------------------------------------------------
     // --- Message APIs
+    // -----------------------------------------------------------------
 
     /**
      * @summary Create a blank {MD_MessageInfo} object.

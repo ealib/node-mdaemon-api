@@ -4,27 +4,58 @@
 
 ![Node-API v6 Badge](https://img.shields.io/badge/Node--API-v6-green.svg)
 
-- [1. Requirements](#1-requirements)
-- [2. How to install](#2-how-to-install)
-- [3. How to use](#3-how-to-use)
-  - [3.1. ECMAScript](#31-ecmascript)
-    - [3.1.1. CommonJS](#311-commonjs)
-    - [3.1.2. ESM](#312-esm)
-  - [3.2. TypeScript](#32-typescript)
-- [4. APIs implementation status](#4-apis-implementation-status)
-- [5. Legal disclaimer](#5-legal-disclaimer)
-- [6. License](#6-license)
+- [1. Goal and Philosophy](#1-goal-and-philosophy)
+- [2. Requirements](#2-requirements)
+- [3. Version number](#3-version-number)
+- [4. Security](#4-security)
+- [5. How to install](#5-how-to-install)
+- [6. How to use](#6-how-to-use)
+  - [6.1. ECMAScript](#61-ecmascript)
+    - [6.1.1. CommonJS](#611-commonjs)
+    - [6.1.2. ESM](#612-esm)
+  - [6.2. TypeScript](#62-typescript)
+- [7. APIs implementation status](#7-apis-implementation-status)
+- [8. Legal disclaimer](#8-legal-disclaimer)
+- [9. License](#9-license)
 
-## 1. Requirements
+## 1. Goal and Philosophy
+
+**`node-mdaemon-api`** strives to be an easily embeddable bridge to
+MDaemon's functionality.
+
+MDaemon's native APIs have been reviewed and adapted to behave as much
+as possible as ECMAScript/TypeScript functions.
+
+## 2. Requirements
 
 This package is intended for
 
 - Microsoft Windows 10 64 bit (or newer);
 - Microsoft Windows Server 2012 R2 64 bit (or newer);
-- MDaemon 21.0.0 64-bit (or newer);
+- MDaemon 21.5.0 64-bit (or newer);
 - Node.js 14.x LTS for Windows 64 bit (N-API 6 support, or newer).
 
-## 2. How to install
+## 3. Version number
+
+Due to the nature of the MDaemon SDK, which is per-version with breaking
+changes possibly happening whenever the first figure (major) and/or the
+second figure (minor) in the version number change, this package follows
+strictly the *Major.minor* version numbering of MDaemon.
+
+For this reason, a new module property `versionsMatch` is available. It
+holds `true` if module's *major* **and** *minor* version numbers match
+MDaemon's. Please, **early abort** a script based on `node-mdaemon-api`,
+if `versionsMatch` does *not* hold.
+
+## 4. Security
+
+> Please, note that `node-mdaemon-api` is a *pre-build binary module* for
+> Node.js for Microsoft Windows.
+
+All best-practices in security have been followed to ensure the very
+binary is safe and without any malware.
+
+## 5. How to install
 
 1. select a host with [MDaemon (64 bit)](https://www.altn.com/Products/MDaemon-Email-Server-Windows/)
    already installed;
@@ -74,11 +105,11 @@ This package is intended for
    ```cmd
    C:\test-md-node>npm install node-mdaemon-api
    npm notice created a lockfile as package-lock.json. You should commit this file.
-   npm WARN node-mdaemon-api@21.0.3-alpha.7 requires a peer of mdaemon@21.x but none is installed. You must install peer dependencies yourself.
+   npm WARN node-mdaemon-api@21.5.1-alpha.1 requires a peer of mdaemon@21.x but none is installed. You must install peer dependencies yourself.
    npm WARN test-md-node@1.0.0 No description
    npm WARN test-md-node@1.0.0 No repository field.
 
-   + node-mdaemon-api@21.0.3-alpha.7
+   + node-mdaemon-api@21.5.1-alpha.1
    added 1 package from 1 contributor and audited 1 package in 2.278s
    found 0 vulnerabilities
 
@@ -93,11 +124,26 @@ This package is intended for
     ```
 10. use MDaemon's native APIs via `md` object.
 
-## 3. How to use
+## 6. How to use
 
-### 3.1. ECMAScript
+### 6.1. ECMAScript
 
-#### 3.1.1. CommonJS
+> **WARNING**
+> Early abort the script if `versionsMatch` is false.
+
+```javascript
+const md = require('node-mdaemon-api');
+
+if (!md.versionsMatch) {
+    // Early abort!
+    throw new Error('MDaemon version and node-mdaemon-api version do NOT match!');
+}
+
+// Safe to use "md" to access MDaemon's APIs...
+// ...
+```
+
+#### 6.1.1. CommonJS
 
 Minimum [ECMASCript](https://www.ecma-international.org/publications-and-standards/standards/ecma-262/)
 example:
@@ -106,7 +152,12 @@ example:
 'use strict';
 const md = require('node-mdaemon-api');
 
-if (md && md.isReady) {
+if (!md.versionsMatch) {
+    // Early abort!
+    throw new Error('MDaemon version and node-mdaemon-api version do NOT match!');
+}
+
+if (md.isReady) {
     const mdInfo = md.getMdInfo();
     console.log(`MDaemon ${mdInfo.version.full} ready!`);
 } else {
@@ -114,7 +165,7 @@ if (md && md.isReady) {
 }
 ```
 
-#### 3.1.2. ESM
+#### 6.1.2. ESM
 
 If you set your `package.json`'s `type` to `module`, Node.js can use ESM
 modules, but `import` can [**not** import native
@@ -128,7 +179,12 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const md = require('node-mdaemon-api');
 
-if (md && md.isReady) {
+if (!md.versionsMatch) {
+    // Early abort!
+    throw new Error('MDaemon version and node-mdaemon-api version do NOT match!');
+}
+
+if (md.isReady) {
     const mdInfo = md.getMdInfo();
     console.log(`MDaemon ${mdInfo.version.full} ready!`);
 } else {
@@ -136,36 +192,50 @@ if (md && md.isReady) {
 }
 ```
 
-### 3.2. TypeScript
+### 6.2. TypeScript
 
 Minimum [TypeScript](https://www.typescriptlang.org/docs/) example:
 
 ```typescript
-import { isReady, MD_GetDomainNames } from "node-mdaemon-api";
+import { isReady, versionsMatch, MD_GetDomainNames } from "node-mdaemon-api";
 
 function getDomains(pattern?: RegExp): string[] {
-    const domains: string[] = isReady ? MD_GetDomainNames() ?? [] : [];
+    const domains: string[] = MD_GetDomainNames() ?? [];
     return pattern ? domains.filter(d => pattern.test(d)) : domains;
 }
-getDomains().forEach(domainName => console.log(`- ${domainName}`));
+
+if (!versionsMatch) {
+    // Early abort!
+    throw new Error('MDaemon version and node-mdaemon-api version do NOT match!');
+}
+
+if (isReady) {
+    getDomains().forEach(domainName => console.log(`- ${domainName}`));
+} else {
+    console.error('MDaemon not available.');
+}
 ```
 
-## 4. APIs implementation status
+## 7. APIs implementation status
 
 Implementation status moved to
 [wiki](https://github.com/ealib/node-mdaemon-api/wiki).
 
-## 5. Legal disclaimer
+## 8. Legal disclaimer
 
-MDaemon® is a trademark of MDaemon Technologies, Ltd. MDaemon
-Technologies makes no representations, endorsements, or warranties
-regarding Third Party Products or Services.
+MDaemon® is a trademark of [MDaemon Technologies, Ltd.](https://www.altn.com/Company/)
+MDaemon Technologies makes no representations, endorsements, or
+warranties regarding Third Party Products or Services.
 
-## 6. License
+Node.js is a trademark of [Joyent, Inc.](https://www.joyent.com/).
 
-node-mdaemon-api 21.0.3-alpha.7 license
+Windows&trade; is a [trademark of Microsoft Corp.](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks)
 
-Copyright (c) 2016-2021 Emanuele Aliberti, MTKA
+## 9. License
+
+node-mdaemon-api 21.5.1-alpha.1 license
+
+Copyright (c) 2016-2022 Emanuele Aliberti, MTKA
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
