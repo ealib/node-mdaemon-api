@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 21.5.1-alpha.1
+ * Type definitions for node-mdaemon-api 21.5.1-alpha.2
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -518,6 +518,14 @@ declare module "node-mdaemon-api" {
     export function MD_DeleteAllAliases(Email: string): boolean;
     export function MD_InvalidateAliases(): void;
     export function MD_IsValidAlias(Alias: string): boolean;
+    /**
+     * Undocumented.
+     * 
+     * @param Alias Alias to translate.
+     * @param Level Depth
+     */
+    export function MD_TranslateAlias(Alias: string, Level: number): string;
+
 
     // -----------------------------------------------------------------
     // --- Application level APIs
