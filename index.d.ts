@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 21.5.1-alpha.2
+ * Type definitions for node-mdaemon-api 21.5.1-alpha.3
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -34,10 +34,6 @@ declare module "node-mdaemon-api" {
         userCount: number;
         version: VersionInfo;
     }
-    export interface SimpleListItem {
-        id: string;
-        name: string;
-    }
     export interface UserListItem {
         Email: string;
         FullName: string;
@@ -67,21 +63,32 @@ declare module "node-mdaemon-api" {
     /**
      * @summary Synchronously authenticate against MDaemon user database.
      * 
-     * @param Email e-mail address
-     * @param Password password
+     * @param email e-mail address
+     * @param password password
+     * @param ip OPTIONAL IP address
      * @see MD_LogonUser
      */
-    export function loginSync(Email: string, Password: string): boolean;
+    export function loginSync(
+        email: string,
+        password: string,
+        ip?: string
+    ): boolean;
     /**
      * @summary Authenticate against MDaemon user database.
      * 
-     * @param Email  e-mail address
-     * @param Password password
+     * @param email  e-mail address
+     * @param password password
      * @param callback callback function called either on success, or on
      * failure. On failure, err contains the error and success is
      * undefined. On success, err is undefined and success is true.
+     * @param ip OPTIONAL IP address
      */
-    export function login(Email: string, Password: string, callback: (err: Error | null, success?: boolean) => void): void;
+    export function login(
+        email: string,
+        password: string,
+        callback: (err: Error | null, success?: boolean) => void,
+        ip?: string
+    ): void;
     /**
      * @summary Synchronously read domain gateway names.
      * 
@@ -116,21 +123,21 @@ declare module "node-mdaemon-api" {
     /**
      * 
      */
-    export function readUserGroupsSync(): SimpleListItem[];
+    export function readUserGroupsSync(): GroupListItem[];
     /**
      * 
      * @param callback 
      */
-    export function readUserGroups(callback: (err: Error | null, userGroups?: SimpleListItem[]) => void): void;
+    export function readUserGroups(callback: (err: Error | null, userGroups?: GroupListItem[]) => void): void;
     /**
      * 
      */
-    export function readUserTemplatesSync(): SimpleListItem[];
+    export function readUserTemplatesSync(): string[];
     /**
      * 
      * @param callback 
      */
-    export function readUserTemplates(callback: (err: Error | null, userTemplates?: SimpleListItem[]) => void): void;
+    export function readUserTemplates(callback: (err: Error | null, userTemplates?: string[]) => void): void;
     /**
      * 
      */
@@ -508,6 +515,17 @@ declare module "node-mdaemon-api" {
         INVALIDPASSWORD = 8,
         INVALIDMAILDIR = 9,
     }
+    /**
+     * MDaemon uses only a subset of folder classes.
+     * 
+     * See https://docs.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxosfld/68a85898-84fe-43c4-b166-4711c13cdd61
+     */
+    export type MdFolderClass =
+        'IPF.Appointment' | /* Calendar */
+        'IPF.Contact' | /* Contacts */
+        'IPF.Document' | /* Documents */
+        'IPF.StickyNote' | /* Notes */
+        'IPF.Task' /* Tasks */;
 
     // -----------------------------------------------------------------
     // --- Alias APIs
@@ -522,9 +540,10 @@ declare module "node-mdaemon-api" {
      * Undocumented.
      * 
      * @param Alias Alias to translate.
-     * @param Level Depth
+     * @param Level Depth (0, -1, -2, -3, ...); default -1
+     * @returns Either the Level-th translation, or the input.
      */
-    export function MD_TranslateAlias(Alias: string, Level: number): string;
+    export function MD_TranslateAlias(Alias: string, Level?: number): string;
 
 
     // -----------------------------------------------------------------
@@ -549,7 +568,7 @@ declare module "node-mdaemon-api" {
     /**
      * Undocumented
      */
-     export function MD_InvalidateLANIPs(): void;
+    export function MD_InvalidateLANIPs(): void;
     /**
      * Undocumented
      */
@@ -561,24 +580,26 @@ declare module "node-mdaemon-api" {
     /**
      * Undocumented
      */
-     export function MD_IsTrialVersion(): boolean;
-     /**
-     * Undocumented
-     */
+    export function MD_IsTrialVersion(): boolean;
+    /**
+    * Undocumented
+    */
     export function MD_IsLicenseActive(): boolean;
     export function MD_RegisterWindow(hWnd: Buffer): boolean;
     export function MD_ReloadUsers(): void;
     export function MD_UnregisterWindow(hWnd: Buffer): boolean;
     /**
-     * Get the total number of mailboxes managed by MDaemon in all domains.
+     * @summary Get the total number of mailboxes managed by MDaemon in
+     * all domains.
      * 
      * @returns {number}
      */
     export function MD_UserCount(): number;
     /**
-     * Undocumented
+     * @summary Undocumented
      */
     export function MD_UserLicenseFull(): boolean;
+
 
     // -----------------------------------------------------------------
     // --- AppPassword APIs
@@ -586,20 +607,42 @@ declare module "node-mdaemon-api" {
 
     export function MD_AppPasswordGetCount(hUser: Buffer): number | undefined;
 
+
     // -----------------------------------------------------------------
     // --- Authentication APIs
     // -----------------------------------------------------------------
 
+    /**
+     * Authenticate a user (by e-mail)
+     * 
+     * @param Email full e-mail address
+     * @param Password secret
+     * @param IP optional origin
+     * @returns true on successfull authentication; false otherwise
+     */
     export function MD_LogonUser(Email: string, Password: string, IP?: string): boolean;
+    /**
+     * Verify a user exists.
+     * 
+     * @param address full e-mail address
+     * @returns true if address exists; false otherwise
+     */
     export function MD_UserExists(address: string): boolean;
-    export function MD_ValidateUser(hUser: Buffer, Password: string): boolean;
-    export function MD_VerifyUserInfo(UserInfo: MD_UserInfo, Level?: MdVerifyUserInfoLevel[]): MdVerifyUserInfoResult;
+    export function MD_ValidateUser(
+        hUser: Buffer,
+        Password: string
+    ): boolean;
+    export function MD_VerifyUserInfo(
+        UserInfo: MD_UserInfo,
+        Level?: MdVerifyUserInfoLevel[]
+    ): MdVerifyUserInfoResult;
 
     // -----------------------------------------------------------------
     // --- Calendar APIs
     // -----------------------------------------------------------------
 
     export function MD_CalGetDefaultFolder(hUser: Buffer): string;
+
 
     // -----------------------------------------------------------------
     // --- Clustering APIs
@@ -649,7 +692,6 @@ declare module "node-mdaemon-api" {
         OverwriteExisting?: boolean;
         Requester?: string;
     }
-
     export function MD_DocumentCopyFileIntoFolder(
         InputFile: string,
         DestPath: string,
@@ -657,27 +699,35 @@ declare module "node-mdaemon-api" {
         ModifiedBy: string,
         Options?: MdDocumentCopyFileIntoFolderOptions
     ): boolean;
+    export function MD_DocumentRenameDocument(
+        Path: string,
+        Id: number,
+        NewFileName: string,
+        Requester?: string
+    ): boolean;
 
     // -----------------------------------------------------------------
     // --- Domain APIs
     // -----------------------------------------------------------------
 
-    export function MD_DeleteDomain(Name: string): void;
+    export function MD_DeleteDomain(DomainName: string): void;
     export function MD_GetDomainCount(): number;
     export function MD_GetDomainNameUsingIP(IP?: string): string;
     export function MD_GetDomainNames(): string[];
     export function MD_GetDomainsGAB(Domain: string): string;
+    export function MD_GetSharedDomainInfo(): MD_Domain;
     /**
      * 
      * @param Name name of existing domain
      * 
      * @returns {MD_Domain}
      */
-    export function MD_InitDomainInfo(Name: string): MD_Domain;
+    export function MD_InitDomainInfo(DomainName: string): MD_Domain;
     export function MD_RenameDomain(OldDomainName: string, NewDomainName: string): boolean;
     export function MD_UpdateSuppressList(Domain: MD_Domain, Email: string, Flag: 0 | 1): MD_Domain | undefined;
     export function MD_VerifyDomainInfo(Domain: MD_Domain): MdVerifyDomainInfoResult;
     export function MD_WriteDomain(Domain: MD_Domain): boolean;
+
 
     // -----------------------------------------------------------------
     // --- Gateway APIs
@@ -688,6 +738,7 @@ declare module "node-mdaemon-api" {
     export function MD_GatewayLicenseFull(): boolean;
     export function MD_GetGatewayCount(): number;
     export function MD_InitGatewayInfo(GatewayName: string): MD_Gateway;
+
 
     // -----------------------------------------------------------------
     // --- Group APIs
@@ -709,6 +760,7 @@ declare module "node-mdaemon-api" {
     export function MD_GroupRename(GroupName: string, NewName: string): boolean;
     export function MD_GroupRenameMember(OldEmail: string, NewEmail: string): void;
 
+
     // -----------------------------------------------------------------
     // --- List APIs
     // -----------------------------------------------------------------
@@ -720,17 +772,60 @@ declare module "node-mdaemon-api" {
     export function MD_ListGetCount(): number;
     export function MD_ListGetNames(): string[];
 
+
+    // -----------------------------------------------------------------
+    // --- Message APIs
+    // -----------------------------------------------------------------
+
+    /**
+     * @summary Create a blank {MD_MessageInfo} object.
+     * 
+     * @returns {MD_MessageInfo}
+     */
+    export function MD_InitMessageInfo(): MD_MessageInfo;
+    /**
+     * @summary Post an instant message.
+     * 
+     * @param MessageInfo 
+     */
+    export function MD_SendInstantMessage(
+        MessageInfo: MD_MessageInfo
+    ): number;
+    /**
+     * @summary Spool a message in the raw queue.
+     * 
+     * @param MessageInfo message to spool in raw queue.
+     * 
+     * @return {MdSpoolMessageResult} NOERROR means success.
+     * 
+     * @see MD_InitMessageInfo
+     */
+    export function MD_SpoolMessage(
+        MessageInfo: MD_MessageInfo
+    ): MdSpoolMessageResult;
+    /**
+     * @summary Check a MD_MessageInfo object for invalid data.
+     * 
+     * @param MessageInfo message to validate
+     */
+    export function MD_VerifyMessageInfo(
+        MessageInfo: MD_MessageInfo
+    ): MdVerifyMessageInfoResult;
+
+
     // -----------------------------------------------------------------
     // --- Note APIs
     // -----------------------------------------------------------------
 
     export function MD_NoteGetDefaultFolder(hUser: Buffer): string;
 
+
     // -----------------------------------------------------------------
     // --- Task APIs
     // -----------------------------------------------------------------
 
     export function MD_TaskGetDefaultFolder(hUser: Buffer): string;
+
 
     // -----------------------------------------------------------------
     // --- User APIs
@@ -739,6 +834,14 @@ declare module "node-mdaemon-api" {
     /**
      * Undocumented
      */
+    export function MD_CreateUserIMAPFolder(
+        hUser: Buffer,
+        Path: string,
+        FolderClass?: MdFolderClass | null,
+        UnknownFlag?: boolean): boolean;
+    /**
+    * Undocumented
+    */
     export function MD_FlagReloadUsers(): void;
     export function MD_GetAutoRespInfo(hUser: Buffer): MD_AutoResponder;
     export function MD_GetByAlias(): Buffer | undefined;
@@ -760,37 +863,15 @@ declare module "node-mdaemon-api" {
     export function MD_SetIsDomainAdmin(hUser: Buffer, Domain: string, Value: boolean): void;
     export function MD_VerifyAccountDB(): boolean;
 
+
     // -----------------------------------------------------------------
-    // --- Message APIs
+    // --- User templates APIs
     // -----------------------------------------------------------------
 
-    /**
-     * @summary Create a blank {MD_MessageInfo} object.
-     * 
-     * @returns {MD_MessageInfo}
-     */
-    export function MD_InitMessageInfo(): MD_MessageInfo;
-    /**
-     * Post an instant message.
-     * 
-     * @param MessageInfo 
-     */
-    export function MD_SendInstantMessage(MessageInfo: MD_MessageInfo): number;
-    /**
-     * @summary Spool a message in the raw queue.
-     * 
-     * @param MessageInfo message to spool in raw queue.
-     * 
-     * @return {MdSpoolMessageResult} NOERROR means success.
-     * 
-     * @see MD_InitMessageInfo
-     */
-    export function MD_SpoolMessage(MessageInfo: MD_MessageInfo): MdSpoolMessageResult;
-    /**
-     * Check a MD_MessageInfo object for invalid data.
-     * 
-     * @param MessageInfo message to validate
-     */
-    export function MD_VerifyMessageInfo(MessageInfo: MD_MessageInfo): MdVerifyMessageInfoResult;
+    export function MD_TemplateDelete(TemplateName: string): boolean;
+    export function MD_TemplateExists(TemplateName: string): boolean;
+    export function MD_TemplateGetAll(): string[];
+    export function MD_TemplateGetFlags(TemplateName: string): number;
+    export function MD_TemplateSetFlags(TemplateName: string, Flags: number): boolean;
 
 }

@@ -105,11 +105,11 @@ binary is safe and without any malware.
    ```cmd
    C:\test-md-node>npm install node-mdaemon-api
    npm notice created a lockfile as package-lock.json. You should commit this file.
-   npm WARN node-mdaemon-api@21.5.1-alpha.2 requires a peer of mdaemon@21.x but none is installed. You must install peer dependencies yourself.
+   npm WARN node-mdaemon-api@21.5.1-alpha.3 requires a peer of mdaemon@21.x but none is installed. You must install peer dependencies yourself.
    npm WARN test-md-node@1.0.0 No description
    npm WARN test-md-node@1.0.0 No repository field.
 
-   + node-mdaemon-api@21.5.1-alpha.2
+   + node-mdaemon-api@21.5.1-alpha.3
    added 1 package from 1 contributor and audited 1 package in 2.278s
    found 0 vulnerabilities
 
@@ -126,8 +126,6 @@ binary is safe and without any malware.
 
 ## 6. How to use
 
-### 6.1. ECMAScript
-
 > **WARNING**
 > Early abort the script if `versionsMatch` is false.
 
@@ -142,6 +140,8 @@ if (!md.versionsMatch) {
 // Safe to use "md" to access MDaemon's APIs...
 // ...
 ```
+
+### 6.1. ECMAScript
 
 #### 6.1.1. CommonJS
 
@@ -233,7 +233,7 @@ Windows&trade; is a [trademark of Microsoft Corp.](https://www.microsoft.com/en-
 
 ## 9. License
 
-node-mdaemon-api 21.5.1-alpha.2 license
+node-mdaemon-api 21.5.1-alpha.3 license
 
 Copyright (c) 2016-2022 Emanuele Aliberti, MTKA
 
