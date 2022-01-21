@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 21.5.1-alpha.3
+ * Type definitions for node-mdaemon-api 21.5.1-alpha.4
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -750,6 +750,7 @@ declare module "node-mdaemon-api" {
     export function MD_GroupDelete(GroupName: string): boolean;
     export function MD_GroupExists(GroupName: string): boolean;
     export function MD_GroupFindMember(Email: string, GroupName: string): boolean;
+    export function MD_GroupGetADGroup(ADGroupName: string): MD_Group | undefined;
     export function MD_GroupGetAll(): string[];
     export function MD_GroupGetAllWithDesc(): GroupListItem[];
     export function MD_GroupGetCount(): number;
@@ -759,6 +760,8 @@ declare module "node-mdaemon-api" {
     export function MD_GroupRemoveMember(Email: string, GroupName: string): boolean;
     export function MD_GroupRename(GroupName: string, NewName: string): boolean;
     export function MD_GroupRenameMember(OldEmail: string, NewEmail: string): void;
+    export function MD_GroupUpdate(OldGroup: MD_Group, NewGroup: MD_Group): boolean;
+    export function MD_GroupWrite(Group: MD_Group): boolean;
 
 
     // -----------------------------------------------------------------
