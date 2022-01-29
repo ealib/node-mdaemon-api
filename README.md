@@ -35,6 +35,12 @@ This package is intended for
 - MDaemon 21.5.0 64-bit (or newer);
 - Node.js 14.x LTS for Windows 64 bit (N-API 6 support, or newer).
 
+If not already present, this package requires the latest
+[VC++ runtime](https://docs.microsoft.com/en-US/cpp/windows/latest-supported-vc-redist)
+for
+[X64 (permalink)](https://aka.ms/vs/17/release/vc_redist.x64.exe)
+to be installed.
+
 ## 3. Version number
 
 Due to the nature of the MDaemon SDK, which is per-version with breaking
@@ -49,11 +55,14 @@ if `versionsMatch` does *not* hold.
 
 ## 4. Security
 
-> Please, note that `node-mdaemon-api` is a *pre-build binary module* for
+> Please, note that `node-mdaemon-api` is a *pre-built binary module* for
 > Node.js for Microsoft Windows.
 
 All best-practices in security have been followed to ensure the very
-binary is safe and without any malware.
+binary is safe and without any malware. This, however, does not entitle
+the end user to trust us blindly. We strongly suggest implementing best
+security practices for the target machine as well and verifying again
+this package locally.
 
 ## 5. How to install
 
@@ -105,11 +114,11 @@ binary is safe and without any malware.
    ```cmd
    C:\test-md-node>npm install node-mdaemon-api
    npm notice created a lockfile as package-lock.json. You should commit this file.
-   npm WARN node-mdaemon-api@21.5.1-alpha.4 requires a peer of mdaemon@21.x but none is installed. You must install peer dependencies yourself.
+   npm WARN node-mdaemon-api@21.5.1-alpha.5 requires a peer of mdaemon@21.x but none is installed. You must install peer dependencies yourself.
    npm WARN test-md-node@1.0.0 No description
    npm WARN test-md-node@1.0.0 No repository field.
 
-   + node-mdaemon-api@21.5.1-alpha.4
+   + node-mdaemon-api@21.5.1-alpha.5
    added 1 package from 1 contributor and audited 1 package in 2.278s
    found 0 vulnerabilities
 
@@ -233,7 +242,7 @@ Windows&trade; is a [trademark of Microsoft Corp.](https://www.microsoft.com/en-
 
 ## 9. License
 
-node-mdaemon-api 21.5.1-alpha.4 license
+node-mdaemon-api 21.5.1-alpha.5 license
 
 Copyright (c) 2016-2022 Emanuele Aliberti, MTKA
 

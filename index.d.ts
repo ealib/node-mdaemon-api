@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 21.5.1-alpha.4
+ * Type definitions for node-mdaemon-api 21.5.1-alpha.5
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -836,12 +836,39 @@ declare module "node-mdaemon-api" {
 
     /**
      * Undocumented
+     * 
+     * @param hUser 
+     * @param Path 
+     * @param FolderClass 
+     * @param UnknownFlag 
      */
     export function MD_CreateUserIMAPFolder(
         hUser: Buffer,
         Path: string,
         FolderClass?: MdFolderClass | null,
         UnknownFlag?: boolean): boolean;
+    /**
+     * Options for MD_DeleteUser.
+     */
+    export interface MdDeleteUserOptions {
+        DALIASDB: boolean;
+        DDELETEALL: boolean; // shortcut for all flags set to true
+        DFWDDB: boolean;
+        DMAILFORMATDB: boolean;
+        DMULTIPOPDB: boolean;
+        DREMOVEDIR: boolean;
+        DUSERLISTDB: boolean;
+    }
+    /**
+     * Delete a user by e-mail address.
+     * 
+     * @param Email e-mail address of user to delete
+     * @param Options what to erase; see {MdDeleteUserOptions} 
+     */
+    export function MD_DeleteUser(
+        Email: string,
+        Options: number | MdDeleteUserOptions
+    ): boolean;
     /**
     * Undocumented
     */
@@ -859,16 +886,32 @@ declare module "node-mdaemon-api" {
     export function MD_GetFree(hUser: Buffer): void;
     export function MD_GetIsAdmin(hUser: Buffer): boolean;
     export function MD_GetIsDomainAdmin(hUser: Buffer, Domain: string): boolean;
+    export function MD_GetMustChangePassword(hUser: Buffer): boolean;
     export function MD_GetPassword(hUser: Buffer): string;
+    export function MD_GetPasswordCreateDate(hUser: Buffer): Date;
     export function MD_GetPruningFlags(hUser: Buffer): MdPruningFlags;
     export function MD_GetUserInfo(hUser: Buffer): MD_UserInfo | undefined;
     export function MD_InitUserInfo(): MD_UserInfo;
+    export function MD_RenameUserFolder(
+        OldPath: string,
+        NewPath: string,
+        UserEmail: string,
+        UserMailRoot: string
+    ): boolean;
+    /**
+     * Undocumented
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true
+     */
+    export function MD_SetMustChangePassword(hUser: Buffer, Value?: boolean): boolean;
+    export function MD_SetPassword(hUser: Buffer, Password: string): void;
     export function MD_SetIsDomainAdmin(hUser: Buffer, Domain: string, Value: boolean): void;
     export function MD_VerifyAccountDB(): boolean;
 
 
     // -----------------------------------------------------------------
-    // --- User templates APIs
+    // --- User template APIs
     // -----------------------------------------------------------------
 
     export function MD_TemplateDelete(TemplateName: string): boolean;
@@ -876,5 +919,35 @@ declare module "node-mdaemon-api" {
     export function MD_TemplateGetAll(): string[];
     export function MD_TemplateGetFlags(TemplateName: string): number;
     export function MD_TemplateSetFlags(TemplateName: string, Flags: number): boolean;
+
+
+    // -----------------------------------------------------------------
+    // --- WorldClient APIs
+    // -----------------------------------------------------------------
+
+    /**
+     * Undocumented
+     * 
+     * @param Key 
+     * @param UserDomain 
+     * @param UserMailDir 
+     */
+    export function MD_GetWorldClientUserString(
+        Key: string,
+        UserDomain: string,
+        UserMailDir: string
+    ): string;
+    /**
+     * Undocumented
+     * 
+     * @param Key 
+     * @param UserMailDir 
+     * @param Buffer 
+     */
+    export function MD_SetWorldClientUserString(
+        Key: string,
+        UserMailDir: string,
+        Buffer: string
+    ): void;
 
 }
