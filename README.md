@@ -1,3 +1,5 @@
+[![Unofficial Node.js binding for MDaemon APIs](node-mdaemon-api-banner.jpg)](https://mtka.eu/software/node-mdaemon-api)
+
 # Unofficial Node.js binding for MDaemon APIs
 
 ![NPM](https://nodei.co/npm/node-mdaemon-api.png)
@@ -114,11 +116,11 @@ this package locally.
    ```cmd
    C:\test-md-node>npm install node-mdaemon-api
    npm notice created a lockfile as package-lock.json. You should commit this file.
-   npm WARN node-mdaemon-api@21.5.1-alpha.5 requires a peer of mdaemon@21.x but none is installed. You must install peer dependencies yourself.
+   npm WARN node-mdaemon-api@21.5.1-alpha.6 requires a peer of mdaemon@21.x but none is installed. You must install peer dependencies yourself.
    npm WARN test-md-node@1.0.0 No description
    npm WARN test-md-node@1.0.0 No repository field.
 
-   + node-mdaemon-api@21.5.1-alpha.5
+   + node-mdaemon-api@21.5.1-alpha.6
    added 1 package from 1 contributor and audited 1 package in 2.278s
    found 0 vulnerabilities
 
@@ -242,7 +244,7 @@ Windows&trade; is a [trademark of Microsoft Corp.](https://www.microsoft.com/en-
 
 ## 9. License
 
-node-mdaemon-api 21.5.1-alpha.5 license
+node-mdaemon-api 21.5.1-alpha.6 license
 
 Copyright (c) 2016-2022 Emanuele Aliberti, MTKA
 
