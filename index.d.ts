@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 21.5.1-alpha.6
+ * Type definitions for node-mdaemon-api 21.5.2-alpha.7
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
