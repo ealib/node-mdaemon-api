@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 21.5.2-alpha.7
+ * Type definitions for node-mdaemon-api 21.5.2-alpha.8
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -1032,7 +1032,7 @@ declare module "node-mdaemon-api" {
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
      */
-     export function MD_SetRequireTFA(hUser: Buffer, Value?: boolean): boolean;)
+     export function MD_SetRequireTFA(hUser: Buffer, Value?: boolean): boolean;
     /**
      * Undocumented
      * 
