@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 21.5.2-alpha.8
+ * Type definitions for node-mdaemon-api 21.5.2-alpha.9
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -42,6 +42,57 @@ declare module "node-mdaemon-api" {
     export interface GroupListItem {
         Description: string;
         GroupName: string;
+    }
+
+    export interface MdSemaphores {
+        createWatchdog(): boolean;
+        initiateAntivirusDefinitionUpdate(): boolean;
+        initiateBadQueueDelivery(): boolean;
+        initiateHoldingQueueProcessing(): boolean;
+        initiateListDigests(): boolean;
+        initiateRemoteMailCheckAndDelivery(): boolean;
+        initiateRemoteQueueProcessing(): boolean;
+        initiateRetryQueueProcessing(): boolean;
+        initiateSpamFilterUpdate(): boolean;
+        lockProcessing(): boolean;
+        redrawTrayIcon(): boolean;
+        reloadAccountGroupsConfig(): boolean;
+        reloadAllCachedConfig(): boolean;
+        reloadAutoPruningConfig(): boolean;
+        reloadBlackListConfigAndClearCachedDomainConfig(): boolean;
+        reloadDNSBLWhiteListConfig(): boolean;
+        reloadHeaderTranslationConfig(): boolean;
+        reloadHostScreenConfig(): boolean;
+        reloadIPScreenConfig(): boolean;
+        reloadIPShieldConfig(): boolean;
+        reloadInactiveAccountExceptionConfig(): boolean;
+        reloadLanDomainsConfig(): boolean;
+        reloadLanIPsConfig(): boolean;
+        reloadLdapAndGatewayUserConfig(): boolean;
+        reloadLoggingConfig(): boolean;
+        reloadMailingListsConfig(): boolean;
+        reloadMxCache(): boolean;
+        reloadNoPriorityConfig(): boolean;
+        reloadPriorityMailConfig(): boolean;
+        reloadPublicSuffixConfig(): boolean;
+        reloadReverseLookupsExceptionConfig(): boolean;
+        reloadScheduleConfig(): boolean;
+        reloadSmartSpoolingWhiteListConfig(): boolean;
+        reloadSpamBotDetectionConfig(): boolean;
+        reloadSpamFilterWhiteListAndSpamd(): boolean;
+        reloadSpamHoneypotsConfig(): boolean;
+        reloadSpfDkimVbrConfig(): boolean;
+        reloadStartTLSWhiteListConfig(): boolean;
+        reloadStartTlsRequiredConfig(): boolean;
+        reloadTarpitAndDynamicScreeningConfig(): boolean;
+        reloadTrustedDomainsAndAddresses(): boolean;
+        reloadUserList(): boolean;
+        restartContentFilter(): boolean;
+        restartMDaemon(): boolean;
+        restartMingerServer(): boolean;
+        restartWorldClientServer(): boolean;
+        unlockProcessing(): boolean;
+        watchdogExists(): boolean;
     }
 
     // ----------------------------------------------------------------
@@ -181,6 +232,10 @@ declare module "node-mdaemon-api" {
      * @readonly
      */
     export const versionsMatch: boolean;
+    /**
+     * Helpers to control MDaemon's SEM files.
+     */
+    export const sem: MdSemaphores;
 
     // ----------------------------------------------------------------
     // MDaemon APIs
