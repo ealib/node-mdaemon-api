@@ -1,4 +1,4 @@
-node-mdaemon-api 21.5.2-alpha.9 license 
+node-mdaemon-api 21.5.2-alpha.10 license 
 
 Copyright (c) 2016-2022 Emanuele Aliberti, MTKA
 
@@ -12,7 +12,7 @@ THE SOFTWARE.
 
 --------------------------------------------------------------------------------
 
-This software - node-mdaemon-api 21.5.2-alpha.9 - includes software
+This software - node-mdaemon-api 21.5.2-alpha.10 - includes software
 released by MDaemon Technologies, Ltd. under the following license:
 
 Copyright (c) 1999-2022 MDaemon Technologies, Ltd., All rights reserved.

@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 21.5.2-alpha.9
+ * Type definitions for node-mdaemon-api 21.5.2-alpha.10
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -44,54 +44,153 @@ declare module "node-mdaemon-api" {
         GroupName: string;
     }
 
+    /**
+     * @see {@link http://help.altn.com/mdaemon/en/semaphore_files.html} for further information.
+     */
     export interface MdSemaphores {
+        /** Create WATCHDOG.SEM */
         createWatchdog(): boolean;
+        /** Create UPDATEAV.SEM */
         initiateAntivirusDefinitionUpdate(): boolean;
+        /** Create PROCBAD.SEM */
         initiateBadQueueDelivery(): boolean;
+        /** Create PROCHOLDING.SEM */
         initiateHoldingQueueProcessing(): boolean;
+        /** Create PROCDIG.SEM */
         initiateListDigests(): boolean;
+        /** Create PROCNOW.SEM */
         initiateRemoteMailCheckAndDelivery(): boolean;
+        /** Create PROCREM.SEM */
         initiateRemoteQueueProcessing(): boolean;
+        /** Create PROCRETR.SEM */
         initiateRetryQueueProcessing(): boolean;
+        /** Create UPDATESA.SEM */
         initiateSpamFilterUpdate(): boolean;
+        /** Create LOCKSEMS.SEM */
         lockProcessing(): boolean;
+        /** Create TRAY.SEM */
         redrawTrayIcon(): boolean;
+        /** Create GROUPS.SEM */
         reloadAccountGroupsConfig(): boolean;
+        /** Create ACTIVESYNCUSERS.SEM */
+        reloadActiveSyncUsersConfig(): boolean;
+        /** Create ALIAS.SEM */
+        reloadAliasConfig(): boolean;
+        /** Create RELOADCACHE.SEM */
         reloadAllCachedConfig(): boolean;
+        /** Create ARCHIVE.SEM */
+        reloadArchivingWhiteListConfig(): boolean;
+        /** Create ATTACHMENTLINKING.SEM */
+        reloadAttachmentLinkingConfig(): boolean;
+        /** Create PRUNE.SEM */
         reloadAutoPruningConfig(): boolean;
+        /** Create AUTORESPATTACHMENTS.SEM */
+        reloadAutoresponderApprovedAttachmentsConfig(): boolean;
+        /** Create AUTORESPEXCEPT.SEM */
+        reloadAutoresponderExceptionConfig(): boolean;
+        /** Create BADPASSWORD.SEM */
+        reloadBadPasswordConfig(): boolean;
+        /** Create BATV.SEM */
+        reloadBatvConfig(): boolean;
+        /** Create SUPPRESS.SEM */
         reloadBlackListConfigAndClearCachedDomainConfig(): boolean;
+        /** Create CATLIST.SEM */
+        reloadCatalogsConfig(): boolean;
+        /** Create COLORS.SEM */
+        reloadColorizedLogsConfig(): boolean;
+        /** Create CFILTER.SEM */
+        reloadContentFilterConfig(): boolean;
+        /** Create CREDSMATCHWHITELIST.SEM */
+        reloadCredentialsMatchWhiteList(): boolean;
+        /** Create NODNSBL.SEM */
         reloadDNSBLWhiteListConfig(): boolean;
+        /** Create DMARCCACHE.SEM */
+        reloadDmarcCache(): boolean;
+        /** Create DMARC.SEM */
+        reloadDmarcConfig(): boolean;
+        /** Create DMARCWHITELIST.SEM */
+        reloadDmarcWhiteList(): boolean;
+        /** Create DNS.SEM */
+        reloadDnsConfig(): boolean;
+        /** Create DOMAINSHARING.SEM */
+        reloadDomainSharingConfig(): boolean;
+        /** Create DOMAINS.SEM */
+        reloadDomainsConfig(): boolean;
+        /** Create GATEWAYS.SEM */
+        reloadGatewaysConfig(): boolean;
+        /** Create GREYLIST.SEM */
+        reloadGreylistingConfig(): boolean;
+        /** Create TRANSLAT.SEM */
         reloadHeaderTranslationConfig(): boolean;
+        /** Create HOSTSCREEN.SEM */
         reloadHostScreenConfig(): boolean;
+        /** Create IPSCREEN.SEM */
         reloadIPScreenConfig(): boolean;
+        /** Create IPSHIELD.SEM */
         reloadIPShieldConfig(): boolean;
+        /** Create INACTIVEEXCLUDE.SEM */
         reloadInactiveAccountExceptionConfig(): boolean;
+        /** Create LANDOMAINS.SEM */
         reloadLanDomainsConfig(): boolean;
+        /** Create LANIPS.SEM */
         reloadLanIPsConfig(): boolean;
+        /** Create LDAPCACHE.SEM */
         reloadLdapAndGatewayUserConfig(): boolean;
+        /** Create LOGSETTINGS.SEM */
         reloadLoggingConfig(): boolean;
+        /** Create GRPLIST.SEM */
         reloadMailingListsConfig(): boolean;
+        /** Create MXCACHE.SEM */
         reloadMxCache(): boolean;
+        /** Create NOPRIORITY.SEM */
         reloadNoPriorityConfig(): boolean;
+        /** Create PRIORITY.SEM */
         reloadPriorityMailConfig(): boolean;
+        /** Create PUBLICSUFFIX.SEM */
         reloadPublicSuffixConfig(): boolean;
+        /** Create REVERSEEXCEPT.SEM */
         reloadReverseLookupsExceptionConfig(): boolean;
+        /** Create SCHEDULE.SEM */
         reloadScheduleConfig(): boolean;
+        /** Create SMARTSPOOL.SEM */
         reloadSmartSpoolingWhiteListConfig(): boolean;
+        /** Create SPAMBOT.SEM */
         reloadSpamBotDetectionConfig(): boolean;
+        /** Create MDSPAMD.SEM */
         reloadSpamFilterWhiteListAndSpamd(): boolean;
+        /** Create SPAMHONEYPOTS.SEM */
         reloadSpamHoneypotsConfig(): boolean;
+        /** Create SPF.SEM */
         reloadSpfDkimVbrConfig(): boolean;
+        /** Create NOSTARTTLS.SEM */
         reloadStartTLSWhiteListConfig(): boolean;
+        /** Create REQUIRETLS.SEM */
         reloadStartTlsRequiredConfig(): boolean;
+        /** Create TARPIT.SEM */
         reloadTarpitAndDynamicScreeningConfig(): boolean;
+        /** Create TRUST.SEM */
         reloadTrustedDomainsAndAddresses(): boolean;
+        /** Create USERLIST.SEM */
         reloadUserList(): boolean;
+        /** Create RESTARTCF.SEM */
         restartContentFilter(): boolean;
+        /** Create RESTART.SEM */
         restartMDaemon(): boolean;
+        /** Create MINGER.SEM */
         restartMingerServer(): boolean;
+        /** Create RESTARTWC.SEM */
         restartWorldClientServer(): boolean;
+        /** Create ACLFIX.SEM */
+        runAclFileCleanup(): boolean;
+        /** Create EXITNOW.SEM */
+        shutDownMDaemon(): boolean;
+        /** Create BAYESLEARN.SEM */
+        startBayesianLearning(): boolean;
+        /** Erase LOCKSEMS.SEM */
         unlockProcessing(): boolean;
+        /** Create DMARCUPDATE.SEM */
+        updateDmarcPublicSuffixConfig(): boolean;
+        /** Check if WATCHDOG.SEM exists. */
         watchdogExists(): boolean;
     }
 
@@ -1036,7 +1135,7 @@ declare module "node-mdaemon-api" {
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
      */
-     export function MD_SetAllowChangeViaEmail(hUser: Buffer, Value?: boolean): boolean;
+    export function MD_SetAllowChangeViaEmail(hUser: Buffer, Value?: boolean): boolean;
     /**
      * Undocumented
      * 
@@ -1065,7 +1164,7 @@ declare module "node-mdaemon-api" {
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default 0
      */
-     export function MD_SetMaxDiskSpace(hUser: Buffer, Value?: Number): boolean;
+    export function MD_SetMaxDiskSpace(hUser: Buffer, Value?: Number): boolean;
     /**
      * Undocumented
      * 
@@ -1080,14 +1179,14 @@ declare module "node-mdaemon-api" {
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
      */
-     export function MD_SetProcessCalendarRequests(hUser: Buffer, Value?: boolean): boolean;
+    export function MD_SetProcessCalendarRequests(hUser: Buffer, Value?: boolean): boolean;
     /**
      * Undocumented
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
      */
-     export function MD_SetRequireTFA(hUser: Buffer, Value?: boolean): boolean;
+    export function MD_SetRequireTFA(hUser: Buffer, Value?: boolean): boolean;
     /**
      * Undocumented
      * 
