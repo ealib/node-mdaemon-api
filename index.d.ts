@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 21.5.2-alpha.10
+ * Type definitions for node-mdaemon-api 21.5.2-alpha.11
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -332,7 +332,8 @@ declare module "node-mdaemon-api" {
      */
     export const versionsMatch: boolean;
     /**
-     * Helpers to control MDaemon's SEM files.
+     * @summary Helpers to control MDaemon's SEM files.
+     * @readonly
      */
     export const sem: MdSemaphores;
 
@@ -1064,8 +1065,39 @@ declare module "node-mdaemon-api" {
     export function MD_GetByMailDir(MailDir: string, Domain: string): Buffer | undefined;
     export function MD_GetByMailbox(Mailbox: string, Domain: string): Buffer | undefined;
     export function MD_GetComments(hUser: Buffer): string;
+    /**
+     * Get a user's create placeholder events flag.
+     * 
+     * @param hUser buffer containing a user's handle
+     */
+    export function MD_GetCreatePlaceholderEvents(hUser: Buffer): boolean;
     export function MD_GetDBPath(db: MdDatabase): string;
+    /**
+     * Get a user's decline conflicting requests flag.
+     * 
+     * @param hUser buffer containing a user's handle
+     */
+    export function MD_GetDeclineConflictingRequests(hUser: Buffer): boolean;
+    /**
+     * Get a user's decline recurring requests flag.
+     * 
+     * @param hUser buffer containing a user's handle
+     */
+    export function MD_GetDeclineRecurringRequests(hUser: Buffer): boolean;
+    /**
+     * Get a user's mailbox size in kB.
+     * 
+     * @param hUser buffer containing a user's handle
+     */
     export function MD_GetDirSize(hUser: Buffer): number;
+    /**
+     * Get a user's domain.
+     * 
+     * @param hUser buffer containing a user's handle
+     * 
+     * @returns a user's domain, or undefined if hUser is not valid
+     */
+    export function MD_GetDomain(hUser: Buffer): string | undefined;
     export function MD_GetDoNotDisturb(hUser: Buffer): boolean;
     export function MD_GetDontExpirePassword(hUser: Buffer): boolean;
     export function MD_GetEnableComAgent(hUser: Buffer): boolean;
@@ -1083,6 +1115,7 @@ declare module "node-mdaemon-api" {
     export function MD_GetIsFrozen(hUser: Buffer): boolean;
     export function MD_GetKeepForwardedMail(hUser: Buffer): boolean;
     export function MD_GetMailbox(hUser: Buffer): string;
+    export function MD_GetMailDir(hUser: Buffer): string | undefined;
     export function MD_GetMaxDiskSpace(hUser: Buffer): number;
     export function MD_GetMaxMessageCount(hUser: Buffer): number;
     export function MD_GetMustChangePassword(hUser: Buffer): boolean;
@@ -1140,9 +1173,66 @@ declare module "node-mdaemon-api" {
      * Undocumented
      * 
      * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true 
+     */
+    export function MD_SetAllowTFA(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * Undocumented
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true 
+     */
+    export function MD_SetApplyDomainSignature(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * Set a user's apply quotas flag.
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true 
+     */
+    export function MD_SetApplyQuotas(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * Undocumented
+     * 
+     * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
      */
     export function MD_SetAttachmentLinking(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * Set the user's AutoDecode flag.
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true
+     */
+    export function MD_SetAutoDecode(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * Undocumented
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Comments OPTIONAL comments text
+     */
+    export function MD_SetComments(hUser: Buffer, Comments?: string): boolean;
+    /**
+     * Set a user's create placeholder events flag.
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true
+     */
+    export function MD_SetCreatePlaceholderEvents(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * Set a user's decline conflicting requests flag.
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true
+     */
+    export function MD_SetDeclineConflictingRequests(hUser: Buffer, Value?: boolean): boolean;
+    export function MD_SetDeclineRecurringRequests(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * Set a user's domain.
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param DomainName domain to set
+     */
+    export function MD_SetDomain(hUser: Buffer, DomainName: string): boolean;
     /**
      * Undocumented
      * 
@@ -1164,7 +1254,16 @@ declare module "node-mdaemon-api" {
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default 0
      */
-    export function MD_SetMaxDiskSpace(hUser: Buffer, Value?: Number): boolean;
+    export function MD_SetMaxDiskSpace(hUser: Buffer, Value?: number): boolean;
+    /**
+     * Set user's max message count limit.
+     * Set to 0, to remove the limit.
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default 0
+     */
+    export function MD_SetMaxMessageCount(hUser: Buffer, Value?: number): boolean;
+    export function MD_SetMailDir(hUser: Buffer, MailDir: string): boolean;
     /**
      * Undocumented
      * 
