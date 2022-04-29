@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 21.5.2-alpha.11
+ * Type definitions for node-mdaemon-api 21.5.2-alpha.12
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -768,6 +768,8 @@ declare module "node-mdaemon-api" {
     // -----------------------------------------------------------------
 
     export function MD_AppPasswordGetCount(hUser: Buffer): number | undefined;
+    export function MD_GetRequireAppPassword(hUser: Buffer): boolean;
+    export function MD_SetRequireAppPassword(hUser: Buffer, Value?: boolean): boolean;
 
 
     // -----------------------------------------------------------------
@@ -933,9 +935,12 @@ declare module "node-mdaemon-api" {
     export function MD_ClearListSettingsCache(ListName?: string): void;
     export function MD_DeleteList(ListName: string): void;
     export function MD_InitListInfo(ListName: string): MD_List;
+    export function MD_ListAllowExpn(ListName: string): boolean;
+    export function MD_ListCrackMessage(ListName: string): boolean;
     export function MD_ListExists(ListName: string): boolean;
     export function MD_ListGetCount(): number;
     export function MD_ListGetNames(): string[];
+    export function MD_ListPrivate(ListName: string): boolean;
 
 
     // -----------------------------------------------------------------
@@ -1032,6 +1037,23 @@ declare module "node-mdaemon-api" {
         DUSERLISTDB: boolean;
     }
     /**
+     * A user's quota metrics.
+     */
+    export interface MdQuotaCounts {
+        FileCount: number;
+        KByteCount: number;
+    }
+    /**
+     * A user access type.
+     * 
+     * @see MD_SetAccessType
+     * @see MD_GetAccessType
+     */
+    export interface MdAccessType {
+        IMAP: boolean;
+        POP: boolean;
+    }
+    /**
      * Delete a user by e-mail address.
      * 
      * @param Email e-mail address of user to delete
@@ -1051,7 +1073,15 @@ declare module "node-mdaemon-api" {
     * Undocumented
     */
     export function MD_FlagReloadUsers(): void;
+    /**
+     * Get a user's POP service and IMAP service access flags. (NEW)
+     * 
+     * @param hUser buffer containing a user's handle
+     * @returns {MdAccessType}
+     */
+    export function MD_GetAccessType(hUser: Buffer): MdAccessType;
     export function MD_GetAllowChangeViaEmail(hUser: Buffer): boolean;
+    export function MD_GetAllowIMAPAccess(hUser: Buffer): boolean;
     export function MD_GetAllowPOPAccess(hUser: Buffer): boolean;
     export function MD_GetAllowTFA(hUser: Buffer): boolean;
     export function MD_GetApplyDomainSignature(hUser: Buffer): boolean;
@@ -1066,10 +1096,10 @@ declare module "node-mdaemon-api" {
     export function MD_GetByMailbox(Mailbox: string, Domain: string): Buffer | undefined;
     export function MD_GetComments(hUser: Buffer): string;
     /**
-     * Get a user's create placeholder events flag.
-     * 
-     * @param hUser buffer containing a user's handle
-     */
+    * Get a user's create placeholder events flag.
+    * 
+    * @param hUser buffer containing a user's handle
+    */
     export function MD_GetCreatePlaceholderEvents(hUser: Buffer): boolean;
     export function MD_GetDBPath(db: MdDatabase): string;
     /**
@@ -1100,13 +1130,36 @@ declare module "node-mdaemon-api" {
     export function MD_GetDomain(hUser: Buffer): string | undefined;
     export function MD_GetDoNotDisturb(hUser: Buffer): boolean;
     export function MD_GetDontExpirePassword(hUser: Buffer): boolean;
+    /**
+     * 
+     * @param hUser buffer containing a user's handle
+     */
+    export function MD_GetEditIMAPRules(hUser: Buffer): boolean;
+    /**
+     * Undocumented
+     * 
+     * @param hUser buffer containing a user's handle
+     */
+    export function MD_GetExtractInbound(hUser: Buffer): boolean;
     export function MD_GetEnableComAgent(hUser: Buffer): boolean;
     export function MD_GetEnableInstantMessaging(hUser: Buffer): boolean;
     export function MD_GetExemptFromAuthMatch(hUser: Buffer): boolean;
+    /**
+     * Undocumented 
+     * 
+     * @param hUser buffer containing a user's handle
+     */
+    export function MD_GetExtractOutbound(hUser: Buffer): boolean;
     export function MD_GetFileCount(hUser: Buffer): number | undefined;
     export function MD_GetForwardingInfo(hUser: Buffer): MD_Forwarding;
     export function MD_GetFree(hUser: Buffer): void;
-    export function MD_GetFullName(hUser: Buffer): string;
+    /**
+     * Get a user's full name.
+     * 
+     * @param hUser buffer containing a user's handle
+     * @returns user's full name, if hUser is valid; undefined otherwise
+     */
+    export function MD_GetFullName(hUser: Buffer): string | undefined;
     export function MD_GetHideFromEveryone(hUser: Buffer): boolean;
     export function MD_GetIsAdmin(hUser: Buffer): boolean;
     export function MD_GetIsDisabled(hUser: Buffer): boolean;
@@ -1114,7 +1167,14 @@ declare module "node-mdaemon-api" {
     export function MD_GetIsForwarding(hUser: Buffer): boolean;
     export function MD_GetIsFrozen(hUser: Buffer): boolean;
     export function MD_GetKeepForwardedMail(hUser: Buffer): boolean;
-    export function MD_GetMailbox(hUser: Buffer): string;
+    /**
+     * Gets a user's mailbox.
+     * 
+     * @param hUser buffer containing a user's handle
+     * 
+     * @returns mailbox, if hUser is valid; undefined otherwise
+     */
+    export function MD_GetMailbox(hUser: Buffer): string | undefined;
     export function MD_GetMailDir(hUser: Buffer): string | undefined;
     export function MD_GetMaxDiskSpace(hUser: Buffer): number;
     export function MD_GetMaxMessageCount(hUser: Buffer): number;
@@ -1123,6 +1183,12 @@ declare module "node-mdaemon-api" {
     export function MD_GetPasswordCreateDate(hUser: Buffer): Date;
     export function MD_GetProcessCalendarRequests(hUser: Buffer): boolean;
     export function MD_GetPruningFlags(hUser: Buffer): MdPruningFlags;
+    /**
+     * Get a user's mailbox file count and size (in kiB).
+     * 
+     * @param hUser buffer containing a user's handle
+     */
+    export function MD_GetQuotaCounts(hUser: Buffer): MdQuotaCounts;
     export function MD_GetRequireTFA(hUser: Buffer): boolean;
     export function MD_GetSignatureFile(hUser: Buffer): string | undefined;
     export function MD_GetSubAddressing(hUser: Buffer): boolean;
@@ -1163,12 +1229,34 @@ declare module "node-mdaemon-api" {
 
     ): boolean;
     /**
+     * Set a user's allow POP and allow IMAP access flags.
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param POP allow | prohibit the use of the POP service by the user
+     * @param IMAP allow | prohibit the use of the IMAP service by the user
+     */
+    export function MD_SetAccessType(hUser: Buffer, POP: boolean, IMAP: boolean): boolean;
+    /**
      * Undocumented
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
      */
     export function MD_SetAllowChangeViaEmail(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * Set a user's allow IMAP access flag (NEW).
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true
+     */
+    export function MD_SetAllowIMAPAccess(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * Set a user's allow POP3 access flag (NEW).
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true
+     */
+    export function MD_SetAllowPOPAccess(hUser: Buffer, Value?: boolean): boolean;
     /**
      * Undocumented
      * 
@@ -1237,10 +1325,86 @@ declare module "node-mdaemon-api" {
      * Undocumented
      * 
      * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true
+     */
+    export function MD_SetDontExpirePassword(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true
+     */
+    export function MD_SetEditIMAPRules(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * Undocumented
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true
+     */
+    export function MD_SetEnableComAgent(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * Undocumented
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true
+     */
+    export function MD_SetEnableInstantMessaging(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * Undocumented
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true
+     */
+    export function MD_SetExemptFromAuthMatch(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * Undocumented
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true
+     */
+    export function MD_SetExtractInbound(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * Undocumented
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true
+     */
+    export function MD_SetExtractOutbound(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * Set a user's full name.
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param FullName user's full name
+     */
+    export function MD_SetFullName(hUser: Buffer, FullName: string): boolean | undefined;
+    /**
+     * Set a user's hide from everyone flag.
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true
+     */
+    export function MD_SetHideFromEveryone(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * Undocumented
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true
+     */
+    export function MD_SetIsDisabled(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * Undocumented
+     * 
+     * @param hUser buffer containing a user's handle
      * @param Domain domain name
      * @param Value true | false
      */
     export function MD_SetIsDomainAdmin(hUser: Buffer, Domain: string, Value: boolean): void;
+    /**
+     * Set a user's forwarding flag.
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true
+     */
+    export function MD_SetIsForwarding(hUser: Buffer, Value?: boolean): boolean;
     /**
      * Undocumented
      * 
@@ -1248,6 +1412,20 @@ declare module "node-mdaemon-api" {
      * @param Value OPTIONAL default true
      */
     export function MD_SetIsFrozen(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * Set a user's keep forwarded mail flag.
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value OPTIONAL default true
+     */
+    export function MD_SetKeepForwardedMail(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * Set a user's mailbox.
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Mailbox user's mailbox
+     */
+    export function MD_SetMailbox(hUser: Buffer, Mailbox: string): boolean;
     /**
      * Undocumented
      * 
