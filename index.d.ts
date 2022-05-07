@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 21.5.2-alpha.12
+ * Type definitions for node-mdaemon-api 21.5.2-alpha.13
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -497,7 +497,7 @@ declare module "node-mdaemon-api" {
         Table: string;
         User: string;
     }
-    export enum MdMessagePriority {
+    export const enum MdMessagePriority {
         URGENT = 10,
         HIGH = 25,
         AUTH = 35,
@@ -638,7 +638,7 @@ declare module "node-mdaemon-api" {
         RecurseIMAP?: boolean;
         UseDomainDefaults?: boolean;
     }
-    export enum MdSpoolMessageResult {
+    export const enum MdSpoolMessageResult {
         NOERROR = 0,
         MISSINGRAWPATH = 1,
         CANTGENRAWFILENAME = 2,
@@ -646,7 +646,7 @@ declare module "node-mdaemon-api" {
         CANTCREATERAWFILE = 4,
         CANTACCESSBODYFILE = 5,
     }
-    export enum MdVerifyMessageInfoResult {
+    export const enum MdVerifyMessageInfoResult {
         NOERROR = 0,
         MISSINGTO = 1,
         MISSINGFROM = 2,
@@ -654,12 +654,12 @@ declare module "node-mdaemon-api" {
         MISSINGBODYFILE = 4,
         MISSINGATTACHMENTFILE = 5,
     }
-    export enum MdVerifyDomainInfoResult {
+    export const enum MdVerifyDomainInfoResult {
         NOERROR = 0,
         NODOMAINNAME = 1,
         INVALIDDOMAINNAME = 2,
     }
-    export enum MdVerifyUserInfoResult {
+    export const enum MdVerifyUserInfoResult {
         NOERROR = 0,
         INVALIDMAILBOX = 1,
         INVALIDDOMAIN = 2,
@@ -932,14 +932,114 @@ declare module "node-mdaemon-api" {
     // --- List APIs
     // -----------------------------------------------------------------
 
+    export const enum MdListMemberMode {
+        DEFAULT = 0,
+        NORMAL = 1,
+        POSTONLY = 2,
+        READONLY = 3,
+        DIGEST = 4,
+    }
+
+    export interface MdListArchiveCatalogConfig {
+        catalog?: string;
+        enabled: boolean;
+    }
+
     export function MD_ClearListSettingsCache(ListName?: string): void;
     export function MD_DeleteList(ListName: string): void;
     export function MD_InitListInfo(ListName: string): MD_List;
+    /**
+     * Add email address to a list.
+     * 
+     * @param ListName list name; example "example-list@example.com"
+     * @param Email addess to subscribe
+     * @param RealName real name for Email
+     * @param Mode subscription mode
+     * @param SendWelcome send welcome message
+     * 
+     * @see {MdListMemberMode}
+     */
+    export function MD_ListAddMember(
+        ListName: string,
+        Email: string,
+        RealName: string,
+        Mode: MdListMemberMode,
+        SendWelcome: boolean
+    ): boolean;
     export function MD_ListAllowExpn(ListName: string): boolean;
+    /**
+     * Get a list's AllowSubscribe flag.
+     * 
+     * @param ListName list name; example "example-list@example.com"
+     * 
+     * @returns true if the list processes subscription requests; false otherwise
+     */
+    export function MD_ListAllowSubscribe(ListName: string): boolean;
+    /**
+     * Get a list catalog archive configuration.
+     * 
+     * @param ListName list name; example "example-list@example.com"
+     * 
+     * @see {MdListArchiveCatalogConfig}
+     */
+    export function MD_ListArchiveCatalog(ListName: string): MdListArchiveCatalogConfig;
+    /**
+     * Get a list's CrackMessage flag.
+     * 
+     * @param ListName list name; example "example-list@example.com"
+     * 
+     * @returns true if the list cracks messages; false otherwise
+     */
     export function MD_ListCrackMessage(ListName: string): boolean;
+    /**
+     * Convert to string a list's default subscription mode.
+     * 
+     * @param ListName list name; example "example-list@example.com"
+     * 
+     * @returns 'Normal', 'Post only', 'Read only', or 'Digest'
+     * 
+     * @see {MdListMemberMode}
+     */
+    export function MD_ListDefaultMode(ListName: string): string | undefined;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param ListName list name; example "example-list@example.com"
+     */
+    export function MD_ListEnabled(ListName: string): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param ListName list name; example "example-list@example.com"
+     */
     export function MD_ListExists(ListName: string): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @returns the number of defined lists
+     */
     export function MD_ListGetCount(): number;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @returns an array with list names
+     */
     export function MD_ListGetNames(): string[];
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     * 
+     * @returns the full name of the *.grp file for ListName. Undefined otherwise.
+     */
+    export function MD_ListGetPathName(ListName: string): string | undefined;
+    /**
+     * Get a list's AllowSubscribe flag.
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     *
+     * @returns true if only members can post; false otherwise
+     */
     export function MD_ListPrivate(ListName: string): boolean;
 
 
