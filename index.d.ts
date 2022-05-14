@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 21.5.2-alpha.13
+ * Type definitions for node-mdaemon-api 21.5.2-alpha.14
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -944,6 +944,10 @@ declare module "node-mdaemon-api" {
         catalog?: string;
         enabled: boolean;
     }
+    export interface MdListMemberInfo {
+        isMember: boolean;
+        isReadOnly: boolean;
+    }
 
     export function MD_ClearListSettingsCache(ListName?: string): void;
     export function MD_DeleteList(ListName: string): void;
@@ -1034,6 +1038,41 @@ declare module "node-mdaemon-api" {
      */
     export function MD_ListGetPathName(ListName: string): string | undefined;
     /**
+     * UNDOCUMENTED
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     */
+    export function MD_ListGetReminderPath(ListName: string): string | undefined;
+    /**
+     * Get a list's InsertCaption flag.
+     *
+     * @param ListName list's name - Example: example-list@example.com
+     */
+    export function MD_ListInsertCaption(ListName: string): boolean;
+    /**
+     * Check if Email is a member of list ListName.
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     * @param Email address to check for membership
+     * @param CheckAdmins OPTIONAL if true, consider global administrators members; default false
+     */
+    export function MD_ListIsMember(
+        ListName: string,
+        Email: string,
+        CheckAdmins?: boolean): MdListMemberInfo;
+    /**
+     * Returns the number of members of a list
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     */
+    export function MD_ListMemberCount(ListName: string): number;
+    /**
+     * Get a list's precedence level. Default is bulk (80).
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     */
+    export function MD_ListPrecedenceLevel(ListName: string): number;
+    /**
      * Get a list's AllowSubscribe flag.
      * 
      * @param ListName list's name - Example: example-list@example.com
@@ -1041,6 +1080,21 @@ declare module "node-mdaemon-api" {
      * @returns true if only members can post; false otherwise
      */
     export function MD_ListPrivate(ListName: string): boolean;
+    /**
+     * Removes a member from all mailing lists
+     * 
+     * @param Email address to remove
+     * 
+     * @returns false only if Email is a member of no mailing list.
+     */
+    export function MD_ListRemoveFromAll(Email: string): boolean;
+    /**
+     * Remove an address from a mailing list
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     * @param Email address to remove
+     */
+    export function MD_ListRemoveMember(ListName: string, Email: string): boolean;
 
 
     // -----------------------------------------------------------------
