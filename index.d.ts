@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 21.5.2-alpha.14
+ * Type definitions for node-mdaemon-api 22.0.0-alpha.15
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -910,6 +910,14 @@ declare module "node-mdaemon-api" {
 
     export function MD_GroupAddMember(Email: string, GroupName: string): boolean;
     export function MD_GroupClearCache(): void;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param ExistingGroupName 
+     * @param NewGroupName 
+     * @param NewGroupDescription 
+     */
+    export function MD_GroupCopy(ExistingGroupName: string, NewGroupName: string, NewGroupDescription: string): boolean;
     export function MD_GroupCreate(Group: MD_Group): boolean;
     export function MD_GroupDelete(GroupName: string): boolean;
     export function MD_GroupExists(GroupName: string): boolean;
@@ -948,9 +956,18 @@ declare module "node-mdaemon-api" {
         isMember: boolean;
         isReadOnly: boolean;
     }
+    export interface MdListModeratedInfo {
+        ListName: string; // list's name (address)
+        Email: string; // moderator's email (address)
+        Password: string;
+        PasswordPost: boolean;
+    }
 
     export function MD_ClearListSettingsCache(ListName?: string): void;
     export function MD_DeleteList(ListName: string): void;
+    export function MD_GetListBoolKey(ListName: string, Key: string): boolean;
+    export function MD_GetListLongKey(ListName: string, Key: string): number;
+    export function MD_GetListStringKey(ListName: string, Key: string): string | undefined;
     export function MD_InitListInfo(ListName: string): MD_List;
     /**
      * Add email address to a list.
@@ -1005,6 +1022,12 @@ declare module "node-mdaemon-api" {
      * @see {MdListMemberMode}
      */
     export function MD_ListDefaultMode(ListName: string): string | undefined;
+    /**
+     * Return the name of the digest MBF file.
+     * 
+     * @param ListName list name; example "example-list@example.com"
+     */
+    export function MD_ListDigestMBF(ListName: string): string | undefined;
     /**
      * UNDOCUMENTED
      * 
@@ -1067,6 +1090,18 @@ declare module "node-mdaemon-api" {
      */
     export function MD_ListMemberCount(ListName: string): number;
     /**
+     * Return moderation informations if a list is moderated.
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     */
+    export function MD_ListModerated(ListName: string): MdListModeratedInfo | undefined;
+    /**
+     * Return the address to send note to if a message is too big.
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     */
+    export function MD_ListMsgTooBigNote(ListName: string): string | undefined;
+    /**
      * Get a list's precedence level. Default is bulk (80).
      * 
      * @param ListName list's name - Example: example-list@example.com
@@ -1095,6 +1130,13 @@ declare module "node-mdaemon-api" {
      * @param Email address to remove
      */
     export function MD_ListRemoveMember(ListName: string, Email: string): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param OldDomain 
+     * @param NewDomain 
+     */
+    export function MD_ListUpdateDomain(OldDomain: string, NewDomain: string): boolean;
 
 
     // -----------------------------------------------------------------

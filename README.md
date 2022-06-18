@@ -6,21 +6,25 @@
 
 ![Node-API v6 Badge](https://img.shields.io/badge/Node--API-v6-green.svg)
 
-- [1. Goal and Philosophy](#1-goal-and-philosophy)
-- [2. Requirements](#2-requirements)
-- [3. Version number](#3-version-number)
-- [4. Security](#4-security)
-- [5. How to install](#5-how-to-install)
-- [6. How to use](#6-how-to-use)
-  - [6.1. ECMAScript](#61-ecmascript)
-    - [6.1.1. CommonJS](#611-commonjs)
-    - [6.1.2. ESM](#612-esm)
-  - [6.2. TypeScript](#62-typescript)
-- [7. APIs implementation status](#7-apis-implementation-status)
-- [8. Legal disclaimer](#8-legal-disclaimer)
-- [9. License](#9-license)
+- [1. Overview](#1-overview)
+  - [1.1. Goal and Philosophy](#11-goal-and-philosophy)
+  - [1.2. Community](#12-community)
+  - [1.3. Version number](#13-version-number)
+  - [1.4. Requirements](#14-requirements)
+  - [1.5. Security](#15-security)
+  - [1.6. APIs implementation status](#16-apis-implementation-status)
+- [2. How to install](#2-how-to-install)
+- [3. How to use](#3-how-to-use)
+  - [3.1. ECMAScript](#31-ecmascript)
+    - [3.1.1. CommonJS](#311-commonjs)
+    - [3.1.2. ESM](#312-esm)
+  - [3.2. TypeScript](#32-typescript)
+- [4. Legal disclaimer](#4-legal-disclaimer)
+- [5. License](#5-license)
 
-## 1. Goal and Philosophy
+## 1. Overview
+
+### 1.1. Goal and Philosophy
 
 **`node-mdaemon-api`** strives to be an easily embeddable bridge to
 MDaemon's functionality.
@@ -28,22 +32,15 @@ MDaemon's functionality.
 MDaemon's native APIs have been reviewed and adapted to behave as much
 as possible as ECMAScript/TypeScript functions.
 
-## 2. Requirements
+### 1.2. Community
 
-This package is intended for
+`node-mdaemon-api` developer and users meet in the room
+[Development for MDaemon Email Server](https://matrix.to/#/#mdaemon-dev:matrix.org).
 
-- Microsoft Windows 10 64 bit (or newer);
-- Microsoft Windows Server 2012 R2 64 bit (or newer);
-- MDaemon 21.5.0 64-bit (or newer);
-- Node.js 14.x LTS for Windows 64 bit (N-API 6 support, or newer).
+The developer of `node-mdaemon-api` is also in the
+[MDaemon API Discussion Group](https://lists.altn.com/WebX/MDaemon/MD-API/).
 
-If not already present, this package requires the latest
-[VC++ runtime](https://docs.microsoft.com/en-US/cpp/windows/latest-supported-vc-redist)
-for
-[X64 (permalink)](https://aka.ms/vs/17/release/vc_redist.x64.exe)
-to be installed.
-
-## 3. Version number
+### 1.3. Version number
 
 Due to the nature of the MDaemon SDK, which is per-version with breaking
 changes possibly happening whenever the first figure (major) and/or the
@@ -55,7 +52,22 @@ holds `true` if module's *major* **and** *minor* version numbers match
 MDaemon's. Please, **early abort** a script based on `node-mdaemon-api`,
 if `versionsMatch` does *not* hold.
 
-## 4. Security
+### 1.4. Requirements
+
+This package is intended for
+
+- Microsoft Windows 10 64 bit (or newer);
+- Microsoft Windows Server 2012 R2 64 bit (or newer);
+- MDaemon 22.0.0 64-bit (or newer);
+- Node.js 14.x LTS for Windows 64 bit (N-API 6 support, or newer).
+
+If not already present, this package requires the latest
+[VC++ runtime](https://docs.microsoft.com/en-US/cpp/windows/latest-supported-vc-redist)
+for
+[X64 (permalink)](https://aka.ms/vs/17/release/vc_redist.x64.exe)
+to be installed.
+
+### 1.5. Security
 
 > Please, note that `node-mdaemon-api` is a *pre-built binary module* for
 > Node.js for Microsoft Windows.
@@ -66,10 +78,17 @@ the end user to trust us blindly. We strongly suggest implementing best
 security practices for the target machine as well and verifying again
 this package locally. Caveat lector!
 
-## 5. How to install
+### 1.6. APIs implementation status
+
+Implementation status moved to
+[wiki](https://github.com/ealib/node-mdaemon-api/wiki).
+
+## 2. How to install
 
 1. select a host with [MDaemon (64 bit)](https://www.altn.com/Products/MDaemon-Email-Server-Windows/)
-   already installed;
+   already installed; MDaemon requires a licence key to function:
+   alternatively, you can join their [beta testing community](https://www.altn.com/Products/Beta-Testing/)
+   and receive a free time-limited licence key;
 2. install [Node.js LTS (64 bit) for Windows](https://nodejs.org/en/download/)
    on that host;
 3. open a command shell (aka "DOS prompt");
@@ -116,11 +135,11 @@ this package locally. Caveat lector!
    ```cmd
    C:\test-md-node>npm install node-mdaemon-api
    npm notice created a lockfile as package-lock.json. You should commit this file.
-   npm WARN node-mdaemon-api@21.5.2-alpha.14 requires a peer of mdaemon@21.x but none is installed. You must install peer dependencies yourself.
+   npm WARN node-mdaemon-api@22.0.0-alpha.15 requires a peer of mdaemon@21.x but none is installed. You must install peer dependencies yourself.
    npm WARN test-md-node@1.0.0 No description
    npm WARN test-md-node@1.0.0 No repository field.
 
-   + node-mdaemon-api@21.5.2-alpha.14
+   + node-mdaemon-api@22.0.0-alpha.15
    added 1 package from 1 contributor and audited 1 package in 2.278s
    found 0 vulnerabilities
 
@@ -135,7 +154,7 @@ this package locally. Caveat lector!
     ```
 10. use MDaemon's native APIs via `md` object.
 
-## 6. How to use
+## 3. How to use
 
 > **WARNING**
 > Early abort the script if `versionsMatch` is false.
@@ -152,9 +171,9 @@ if (!md.versionsMatch) {
 // ...
 ```
 
-### 6.1. ECMAScript
+### 3.1. ECMAScript
 
-#### 6.1.1. CommonJS
+#### 3.1.1. CommonJS
 
 Minimum [ECMASCript](https://www.ecma-international.org/publications-and-standards/standards/ecma-262/)
 example:
@@ -176,7 +195,7 @@ if (md.isReady) {
 }
 ```
 
-#### 6.1.2. ESM
+#### 3.1.2. ESM
 
 If you set your `package.json`'s `type` to `module`, Node.js can use ESM
 modules, but `import` can [**not** import native
@@ -203,7 +222,7 @@ if (md.isReady) {
 }
 ```
 
-### 6.2. TypeScript
+### 3.2. TypeScript
 
 Minimum [TypeScript](https://www.typescriptlang.org/docs/) example:
 
@@ -227,24 +246,19 @@ if (isReady) {
 }
 ```
 
-## 7. APIs implementation status
-
-Implementation status moved to
-[wiki](https://github.com/ealib/node-mdaemon-api/wiki).
-
-## 8. Legal disclaimer
+## 4. Legal disclaimer
 
 MDaemon® is a trademark of [MDaemon Technologies, Ltd.](https://www.altn.com/Company/)
 MDaemon Technologies makes no representations, endorsements, or
 warranties regarding Third Party Products or Services.
 
-Node.js is a trademark of [Joyent, Inc.](https://www.joyent.com/).
+Node.js is a trademark of [OpenJS Foundation](https://openjsf.org/).
 
 Windows&trade; is a [trademark of Microsoft Corp.](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks)
 
-## 9. License
+## 5. License
 
-node-mdaemon-api 21.5.2-alpha.14 license
+node-mdaemon-api 22.0.0-alpha.15 license
 
 Copyright (c) 2016-2022 Emanuele Aliberti, MTKA
 
