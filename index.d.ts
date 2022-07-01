@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 22.0.0-alpha.15
+ * Type definitions for node-mdaemon-api 22.0.0-alpha.16
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -262,6 +262,19 @@ declare module "node-mdaemon-api" {
      */
     export function readDomains(callback: (err: Error | null, domains?: string[]) => void): void;
     /**
+     * Read a mailing list definition, if it exists.
+     * 
+     * @param listName full name of the list: example@example.com
+     * @param callback async callback
+     */
+    export function readMailingList(listName: string, callback: (err: Error | null, listInfo?: MD_List) => void): void;
+    /**
+     * Read a mailing list definition, if it exists.
+     * 
+     * @param listName full name of the list: example@example.com
+     */
+    export function readMailingListSync(listName: string): MD_List | undefined;
+    /**
      * 
      */
     export function readMailingListsSync(): string[];
@@ -439,50 +452,6 @@ declare module "node-mdaemon-api" {
         GroupName: string;
         Priority: number;
         TemplateName: string;
-    }
-    export interface MD_ListMember {
-        Email: string;
-        ListName: string;
-        RealName: string;
-    }
-    export interface MD_List {
-        AD: MD_AD;
-        AUTHLogon: string;
-        AUTHPassword: string;
-        ArchiveURL: string;
-        CacheDirty: boolean;
-        CatalogName: string;
-        DefaultMode: number;
-        DigestFlags: number;
-        DigestMBF: string;
-        FooterFilePath: string;
-        HeaderFilePath: string;
-        HelpURL: string;
-        KillFilePath: string;
-        LastAccessTime: string;
-        ListDescription: string;
-        ListFlags: number;
-        ListIDText: string;
-        ListName: string;
-        ListPassword: string;
-        MaxLineCount: number;
-        MaxMembers: number;
-        MaxMessageCount: number;
-        MaxMessageSize: number;
-        ModeratorEmail: string;
-        NotificationEmail: string;
-        ODBC: MD_ODBC;
-        OwnerURL: string;
-        PrecedenceLevel: number;
-        PublicFolderName: string;
-        RemoteHost: string;
-        ReplyAddress: string;
-        RoutingLimit: number;
-        SendNotesTo: string;
-        SubscribeURL: string;
-        UnsubscribeURL: string;
-        UserDefined: string;
-        WelcomeFilePath: string;
     }
     export interface MD_ODBC {
         DSN: string;
@@ -692,7 +661,7 @@ declare module "node-mdaemon-api" {
     export function MD_InvalidateAliases(): void;
     export function MD_IsValidAlias(Alias: string): boolean;
     /**
-     * Undocumented.
+     * UNDOCUMENTED.
      * 
      * @param Alias Alias to translate.
      * @param Level Depth (0, -1, -2, -3, ...); default -1
@@ -706,7 +675,7 @@ declare module "node-mdaemon-api" {
     // -----------------------------------------------------------------
 
     /**
-     * Undocumented
+     * UNDOCUMENTED
      */
     export function MD_ClearSettingsCache(UnknownInt: number): string;
     export function MD_CreateFileName(RootPath: string, Importance: number, Prefix: string, Extension: string): string | undefined;
@@ -719,32 +688,39 @@ declare module "node-mdaemon-api" {
     export function MD_ExportAllUsers(Filename: string, UnkownFlag?: boolean): void;
     export function MD_GetAppDir(): string;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      */
     export function MD_GetLicensesUsed(): number;
-    export function MD_GetSharedUserInfo(): MD_UserInfo;
     /**
-     * Undocumented
+     * UNDOCUMENTED
+     */
+    export function MD_GetSharedListMemberInfo(): MD_ListMember;
+    /**
+     * UNDOCUMENTED
+     */
+     export function MD_GetSharedUserInfo(): MD_UserInfo;
+    /**
+     * UNDOCUMENTED
      */
     export function MD_InvalidateBadPasswords(): void;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      */
     export function MD_InvalidateLANIPs(): void;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      */
     export function MD_IsAVLicenseTooSmall(UserCount: number): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      */
     export function MD_IsProVersion(): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      */
     export function MD_IsTrialVersion(): boolean;
     /**
-    * Undocumented
+    * UNDOCUMENTED
     */
     export function MD_IsLicenseActive(): boolean;
     export function MD_RegisterWindow(hWnd: Buffer): boolean;
@@ -948,6 +924,60 @@ declare module "node-mdaemon-api" {
         DIGEST = 4,
     }
 
+    export const enum MdVerifyListResult {
+        NOERROR = 0,
+        INVALIDLISTNAME = 1,
+        INVALIDEMAILADDRESS = 2,
+        INVALIDREMOTEHOST = 3,
+    }
+
+    export interface MD_ListMember {
+        Email: string;
+        ListName: string;
+        RealName: string;
+        Type: MdListMemberMode;
+    }
+
+    export interface MD_List {
+        AD: MD_AD;
+        AUTHLogon: string;
+        AUTHPassword: string;
+        ArchiveURL: string;
+        CacheDirty: boolean;
+        CatalogName: string;
+        DefaultMode: number;
+        DigestFlags: number;
+        DigestMBF: string;
+        FooterFilePath: string;
+        HeaderFilePath: string;
+        HelpURL: string;
+        KillFilePath: string;
+        LastAccessTime: string;
+        ListDescription: string;
+        ListFlags: number;
+        ListIDText: string;
+        ListName: string;
+        ListPassword: string;
+        MaxLineCount: number;
+        MaxMembers: number;
+        MaxMessageCount: number;
+        MaxMessageSize: number;
+        ModeratorEmail: string;
+        NotificationEmail: string;
+        ODBC: MD_ODBC;
+        OwnerURL: string;
+        PrecedenceLevel: number;
+        PublicFolderName: string;
+        RemoteHost: string;
+        ReplyAddress: string;
+        RoutingLimit: number;
+        SendNotesTo: string;
+        SubscribeURL: string;
+        UnsubscribeURL: string;
+        UserDefined: string;
+        WelcomeFilePath: string;
+    }
+
     export interface MdListArchiveCatalogConfig {
         catalog?: string;
         enabled: boolean;
@@ -956,12 +986,18 @@ declare module "node-mdaemon-api" {
         isMember: boolean;
         isReadOnly: boolean;
     }
-    export interface MdListModeratedInfo {
-        ListName: string; // list's name (address)
-        Email: string; // moderator's email (address)
+    export interface MdListAddressInfo {
+        ListName: string;
+        Email: string;
+    }
+    export interface MdListModeratedInfo extends MdListAddressInfo {
+        // ListName: string; // list's name (address)
+        // Email: string; // moderator's email (address)
         Password: string;
         PasswordPost: boolean;
     }
+    export type MdListSubscribeNoteInfo = MdListAddressInfo;
+    export type MdListUnsubscribeNoteInfo = MdListAddressInfo;
 
     export function MD_ClearListSettingsCache(ListName?: string): void;
     export function MD_DeleteList(ListName: string): void;
@@ -1054,6 +1090,10 @@ declare module "node-mdaemon-api" {
     export function MD_ListGetNames(): string[];
     /**
      * UNDOCUMENTED
+     */
+    export function MD_ListGetNamesByMember(Address: string): string[];
+    /**
+     * UNDOCUMENTED
      * 
      * @param ListName list's name - Example: example-list@example.com
      * 
@@ -1072,6 +1112,12 @@ declare module "node-mdaemon-api" {
      * @param ListName list's name - Example: example-list@example.com
      */
     export function MD_ListInsertCaption(ListName: string): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param List list info object to check
+     */
+    export function MD_ListIsDBReady(List: MD_List): boolean;
     /**
      * Check if Email is a member of list ListName.
      * 
@@ -1102,6 +1148,18 @@ declare module "node-mdaemon-api" {
      */
     export function MD_ListMsgTooBigNote(ListName: string): string | undefined;
     /**
+     * Return the list's notification address, if present.
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     */
+    export function MD_ListNotificationAddress(ListName: string): string | undefined;
+    /**
+     * Return a list's password, if defined.
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     */
+    export function MD_ListPassword(ListName: string): string | undefined;
+    /**
      * Get a list's precedence level. Default is bulk (80).
      * 
      * @param ListName list's name - Example: example-list@example.com
@@ -1131,12 +1189,97 @@ declare module "node-mdaemon-api" {
      */
     export function MD_ListRemoveMember(ListName: string, Email: string): boolean;
     /**
+     * Change an existing list members digest mode.
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     * @param Email list member address to change digest mode
+     * @param Mode new digest mode (true=enabled; false=disabled)
+     */
+    export function MD_ListSetDigest(ListName: string, Email: string, Mode: boolean): boolean;
+    /**
+     * Changes an existing list member nomail mode.
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     * @param Email list member address to change nomail mode
+     * @param Mode new nomail mode (true=enabled; false=disabled)
+     */
+    export function MD_ListSetNomail(ListName: string, Email: string, Mode: boolean): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     * @param Email list member address to set normal mode
+     */
+    export function MD_ListSetNormal(ListName: string, Email: string): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     * @param Email list member address to change read-only mode
+     * @param Mode new read-only mode (true=enabled; false=disabled)
+     */
+    export function MD_ListSetReadOnly(ListName: string, Email: string, Mode: boolean): boolean;
+    /**
+     * Change an existing list member's real name.
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     * @param Email address of the list member whose real name is to be changed
+     * @param RealName new real name
+     */
+    export function MD_ListSetRealName(ListName: string, Email: string, RealName: string): boolean;
+    /**
+     * Return subscription informations if a list is enabled to notify
+     * an address on subscription.
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     * 
+     * @returns {MdListSubscribeNoteInfo} if ListName has subscription
+     * notification enabled; otherwise undefined.
+     */
+    export function MD_ListSubscribeNote(ListName: string): MdListSubscribeNoteInfo | undefined;
+    /**
+     * Check if an e-mail address is forbidden to send to a list.
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     * @param Email address to check
+     */
+    export function MD_ListSuppressed(ListName: string, Email: string): boolean;
+    /**
+     * Return unsubscription informations if a list is enabled to notify
+     * an address on unsubscription.
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     * 
+     * @returns {MdListUnsubscribeNoteInfo} if ListName has unsubscription
+     * notification enabled; otherwise undefined.
+     */
+    export function MD_ListUnsubscribeNote(ListName: string): MdListUnsubscribeNoteInfo | undefined;
+    /**
      * UNDOCUMENTED
      * 
      * @param OldDomain 
      * @param NewDomain 
      */
     export function MD_ListUpdateDomain(OldDomain: string, NewDomain: string): boolean;
+    /**
+     * Add a member to a mailing list.
+     * 
+     * @param Member member data used to add to the list
+     * @param SendWelcome OPTIONAL default false
+     */
+    export function MD_ListWriteMember(Member: MD_ListMember, SendWelcome?: boolean): boolean;
+    /**
+     * Verify the passed List object is OK.
+     * 
+     * @param List list info object to verify
+     */
+     export function MD_VerifyListInfo(List: MD_List): MdVerifyListResult;
+     /**
+     * Write a mailing list info object to disk.
+     * 
+     * @param List list info object to write
+     */
+    export function MD_WriteList(List: MD_List): boolean;
 
 
     // -----------------------------------------------------------------
@@ -1198,7 +1341,7 @@ declare module "node-mdaemon-api" {
     // -----------------------------------------------------------------
 
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Password password to check
@@ -1208,7 +1351,7 @@ declare module "node-mdaemon-api" {
         Password: string
     ): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser 
      * @param Path 
@@ -1260,13 +1403,13 @@ declare module "node-mdaemon-api" {
         Options: number | MdDeleteUserOptions
     ): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      */
     export function MD_EraseAutoResp(hUser: Buffer): boolean;
     /**
-    * Undocumented
+    * UNDOCUMENTED
     */
     export function MD_FlagReloadUsers(): void;
     /**
@@ -1332,7 +1475,7 @@ declare module "node-mdaemon-api" {
      */
     export function MD_GetEditIMAPRules(hUser: Buffer): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      */
@@ -1341,7 +1484,7 @@ declare module "node-mdaemon-api" {
     export function MD_GetEnableInstantMessaging(hUser: Buffer): boolean;
     export function MD_GetExemptFromAuthMatch(hUser: Buffer): boolean;
     /**
-     * Undocumented 
+     * UNDOCUMENTED 
      * 
      * @param hUser buffer containing a user's handle
      */
@@ -1389,7 +1532,7 @@ declare module "node-mdaemon-api" {
     export function MD_GetSignatureFile(hUser: Buffer): string | undefined;
     export function MD_GetSubAddressing(hUser: Buffer): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param IMAPFolderPath OPTIONAL default is "INBOX"
@@ -1400,7 +1543,7 @@ declare module "node-mdaemon-api" {
     export function MD_GetUserInfo(hUser: Buffer): MD_UserInfo | undefined;
     export function MD_InitUserInfo(): MD_UserInfo;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      */
@@ -1412,7 +1555,7 @@ declare module "node-mdaemon-api" {
         UserMailRoot: string
     ): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param OldIMAPPath 
@@ -1433,7 +1576,7 @@ declare module "node-mdaemon-api" {
      */
     export function MD_SetAccessType(hUser: Buffer, POP: boolean, IMAP: boolean): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
@@ -1454,14 +1597,14 @@ declare module "node-mdaemon-api" {
      */
     export function MD_SetAllowPOPAccess(hUser: Buffer, Value?: boolean): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true 
      */
     export function MD_SetAllowTFA(hUser: Buffer, Value?: boolean): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true 
@@ -1475,7 +1618,7 @@ declare module "node-mdaemon-api" {
      */
     export function MD_SetApplyQuotas(hUser: Buffer, Value?: boolean): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
@@ -1489,7 +1632,7 @@ declare module "node-mdaemon-api" {
      */
     export function MD_SetAutoDecode(hUser: Buffer, Value?: boolean): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Comments OPTIONAL comments text
@@ -1518,7 +1661,7 @@ declare module "node-mdaemon-api" {
      */
     export function MD_SetDomain(hUser: Buffer, DomainName: string): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
@@ -1531,35 +1674,35 @@ declare module "node-mdaemon-api" {
      */
     export function MD_SetEditIMAPRules(hUser: Buffer, Value?: boolean): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
      */
     export function MD_SetEnableComAgent(hUser: Buffer, Value?: boolean): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
      */
     export function MD_SetEnableInstantMessaging(hUser: Buffer, Value?: boolean): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
      */
     export function MD_SetExemptFromAuthMatch(hUser: Buffer, Value?: boolean): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
      */
     export function MD_SetExtractInbound(hUser: Buffer, Value?: boolean): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
@@ -1580,14 +1723,14 @@ declare module "node-mdaemon-api" {
      */
     export function MD_SetHideFromEveryone(hUser: Buffer, Value?: boolean): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
      */
     export function MD_SetIsDisabled(hUser: Buffer, Value?: boolean): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Domain domain name
@@ -1602,7 +1745,7 @@ declare module "node-mdaemon-api" {
      */
     export function MD_SetIsForwarding(hUser: Buffer, Value?: boolean): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
@@ -1623,7 +1766,7 @@ declare module "node-mdaemon-api" {
      */
     export function MD_SetMailbox(hUser: Buffer, Mailbox: string): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default 0
@@ -1639,7 +1782,7 @@ declare module "node-mdaemon-api" {
     export function MD_SetMaxMessageCount(hUser: Buffer, Value?: number): boolean;
     export function MD_SetMailDir(hUser: Buffer, MailDir: string): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
@@ -1647,21 +1790,21 @@ declare module "node-mdaemon-api" {
     export function MD_SetMustChangePassword(hUser: Buffer, Value?: boolean): boolean;
     export function MD_SetPassword(hUser: Buffer, Password: string): void;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
      */
     export function MD_SetProcessCalendarRequests(hUser: Buffer, Value?: boolean): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
      */
     export function MD_SetRequireTFA(hUser: Buffer, Value?: boolean): boolean;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
@@ -1687,7 +1830,7 @@ declare module "node-mdaemon-api" {
     // -----------------------------------------------------------------
 
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param Key 
      * @param UserDomain 
@@ -1699,7 +1842,7 @@ declare module "node-mdaemon-api" {
         UserMailDir: string
     ): string;
     /**
-     * Undocumented
+     * UNDOCUMENTED
      * 
      * @param Key 
      * @param UserMailDir 
