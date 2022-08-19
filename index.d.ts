@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 22.0.0-alpha.16
+ * Type definitions for node-mdaemon-api 22.0.2-alpha.17
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -676,8 +676,24 @@ declare module "node-mdaemon-api" {
 
     /**
      * UNDOCUMENTED
+     * 
+     * @param UnknownString 
+     */
+    export function MD_AttachmentLinkingDelete(UnknownString: string): number;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param UnknownInt 
      */
     export function MD_ClearSettingsCache(UnknownInt: number): string;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param RootPath 
+     * @param Importance 
+     * @param Prefix 
+     * @param Extension 
+     */
     export function MD_CreateFileName(RootPath: string, Importance: number, Prefix: string, Extension: string): string | undefined;
     /**
      * UNDOCUMENTED
@@ -698,7 +714,7 @@ declare module "node-mdaemon-api" {
     /**
      * UNDOCUMENTED
      */
-     export function MD_GetSharedUserInfo(): MD_UserInfo;
+    export function MD_GetSharedUserInfo(): MD_UserInfo;
     /**
      * UNDOCUMENTED
      */
@@ -713,18 +729,75 @@ declare module "node-mdaemon-api" {
     export function MD_IsAVLicenseTooSmall(UserCount: number): boolean;
     /**
      * UNDOCUMENTED
+     * 
+     * @param Password 
+     */
+    export function MD_IsDynamicPasswordStr(Password: string): boolean;
+    /**
+     * UNDOCUMENTED
      */
     export function MD_IsProVersion(): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param Password 
+     */
+    export function MD_IsSecurePasswordStr(Password: string): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param Address 
+     */
+    export function MD_IsSystemAddress(Address: string): boolean;
     /**
      * UNDOCUMENTED
      */
     export function MD_IsTrialVersion(): boolean;
     /**
-    * UNDOCUMENTED
-    */
+     * UNDOCUMENTED
+     */
     export function MD_IsLicenseActive(): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param Msg 
+     * @param wParam 
+     * @param lParam 
+     */
+    export function MD_PostAppMessage(Msg: number, wParam: BigInt, lParam: BigInt): void;
     export function MD_RegisterWindow(hWnd: Buffer): boolean;
     export function MD_ReloadUsers(): void;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param Msg 
+     * @param wParam 
+     * @param lParam 
+     */
+    export function MD_SendAppMessage(Msg: number, wParam: BigInt, lParam: BigInt): void;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param GhostCount 
+     */
+    export function MD_SetGhostCount(GhostCount: number): void;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param Flag 
+     */
+    export function MD_SetNotificationFlag(Flag: number): void;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param UnknownString 
+     */
+    export function MD_StripSubAddressedPath(UnknownString: string): string;
+    /**
+     * Unregister a window handle with MDUSER.DLL.
+     * 
+     * @param hWnd handle to unregister
+     */
     export function MD_UnregisterWindow(hWnd: Buffer): boolean;
     /**
      * @summary Get the total number of mailboxes managed by MDaemon in
@@ -734,7 +807,7 @@ declare module "node-mdaemon-api" {
      */
     export function MD_UserCount(): number;
     /**
-     * @summary Undocumented
+     * UNDOCUMENTED
      */
     export function MD_UserLicenseFull(): boolean;
 
@@ -1189,6 +1262,14 @@ declare module "node-mdaemon-api" {
      */
     export function MD_ListRemoveMember(ListName: string, Email: string): boolean;
     /**
+     * UNDOCUMENTED
+     * 
+     * @param ListName list's name - Example: example-list@example.com
+     * @param OldEmail 
+     * @param NewEmail 
+     */
+    export function MD_ListReplaceMember(ListName: string, OldEmail: string, NewEmail: string): boolean;
+    /**
      * Change an existing list members digest mode.
      * 
      * @param ListName list's name - Example: example-list@example.com
@@ -1273,12 +1354,12 @@ declare module "node-mdaemon-api" {
      * 
      * @param List list info object to verify
      */
-     export function MD_VerifyListInfo(List: MD_List): MdVerifyListResult;
-     /**
-     * Write a mailing list info object to disk.
-     * 
-     * @param List list info object to write
-     */
+    export function MD_VerifyListInfo(List: MD_List): MdVerifyListResult;
+    /**
+    * Write a mailing list info object to disk.
+    * 
+    * @param List list info object to write
+    */
     export function MD_WriteList(List: MD_List): boolean;
 
 
@@ -1286,6 +1367,12 @@ declare module "node-mdaemon-api" {
     // --- Message APIs
     // -----------------------------------------------------------------
 
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param MessageFile 
+     */
+    export function MD_DeleteMessageFile(MessageFile: string): boolean;
     /**
      * @summary Create a blank {MD_MessageInfo} object.
      * 

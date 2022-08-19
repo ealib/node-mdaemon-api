@@ -4,6 +4,9 @@
 
 ![NPM](https://nodei.co/npm/node-mdaemon-api.png)
 
+![npm](https://img.shields.io/npm/v/node-mdaemon-api)
+![GitHub issues](https://img.shields.io/github/issues/ealib/node-mdaemon-api)
+![npm](https://img.shields.io/npm/dm/node-mdaemon-api)
 ![Node-API v6 Badge](https://img.shields.io/badge/Node--API-v6-green.svg)
 
 - [1. Overview](#1-overview)
@@ -135,11 +138,11 @@ Implementation status moved to
    ```cmd
    C:\test-md-node>npm install node-mdaemon-api
    npm notice created a lockfile as package-lock.json. You should commit this file.
-   npm WARN node-mdaemon-api@22.0.0-alpha.16 requires a peer of mdaemon@21.x but none is installed. You must install peer dependencies yourself.
+   npm WARN node-mdaemon-api@22.0.2-alpha.17 requires a peer of mdaemon@21.x but none is installed. You must install peer dependencies yourself.
    npm WARN test-md-node@1.0.0 No description
    npm WARN test-md-node@1.0.0 No repository field.
 
-   + node-mdaemon-api@22.0.0-alpha.16
+   + node-mdaemon-api@22.0.2-alpha.17
    added 1 package from 1 contributor and audited 1 package in 2.278s
    found 0 vulnerabilities
 
@@ -258,7 +261,7 @@ Windows&trade; is a [trademark of Microsoft Corp.](https://www.microsoft.com/en-
 
 ## 5. License
 
-node-mdaemon-api 22.0.0-alpha.16 license
+node-mdaemon-api 22.0.2-alpha.17 license
 
 Copyright (c) 2016-2022 Emanuele Aliberti, MTKA
 
