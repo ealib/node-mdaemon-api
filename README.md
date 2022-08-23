@@ -110,7 +110,7 @@ Implementation status moved to
 6. run `node --version` and check it correctly reports Node's version
    ```cmd
    C:\test-md-node>node --version
-   v14.18.0
+   v16.17.0
 
    C:\test-md-node>
    ```
@@ -138,11 +138,11 @@ Implementation status moved to
    ```cmd
    C:\test-md-node>npm install node-mdaemon-api
    npm notice created a lockfile as package-lock.json. You should commit this file.
-   npm WARN node-mdaemon-api@22.0.2-alpha.17 requires a peer of mdaemon@21.x but none is installed. You must install peer dependencies yourself.
+   npm WARN node-mdaemon-api@22.0.2-alpha.18 requires a peer of mdaemon@21.x but none is installed. You must install peer dependencies yourself.
    npm WARN test-md-node@1.0.0 No description
    npm WARN test-md-node@1.0.0 No repository field.
 
-   + node-mdaemon-api@22.0.2-alpha.17
+   + node-mdaemon-api@22.0.2-alpha.18
    added 1 package from 1 contributor and audited 1 package in 2.278s
    found 0 vulnerabilities
 
@@ -261,7 +261,7 @@ Windows&trade; is a [trademark of Microsoft Corp.](https://www.microsoft.com/en-
 
 ## 5. License
 
-node-mdaemon-api 22.0.2-alpha.17 license
+node-mdaemon-api 22.0.2-alpha.18 license
 
 Copyright (c) 2016-2022 Emanuele Aliberti, MTKA
 

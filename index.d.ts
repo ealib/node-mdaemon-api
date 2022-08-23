@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 22.0.2-alpha.17
+ * Type definitions for node-mdaemon-api 22.0.2-alpha.18
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -709,6 +709,12 @@ declare module "node-mdaemon-api" {
     export function MD_GetLicensesUsed(): number;
     /**
      * UNDOCUMENTED
+     * 
+     * @param Family OPTIONAL "AF_INET" (default) or "AF_INET6"
+     */
+    export function MD_GetMyIPAddresses(Family?: 'AF_INET' | 'AF_INET6'): Array<string>;
+    /**
+     * UNDOCUMENTED
      */
     export function MD_GetSharedListMemberInfo(): MD_ListMember;
     /**
@@ -816,9 +822,88 @@ declare module "node-mdaemon-api" {
     // --- AppPassword APIs
     // -----------------------------------------------------------------
 
+    export interface MD_AppPassword
+    {
+        ID: string;
+        Name: string;
+        Hash: string;
+        LastUsedIP: string;
+        CreatedTime: Date;
+        LastUsedTime: Date;
+    }
+
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser 
+     * @param AppPassword
+     * 
+     * @returns password, if OK; otherwise undefined.
+     */
+    export function MD_AppPasswordCreate(hUser: Buffer, AppPassword: MD_AppPassword): string | undefined;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser 
+     * @param ID 
+     */
+    export function MD_AppPasswordDelete(hUser: Buffer, ID: string): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser 
+     */
+    export function MD_AppPasswordDeleteAll(hUser: Buffer): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser 
+     */
+    export function MD_AppPasswordGetAll(hUser: Buffer): Array<MD_AppPassword> | undefined;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser 
+     * @param ID 
+     */
+    export function MD_AppPasswordGetByID(hUser: Buffer, ID: string): MD_AppPassword | undefined;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser 
+     */
     export function MD_AppPasswordGetCount(hUser: Buffer): number | undefined;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser 
+     * @param ID 
+     * @param NewName 
+     */
+    export function MD_AppPasswordRename(hUser: Buffer, ID: string, NewName: string): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser 
+     */
     export function MD_GetRequireAppPassword(hUser: Buffer): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser 
+     * @param Value 
+     */
     export function MD_SetRequireAppPassword(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser 
+     * @param Password 
+     * @param IP 
+     * 
+     * @returns AppPassword ID, if validated; otherwise undefined.
+     */
+    export function MD_AppPasswordValidate(hUser: Buffer, Password: string, IP: string): string | undefined;
 
 
     // -----------------------------------------------------------------
@@ -925,6 +1010,8 @@ declare module "node-mdaemon-api" {
 
     export function MD_DeleteDomain(DomainName: string): void;
     export function MD_GetDomainCount(): number;
+    export function MD_GetDomainIP(DomainName: string): string;
+    export function MD_GetDomainIP6(DomainName: string): string;
     export function MD_GetDomainNameUsingIP(IP?: string): string;
     export function MD_GetDomainNames(): string[];
     export function MD_GetDomainsGAB(Domain: string): string;
