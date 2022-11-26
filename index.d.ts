@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 22.0.2-alpha.18
+ * Type definitions for node-mdaemon-api 22.0.3-alpha.19
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -822,8 +822,7 @@ declare module "node-mdaemon-api" {
     // --- AppPassword APIs
     // -----------------------------------------------------------------
 
-    export interface MD_AppPassword
-    {
+    export interface MD_AppPassword {
         ID: string;
         Name: string;
         Hash: string;
@@ -1716,6 +1715,33 @@ declare module "node-mdaemon-api" {
         IMAPFolderPath: string): string;
     export function MD_GetUserInfo(hUser: Buffer): MD_UserInfo | undefined;
     export function MD_InitUserInfo(): MD_UserInfo;
+    /**
+     * @example
+     * 
+     * This is a translation of C++ example from MD-API.html to TS:
+     * 
+     * const hUser = md.MD_GetByEmail("arvel@altn.com");
+     * if (md.isBadHandle(hUser)) {
+     *      // handle error
+     * } else {
+     *      let userInfo: MD_UserInfo = md.MD_GetUserInfo(hUser);
+     *      userInfo.Mailbox = 'frank';
+     *      userInfo.Domain = 'thomas.com';
+     *      const verification = md.MD_VerifyUserInfo(userInfo, ['ALL']);
+     *      if (verification == MdVerifyUserInfoResult.NOERROR) {
+     *          // userInfo data OK
+     *          if (md.MD_SetUserInfo(hUser, userInfo)) {
+     *              // user updated
+     *          } else {
+     *              // handle error
+     *          }
+     *      } else {
+     *          // handle error
+     *      }
+     *      md.MD_GetFree(hUser);
+     * }
+     */
+    export function MD_SetUserInfo(hUser: Buffer, UserInfo: MD_UserInfo): boolean;
     /**
      * UNDOCUMENTED
      * 
