@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 22.0.3-alpha.19
+ * Type definitions for node-mdaemon-api 23.0.0-alpha.20
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -7,6 +7,8 @@
  */
 
 declare module "node-mdaemon-api" {
+
+    //#region module types
 
     export interface VersionInfo {
         build: number;
@@ -22,6 +24,14 @@ declare module "node-mdaemon-api" {
         isFreeVersion: boolean;
         name: string;
         version: VersionInfo;
+    }
+    export interface MdDocumentInfo {
+        id: number;
+        fileName: string;
+        fileSize: number;
+        modifiedBy: string;
+        modifiedTime: string;
+        path: string;
     }
     export interface MdInfo {
         is64bit: boolean;
@@ -194,10 +204,16 @@ declare module "node-mdaemon-api" {
         watchdogExists(): boolean;
     }
 
-    // ----------------------------------------------------------------
-    // node-mdaemon-api own APIs
-    // ----------------------------------------------------------------
+    //#endregion
 
+    //#region node-mdaemon-api own APIs
+
+    /**
+     * Predicate for domain names
+     * 
+     * @param domainName name of the domain to check
+     */
+    export function domainExistsSync(domainName: string): boolean;
     /**
      * @summary Get MDaemon information.
      * 
@@ -240,6 +256,39 @@ declare module "node-mdaemon-api" {
         ip?: string
     ): void;
     /**
+     * @summary It retrieves all possible information about a document,
+     * given the path where it is located and its local ID. Asynchronous
+     * API.
+     * 
+     * @param Path the directory containing the document identified by ID
+     * @param ID local identifier of the document
+     * @param Callback 
+     * @param Requester OPTIONAL
+     */
+    export function readDocumentInfo(
+        Path: string,
+        ID: number,
+        Callback: (err: Error | null, documentInfo?: MdDocumentInfo) => void,
+        Requester?: string): void;
+    /**
+     * @summary It retrieves all possible information about a document,
+     * given the path where it is located and its local ID. Synchronous
+     * API.
+     * 
+     * The callback is called with err !== null, on error. Otherwise
+     * documentInfo contains the data about document ID.
+     * 
+     * @param Path the directory containing the document identified by ID
+     * @param ID local identifier of the document
+     * @param Requester OPTIONAL
+     * 
+     * @returns {MdDocumentInfo}
+     */
+    export function readDocumentInfoSync(
+        Path: string,
+        ID: number,
+        Requester?: string): MdDocumentInfo | undefined;
+    /**
      * @summary Synchronously read domain gateway names.
      * 
      * @returns {string[]}
@@ -275,9 +324,17 @@ declare module "node-mdaemon-api" {
      */
     export function readMailingListSync(listName: string): MD_List | undefined;
     /**
+     * Read a mailing list members, if the list exists.
      * 
+     * @param listName full name of the list: example@example.com
      */
     export function readMailingListsSync(): string[];
+    /**
+     * Read a mailing list's members, if the very list exists.
+     * 
+     * @param listName 
+     */
+    export function readMailingListMembersSync(listName: string): MD_ListMember[];
     /**
      * 
      * @param callback 
@@ -350,9 +407,11 @@ declare module "node-mdaemon-api" {
      */
     export const sem: MdSemaphores;
 
-    // ----------------------------------------------------------------
-    // MDaemon APIs
-    // ----------------------------------------------------------------
+    //#endregion
+
+    //#region MDaemon APIs
+
+    //#region MDaemon API Types
 
     export interface MD_AD {
         Attribute: string;
@@ -651,9 +710,9 @@ declare module "node-mdaemon-api" {
         'IPF.StickyNote' | /* Notes */
         'IPF.Task' /* Tasks */;
 
-    // -----------------------------------------------------------------
-    // --- Alias APIs
-    // -----------------------------------------------------------------
+    //#endregion MDaemon API types
+
+    //#region Alias APIs
 
     export function MD_CreateAlias(Email: string, Alias: string): boolean;
     export function MD_DeleteAlias(Alias: string, Email: string): boolean;
@@ -669,10 +728,9 @@ declare module "node-mdaemon-api" {
      */
     export function MD_TranslateAlias(Alias: string, Level?: number): string;
 
+    //#endregion
 
-    // -----------------------------------------------------------------
-    // --- Application level APIs
-    // -----------------------------------------------------------------
+    //#region Application level APIs
 
     /**
      * UNDOCUMENTED
@@ -817,10 +875,9 @@ declare module "node-mdaemon-api" {
      */
     export function MD_UserLicenseFull(): boolean;
 
+    //#endregion
 
-    // -----------------------------------------------------------------
-    // --- AppPassword APIs
-    // -----------------------------------------------------------------
+    //#region AppPassword APIs
 
     export interface MD_AppPassword {
         ID: string;
@@ -904,10 +961,9 @@ declare module "node-mdaemon-api" {
      */
     export function MD_AppPasswordValidate(hUser: Buffer, Password: string, IP: string): string | undefined;
 
+    //#endregion
 
-    // -----------------------------------------------------------------
-    // --- Authentication APIs
-    // -----------------------------------------------------------------
+    //#region Authentication APIs
 
     /**
      * Authenticate a user (by e-mail)
@@ -934,16 +990,15 @@ declare module "node-mdaemon-api" {
         Level?: MdVerifyUserInfoLevel[]
     ): MdVerifyUserInfoResult;
 
-    // -----------------------------------------------------------------
-    // --- Calendar APIs
-    // -----------------------------------------------------------------
+    //#endregion
+
+    //#region Calendar APIs
 
     export function MD_CalGetDefaultFolder(hUser: Buffer): string;
 
+    //#endregion
 
-    // -----------------------------------------------------------------
-    // --- Clustering APIs
-    // -----------------------------------------------------------------
+    //#region Clustering APIs
 
     export function MD_ClusterGetEnabled(): boolean;
     export function MD_ClusterGetLocalNodeId(): number;
@@ -955,25 +1010,25 @@ declare module "node-mdaemon-api" {
     export function MD_ClusterGetServerId(ComputerName: string): number;
     export function MD_ClusterLocalNodeIsPrimary(): boolean;
 
-    // -----------------------------------------------------------------
-    // --- Contacts APIs
-    // -----------------------------------------------------------------
+    //#endregion
 
+    //#region Contacts APIs
+
+    export function MD_ContactGetBlackListFolder(hUser: Buffer): string;
     export function MD_ContactGetDefaultFolder(hUser: Buffer): string;
+    export function MD_ContactGetPublicFolder(hUser: Buffer): string;
+    export function MD_ContactGetWhiteListFolder(hUser: Buffer): string;
 
-    // -----------------------------------------------------------------
-    // --- Document APIs
-    // -----------------------------------------------------------------
+    //#endregion
+
+    //#region Document APIs
 
     export function MD_DocumentDeleteDocument(Path: string, Id: number, Requester?: string): boolean;
-    export function MD_DocumentFreeItem(hDocument: Buffer): void;
     export function MD_DocumentGetDefaultFolder(hUser: Buffer): string;
-    export function MD_DocumentGetFileName(hDocument: Buffer): string;
-    export function MD_DocumentGetFileSize(hDocument: Buffer): BigInt;
-    export function MD_DocumentGetId(hDocument: Buffer): number;
-    export function MD_DocumentGetItem(Id: number, Path: string, Requester?: string): Buffer | undefined;
-    export function MD_DocumentGetModifiedBy(hDocument: Buffer): string;
-    export function MD_DocumentGetModifiedTime(hDocument: Buffer): Date;
+    export function MD_DocumentGetFileName(Path: string, Id: number, Requester?: string): string | undefined;
+    export function MD_DocumentGetFileSize(Path: string, Id: number, Requester?: string): BigInt | undefined
+    export function MD_DocumentGetModifiedBy(Path: string, Id: number, Requester?: string): string | undefined
+    export function MD_DocumentGetModifiedTime(Path: string, Id: number, Requester?: string): Date | undefined
     export interface MdDocumentCopyDocumentOptions {
         MoveInsteadOfCopy?: boolean;
         OverwriteExisting?: boolean;
@@ -996,6 +1051,24 @@ declare module "node-mdaemon-api" {
         ModifiedBy: string,
         Options?: MdDocumentCopyFileIntoFolderOptions
     ): boolean;
+    export interface MdGetMultipleItemsResponse {
+        ErrorCode?: number,
+        ErrorMessage?: string,
+        IDs?: number[],
+        ItemCount: number,
+        Page: number,
+        Path: string,
+        Sort: 'ASC' | 'DESC',
+        Succeeded: boolean,
+    }
+    export function MD_DocumentGetMultipleItems(
+        Page: number,
+        ItemCount: number,
+        Sort: 'ASC' | 'DESC',
+        Path: string,
+        Search?: string,
+        Requester?: string
+    ): MdGetMultipleItemsResponse;
     export function MD_DocumentRenameDocument(
         Path: string,
         Id: number,
@@ -1003,9 +1076,9 @@ declare module "node-mdaemon-api" {
         Requester?: string
     ): boolean;
 
-    // -----------------------------------------------------------------
-    // --- Domain APIs
-    // -----------------------------------------------------------------
+    //#endregion
+
+    //#region Domain APIs
 
     export function MD_DeleteDomain(DomainName: string): void;
     export function MD_GetDomainCount(): number;
@@ -1027,10 +1100,9 @@ declare module "node-mdaemon-api" {
     export function MD_VerifyDomainInfo(Domain: MD_Domain): MdVerifyDomainInfoResult;
     export function MD_WriteDomain(Domain: MD_Domain): boolean;
 
+    //#endregion
 
-    // -----------------------------------------------------------------
-    // --- Gateway APIs
-    // -----------------------------------------------------------------
+    //#region Gateway APIs
 
     export function MD_DeleteGateway(GatewayName: string, RemoveDir: boolean): void;
     export function MD_GetGatewayNames(): string[];
@@ -1038,10 +1110,9 @@ declare module "node-mdaemon-api" {
     export function MD_GetGatewayCount(): number;
     export function MD_InitGatewayInfo(GatewayName: string): MD_Gateway;
 
+    //#endregion
 
-    // -----------------------------------------------------------------
-    // --- Group APIs
-    // -----------------------------------------------------------------
+    //#region Group APIs
 
     export function MD_GroupAddMember(Email: string, GroupName: string): boolean;
     export function MD_GroupClearCache(): void;
@@ -1070,10 +1141,9 @@ declare module "node-mdaemon-api" {
     export function MD_GroupUpdate(OldGroup: MD_Group, NewGroup: MD_Group): boolean;
     export function MD_GroupWrite(Group: MD_Group): boolean;
 
+    //#endregion
 
-    // -----------------------------------------------------------------
-    // --- List APIs
-    // -----------------------------------------------------------------
+    //#region List APIs
 
     export const enum MdListMemberMode {
         DEFAULT = 0,
@@ -1448,10 +1518,10 @@ declare module "node-mdaemon-api" {
     */
     export function MD_WriteList(List: MD_List): boolean;
 
+    //#endregion
 
-    // -----------------------------------------------------------------
-    // --- Message APIs
-    // -----------------------------------------------------------------
+    //#region Message APIs
+    //--------------------------------------------------------------------------
 
     /**
      * UNDOCUMENTED
@@ -1494,24 +1564,31 @@ declare module "node-mdaemon-api" {
         MessageInfo: MD_MessageInfo
     ): MdVerifyMessageInfoResult;
 
+    //#endregion
 
-    // -----------------------------------------------------------------
-    // --- Note APIs
-    // -----------------------------------------------------------------
+    //#region Note APIs
+    //--------------------------------------------------------------------------
 
     export function MD_NoteGetDefaultFolder(hUser: Buffer): string;
 
+    //#endregion
 
-    // -----------------------------------------------------------------
-    // --- Task APIs
-    // -----------------------------------------------------------------
+    //#region Queue APIs
+
+    export function MD_GetRemoteQueues(): string[];
+    export function MD_IsAlreadyAQueue(QueueName: string): boolean;
+
+    //#endregion Queue APIs
+
+    //#region Task APIs
+    //--------------------------------------------------------------------------
 
     export function MD_TaskGetDefaultFolder(hUser: Buffer): string;
 
+    //#endregion
 
-    // -----------------------------------------------------------------
-    // --- User APIs
-    // -----------------------------------------------------------------
+    //#region User APIs
+    //--------------------------------------------------------------------------
 
     /**
      * UNDOCUMENTED
@@ -2013,10 +2090,10 @@ declare module "node-mdaemon-api" {
     export function MD_SetUseDefaultPruning(hUser: Buffer, Value?: boolean): boolean;
     export function MD_VerifyAccountDB(): boolean;
 
+    //#endregion
 
-    // -----------------------------------------------------------------
-    // --- User template APIs
-    // -----------------------------------------------------------------
+    //#region User template APIs
+    //--------------------------------------------------------------------------
 
     export function MD_TemplateDelete(TemplateName: string): boolean;
     export function MD_TemplateExists(TemplateName: string): boolean;
@@ -2024,10 +2101,10 @@ declare module "node-mdaemon-api" {
     export function MD_TemplateGetFlags(TemplateName: string): number;
     export function MD_TemplateSetFlags(TemplateName: string, Flags: number): boolean;
 
+    //#endregion
 
-    // -----------------------------------------------------------------
-    // --- WorldClient APIs
-    // -----------------------------------------------------------------
+    //#region WorldClient APIs
+    //--------------------------------------------------------------------------
 
     /**
      * UNDOCUMENTED
@@ -2054,4 +2131,7 @@ declare module "node-mdaemon-api" {
         Buffer: string
     ): void;
 
+    //#endregion
+
+    //#endregion
 }

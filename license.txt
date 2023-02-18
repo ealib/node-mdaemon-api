@@ -1,6 +1,10 @@
-node-mdaemon-api 22.0.3-alpha.19 license 
+node-mdaemon-api 23.0.0-alpha.20 license 
 
-Copyright (c) 2016-2022 Emanuele Aliberti, MTKA
+Copyright (c) 2016-2023 Emanuele Aliberti, MTKA
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -12,10 +16,10 @@ THE SOFTWARE.
 
 --------------------------------------------------------------------------------
 
-This software - node-mdaemon-api 22.0.3-alpha.19 - includes software
+This software - node-mdaemon-api 23.0.0-alpha.20 - includes software
 released by MDaemon Technologies, Ltd. under the following license:
 
-Copyright (c) 1999-2022 MDaemon Technologies, Ltd., All rights reserved.
+Copyright (c) 1999-2023 MDaemon Technologies, Ltd., All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are

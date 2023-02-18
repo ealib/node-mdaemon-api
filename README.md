@@ -22,8 +22,9 @@
     - [3.1.1. CommonJS](#311-commonjs)
     - [3.1.2. ESM](#312-esm)
   - [3.2. TypeScript](#32-typescript)
-- [4. Legal disclaimer](#4-legal-disclaimer)
-- [5. License](#5-license)
+- [4. Acknowledgements](#4-acknowledgements)
+- [5. Legal disclaimer](#5-legal-disclaimer)
+- [6. License](#6-license)
 
 ## 1. Overview
 
@@ -41,7 +42,7 @@ as possible as ECMAScript/TypeScript functions.
 [Development for MDaemon Email Server](https://matrix.to/#/#mdaemon-dev:matrix.org).
 
 The developer of `node-mdaemon-api` is also in the
-[MDaemon API Discussion Group](https://lists.altn.com/WebX/MDaemon/MD-API/).
+[MDaemon API Forum](https://mdaemon.com/community/forums/mdaemon-api).
 
 ### 1.3. Version number
 
@@ -50,7 +51,7 @@ changes possibly happening whenever the first figure (major) and/or the
 second figure (minor) in the version number change, this package follows
 strictly the *Major.minor* version numbering of MDaemon.
 
-For this reason, a new module property `versionsMatch` is available. It
+For this reason, a module property `versionsMatch` is available. It
 holds `true` if module's *major* **and** *minor* version numbers match
 MDaemon's. Please, **early abort** a script based on `node-mdaemon-api`,
 if `versionsMatch` does *not* hold.
@@ -61,7 +62,7 @@ This package is intended for
 
 - Microsoft Windows 10 64 bit (or newer);
 - Microsoft Windows Server 2012 R2 64 bit (or newer);
-- MDaemon 22.0.0 64-bit (or newer);
+- MDaemon 23.0.0 64-bit (or newer);
 - Node.js 14.x LTS for Windows 64 bit (N-API 6 support, or newer).
 
 If not already present, this package requires the latest
@@ -88,7 +89,7 @@ Implementation status moved to
 
 ## 2. How to install
 
-1. select a host with [MDaemon (64 bit)](https://www.altn.com/Products/MDaemon-Email-Server-Windows/)
+1. select a host with [MDaemon (64 bit)](https://mdaemon.com/pages/mdaemon-email-server)
    already installed; MDaemon requires a licence key to function:
    alternatively, you can join their [beta testing community](https://www.altn.com/Products/Beta-Testing/)
    and receive a free time-limited licence key;
@@ -138,11 +139,11 @@ Implementation status moved to
    ```cmd
    C:\test-md-node>npm install node-mdaemon-api
    npm notice created a lockfile as package-lock.json. You should commit this file.
-   npm WARN node-mdaemon-api@22.0.3-alpha.19 requires a peer of mdaemon@22.x but none is installed. You must install peer dependencies yourself.
+   npm WARN node-mdaemon-api@23.0.0-alpha.20 requires a peer of mdaemon@22.x but none is installed. You must install peer dependencies yourself.
    npm WARN test-md-node@1.0.0 No description
    npm WARN test-md-node@1.0.0 No repository field.
 
-   + node-mdaemon-api@22.0.3-alpha.19
+   + node-mdaemon-api@23.0.0-alpha.20
    added 1 package from 1 contributor and audited 1 package in 2.278s
    found 0 vulnerabilities
 
@@ -249,9 +250,15 @@ if (isReady) {
 }
 ```
 
-## 4. Legal disclaimer
+## 4. Acknowledgements
 
-MDaemon® is a trademark of [MDaemon Technologies, Ltd.](https://www.altn.com/Company/)
+I would like to thank the [MDaemon Technologies, Ltd.](https://mdaemon.com/)
+developers because, despite their busy schedules, they always find time
+to answer my questions on the more intricate aspects of native APIs.
+
+## 5. Legal disclaimer
+
+MDaemon® is a trademark of [MDaemon Technologies, Ltd.](https://mdaemon.com/pages/about-us)
 MDaemon Technologies makes no representations, endorsements, or
 warranties regarding Third Party Products or Services.
 
@@ -259,11 +266,15 @@ Node.js is a trademark of [OpenJS Foundation](https://openjsf.org/).
 
 Windows&trade; is a [trademark of Microsoft Corp.](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks)
 
-## 5. License
+## 6. License
 
-node-mdaemon-api 22.0.3-alpha.19 license
+node-mdaemon-api 23.0.0-alpha.20 license
 
-Copyright (c) 2016-2022 Emanuele Aliberti, MTKA
+Copyright (c) 2016-2023 Emanuele Aliberti, MTKA
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
