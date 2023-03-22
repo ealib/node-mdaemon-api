@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 23.0.0-alpha.20
+ * Type definitions for node-mdaemon-api 23.0.0-alpha.21
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -215,6 +215,18 @@ declare module "node-mdaemon-api" {
      */
     export function domainExistsSync(domainName: string): boolean;
     /**
+     * Check asynchronously if a domain exists.
+     * 
+     * @param domainName name of the domain to check
+     * @param callback callback function called either on success, or on
+     * failure. On failure, err contains the error and success is
+     * undefined. On success, err is undefined and success is true.
+     */
+    export function domainExists(
+        domainName: string,
+        callback: (err: Error | null, exists?: boolean
+        ) => void): void;
+    /**
      * @summary Get MDaemon information.
      * 
      * @returns {MdInfo}
@@ -332,9 +344,19 @@ declare module "node-mdaemon-api" {
     /**
      * Read a mailing list's members, if the very list exists.
      * 
-     * @param listName 
+     * @param listName full name of the list: example@example.com
      */
     export function readMailingListMembersSync(listName: string): MD_ListMember[];
+    /**
+     * Read a mailing list's members, if the very list exists.
+     * 
+     * @param listName full name of the list: example@example.com
+     * @param callback async callback
+     */
+    export function readMailingListMembers(
+        listName: string,
+        callback: (err: Error | null, members?: MD_ListMember[]) => void
+    ): void;
     /**
      * 
      * @param callback 
