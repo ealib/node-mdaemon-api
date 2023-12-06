@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 23.0.0-alpha.21
+ * Type definitions for node-mdaemon-api 23.5.1-alpha.22
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -346,7 +346,10 @@ declare module "node-mdaemon-api" {
      * 
      * @param listName full name of the list: example@example.com
      */
-    export function readMailingListMembersSync(listName: string): MD_ListMember[];
+    export function readMailingListMembersSync(
+        listName: string,
+        includeQueries?: boolean
+        ): MD_ListMember[];
     /**
      * Read a mailing list's members, if the very list exists.
      * 
@@ -355,7 +358,8 @@ declare module "node-mdaemon-api" {
      */
     export function readMailingListMembers(
         listName: string,
-        callback: (err: Error | null, members?: MD_ListMember[]) => void
+        callback: (err: Error | null, members?: MD_ListMember[]) => void,
+        includeQueries?: boolean
     ): void;
     /**
      * 
@@ -587,6 +591,7 @@ declare module "node-mdaemon-api" {
         Domain: string;
         DontExpirePassword: boolean;
         Email: string;
+        EnableAIMessageFeatures: boolean;
         EnableComAgent: boolean;
         EnableInstantMessaging: boolean;
         EnableMultiPOP: boolean;
@@ -1182,11 +1187,17 @@ declare module "node-mdaemon-api" {
         INVALIDREMOTEHOST = 3,
     }
 
+    export interface MdListMemberFlags {
+        ViaAd?: boolean;
+        ViaOdbc?: boolean;
+    }
+
     export interface MD_ListMember {
         Email: string;
         ListName: string;
         RealName: string;
         Type: MdListMemberMode;
+        Flags?: MdListMemberFlags;
     }
 
     export interface MD_List {
@@ -1591,7 +1602,73 @@ declare module "node-mdaemon-api" {
     //#region Note APIs
     //--------------------------------------------------------------------------
 
+    export interface MD_OccurrenceChange {
+        NewBusyStatus: number;
+        NewCategories: string;
+        NewComment: string;
+        NewCommentHtml: string;
+        NewEnd: Date;
+        NewIsReminderSet: boolean;
+        NewLocation: string;
+        NewReminderMinutes: number;
+        NewStart: Date;
+        NewSubject: string;
+        OriginalDate: Date;
+    }
+    export interface MD_TimeZone {
+        Bias: number;
+        DaylightBias: number;
+        DaylightDate: Date;
+        StandardDate: Date;
+    }
+    export interface MD_RecurrencePattern {
+        ChangedOccurrences: MD_OccurrenceChange[];
+        DayOfMonth: number;
+        DayOfWeekMask: number;
+        DeletedOccurrences: Date[];
+        End: Date;
+        Instance: number;
+        Interval: number;
+        MonthOfYear: number;
+        Occurrences: number;
+        Start: Date;
+        SubType: number;
+        TimeZone?: MD_TimeZone;
+        Type: number;
+        ui: number;
+    }
+    export interface MD_PIMAttachment {
+        Data: Blob;
+        Filename: string;
+        LocalFilePath: string;
+        MimeType: string;
+        Type: number;
+    }
+    export interface MD_NoteItem {
+        AttachmentCount: number;
+        Attachments: MD_PIMAttachment[];
+        Body: string;
+        BodyHtml: string;
+        Categories: string[];
+        CodePage: number;
+        Color: number;
+        Contacts: string[];
+        Creator: string;
+        DateCreated: Date;
+        Flags: number;
+        Height: number;
+        Id: number;
+        IsPrivate: boolean;
+        IsReadOnly: boolean;
+        Left: number;
+        ModifiedTime: Date;
+        TNEFFile: string;
+        Top: number;
+        Width: number;
+    }
+    export function MD_NoteDeleteAllAttachments(NoteItem: MD_NoteItem): void;
     export function MD_NoteGetDefaultFolder(hUser: Buffer): string;
+    export function MD_NoteGetNoteItem(Path: string, Id: number, Requester?: string): MdCalResult<MD_NoteItem>
 
     //#endregion
 
@@ -1604,6 +1681,51 @@ declare module "node-mdaemon-api" {
 
     //#region Task APIs
     //--------------------------------------------------------------------------
+
+    export interface MD_RecurrencePattern {
+        // TODO
+    }
+    export interface MD_TaskItem {
+        ActHours: number;
+        AttachmentCount: number;
+        Attachments: MD_PIMAttachment;
+        Billing: string;
+        Categories: string;
+        CodePage: number;
+        Comment: string;
+        CommentHtml: string;
+        Companies: string;
+        Complete: number;
+        CompletedDate: Date;
+        Creator: string;
+        DAVDataFile: string;
+        DueDate: Date;
+        EstHours: number;
+        Flags: number;
+        Id: number;
+        IsPrivate: boolean;
+        IsReadOnly: boolean;
+        IsRecurring: boolean;
+        Mileage: string;
+        ModifiedTime: Date;
+        Priority: number;
+        Recurrence: MD_RecurrencePattern;
+        Reminder: Date;
+        Revision: number;
+        Sequence: number;
+        StartDate: Date;
+        Status: number;
+        Subject: string;
+        TNEFFile: string;
+        iCalUid: string;
+    }
+
+    export interface MdCalResult<T> {
+        Data?: T;
+        ErrorCode?: number;
+        ErrorMessage?: string;
+        Succeeded: boolean;
+    }
 
     export function MD_TaskGetDefaultFolder(hUser: Buffer): string;
 
@@ -1752,6 +1874,7 @@ declare module "node-mdaemon-api" {
      * @param hUser buffer containing a user's handle
      */
     export function MD_GetExtractInbound(hUser: Buffer): boolean;
+    export function MD_GetEnableAIMessageFeatures(hUser: Buffer): boolean;
     export function MD_GetEnableComAgent(hUser: Buffer): boolean;
     export function MD_GetEnableInstantMessaging(hUser: Buffer): boolean;
     export function MD_GetExemptFromAuthMatch(hUser: Buffer): boolean;
@@ -1974,6 +2097,10 @@ declare module "node-mdaemon-api" {
     export function MD_SetEditIMAPRules(hUser: Buffer, Value?: boolean): boolean;
     /**
      * UNDOCUMENTED
+     */
+    export function MD_SetEnableAIMessageFeatures(hUser: Buffer, Value?: boolean): boolean;
+    /**
+     * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param Value OPTIONAL default true
@@ -2117,6 +2244,7 @@ declare module "node-mdaemon-api" {
     //#region User template APIs
     //--------------------------------------------------------------------------
 
+    export function MD_TemplateCopy(ExistingTemplateName: string, NewTemplateName: string): boolean;
     export function MD_TemplateDelete(TemplateName: string): boolean;
     export function MD_TemplateExists(TemplateName: string): boolean;
     export function MD_TemplateGetAll(): string[];
