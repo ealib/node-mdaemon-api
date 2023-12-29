@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 23.5.1-alpha.22
+ * Type definitions for node-mdaemon-api 23.5.1-alpha.23
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -345,6 +345,7 @@ declare module "node-mdaemon-api" {
      * Read a mailing list's members, if the very list exists.
      * 
      * @param listName full name of the list: example@example.com
+     * @param includeQueries: OPTIONAL fill MD_ListMember.Flags
      */
     export function readMailingListMembersSync(
         listName: string,
@@ -355,6 +356,7 @@ declare module "node-mdaemon-api" {
      * 
      * @param listName full name of the list: example@example.com
      * @param callback async callback
+     * @param includeQueries: OPTIONAL fill MD_ListMember.Flags
      */
     export function readMailingListMembers(
         listName: string,
