@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 23.5.1-alpha.23
+ * Type definitions for node-mdaemon-api 23.5.1-alpha.24
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -25,6 +25,16 @@ declare module "node-mdaemon-api" {
         name: string;
         version: VersionInfo;
     }
+
+    export interface MdCalResultSimple {
+        ErrorCode?: number;
+        ErrorMessage?: string;
+        Succeeded: boolean;
+    }
+    export interface MdCalResult<T> extends MdCalResultSimple {
+        Data?: T;
+    }
+
     export interface MdDocumentInfo {
         id: number;
         fileName: string;
@@ -350,7 +360,7 @@ declare module "node-mdaemon-api" {
     export function readMailingListMembersSync(
         listName: string,
         includeQueries?: boolean
-        ): MD_ListMember[];
+    ): MD_ListMember[];
     /**
      * Read a mailing list's members, if the very list exists.
      * 
@@ -1043,6 +1053,106 @@ declare module "node-mdaemon-api" {
 
     //#region Contacts APIs
 
+    export interface MD_ContactPublicKey {
+        Key: string; // The Key must always be in PEM format which is BASE64 encoded
+    }
+
+    export interface MD_ContactGroupItem {
+        Email: string;
+        FullName: string;
+        Guid: string;
+    }
+
+    export interface MD_ContactItem {
+        AccountName: string;
+        Anniversary: Date;
+        AttachmentCount: number;
+        Attachments: MD_PIMAttachment[];
+        BBPIN: string;
+        Birthday: Date;
+        BusAddress: string;
+        BusAssistant: string;
+        BusAssistantPhone: string;
+        BusCity: string;
+        BusCompany: string;
+        BusCountry: string;
+        BusDepartment: string;
+        BusFax: string;
+        BusIPPhone: string;
+        BusMainPhone: string;
+        BusManager: string;
+        BusOffice: string;
+        BusPager: string;
+        BusPhone2: string;
+        BusPhone: string;
+        BusRadio: string;
+        BusState: string;
+        BusTitle: string;
+        BusWebAddress: string;
+        BusZipCode: string;
+        CarPhoneNumber: string;
+        Categories: string;
+        Children: string;
+        CodePage: number;
+        Comment: string;
+        CommentHtml: string;
+        ContactType: number;
+        CustomerId: string;
+        DAVDataFile: string;
+        EmailAddress2: string;
+        EmailAddress3: string;
+        EmailAddress: string;
+        FileAs: string;
+        FirstName: string;
+        Flags: number;
+        FolderID: number;
+        FullName: string;
+        GovernmentId: string;
+        GroupItemCount: number;
+        GroupItems: MD_ContactGroupItem[];
+        Guid: string;
+        HomeAddress: string;
+        HomeCity: string;
+        HomeCountry: string;
+        HomeFax: string;
+        HomeMobile: string;
+        HomePhone2: string;
+        HomePhone: string;
+        HomeState: string;
+        HomeWebAddress: string;
+        HomeZipCode: string;
+        IMAddress2: string;
+        IMAddress3: string;
+        IMAddress: string;
+        ImapUID: number;
+        IsGroup: boolean;
+        IsReadOnly: boolean;
+        LastName: string;
+        MMSAddress: string;
+        MiddleName: string;
+        Mobile2: string;
+        ModifiedTime: Date;
+        NickName: string;
+        OtherAddress: string;
+        OtherCity: string;
+        OtherCountry: string;
+        OtherPhone: string;
+        OtherState: string;
+        OtherZipCode: string;
+        Picture: string;
+        PublicKeys: MD_ContactPublicKey[];
+        PublicKeysCount: number;
+        Revision: number;
+        Spouse: string;
+        Suffix: string;
+        TNEFFile: string;
+        Title: string;
+        YomiCompanyName: string;
+        YomiFirstName: string;
+        YomiLastName: string;
+        vCardUid: string;
+    }
+
     export function MD_ContactGetBlackListFolder(hUser: Buffer): string;
     export function MD_ContactGetDefaultFolder(hUser: Buffer): string;
     export function MD_ContactGetPublicFolder(hUser: Buffer): string;
@@ -1669,6 +1779,7 @@ declare module "node-mdaemon-api" {
         Width: number;
     }
     export function MD_NoteDeleteAllAttachments(NoteItem: MD_NoteItem): void;
+    export function MD_NoteDeleteAllItems(Path: string): MdCalResultSimple;
     export function MD_NoteGetDefaultFolder(hUser: Buffer): string;
     export function MD_NoteGetNoteItem(Path: string, Id: number, Requester?: string): MdCalResult<MD_NoteItem>
 
@@ -1722,14 +1833,8 @@ declare module "node-mdaemon-api" {
         iCalUid: string;
     }
 
-    export interface MdCalResult<T> {
-        Data?: T;
-        ErrorCode?: number;
-        ErrorMessage?: string;
-        Succeeded: boolean;
-    }
-
     export function MD_TaskGetDefaultFolder(hUser: Buffer): string;
+    export function MD_TaskGetIDFromiCalUid(Path: string, Uid: string): number | undefined;
 
     //#endregion
 
