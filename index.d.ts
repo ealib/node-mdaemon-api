@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 23.5.1-alpha.24
+ * Type definitions for node-mdaemon-api 23.5.2-alpha.25
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -1750,7 +1750,7 @@ declare module "node-mdaemon-api" {
         ui: number;
     }
     export interface MD_PIMAttachment {
-        Data: Blob;
+        Data: Blob | null;
         Filename: string;
         LocalFilePath: string;
         MimeType: string;
@@ -1763,7 +1763,7 @@ declare module "node-mdaemon-api" {
         BodyHtml: string;
         Categories: string[];
         CodePage: number;
-        Color: number;
+        Color: number; // 0=blue;1=green;2=pink;3=yellow;4=white
         Contacts: string[];
         Creator: string;
         DateCreated: Date;
@@ -1781,7 +1781,8 @@ declare module "node-mdaemon-api" {
     export function MD_NoteDeleteAllAttachments(NoteItem: MD_NoteItem): void;
     export function MD_NoteDeleteAllItems(Path: string): MdCalResultSimple;
     export function MD_NoteGetDefaultFolder(hUser: Buffer): string;
-    export function MD_NoteGetNoteItem(Path: string, Id: number, Requester?: string): MdCalResult<MD_NoteItem>
+    export function MD_NoteGetNoteItem(Path: string, Id: number, Requester?: string): MdCalResult<MD_NoteItem>;
+    export function MD_NoteInitNoteItem(): MD_NoteItem;
 
     //#endregion
 

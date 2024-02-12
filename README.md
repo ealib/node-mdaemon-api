@@ -91,7 +91,7 @@ Implementation status moved to
 
 1. select a host with [MDaemon (64 bit)](https://mdaemon.com/pages/mdaemon-email-server)
    already installed; MDaemon requires a licence key to function:
-   alternatively, you can join their [beta testing community](https://www.altn.com/Products/Beta-Testing/)
+   alternatively, you can join their [beta testing community](https://mdaemon.com/pages/beta-program)
    and receive a free time-limited licence key;
 2. install [Node.js LTS (64 bit) for Windows](https://nodejs.org/en/download/)
    on that host;
@@ -111,7 +111,7 @@ Implementation status moved to
 6. run `node --version` and check it correctly reports Node's version
    ```cmd
    C:\test-md-node>node --version
-   v16.17.0
+   v20.11.0
 
    C:\test-md-node>
    ```
@@ -139,11 +139,11 @@ Implementation status moved to
    ```cmd
    C:\test-md-node>npm install node-mdaemon-api
    npm notice created a lockfile as package-lock.json. You should commit this file.
-   npm WARN node-mdaemon-api@23.5.1-alpha.24 requires a peer of mdaemon@22.x but none is installed. You must install peer dependencies yourself.
+   npm WARN node-mdaemon-api@23.5.2-alpha.25 requires a peer of mdaemon@22.x but none is installed. You must install peer dependencies yourself.
    npm WARN test-md-node@1.0.0 No description
    npm WARN test-md-node@1.0.0 No repository field.
 
-   + node-mdaemon-api@23.5.1-alpha.24
+   + node-mdaemon-api@23.5.2-alpha.25
    added 1 package from 1 contributor and audited 1 package in 2.278s
    found 0 vulnerabilities
 
@@ -268,7 +268,7 @@ Windows&trade; is a [trademark of Microsoft Corp.](https://www.microsoft.com/en-
 
 ## 6. License
 
-node-mdaemon-api 23.5.1-alpha.24 license
+node-mdaemon-api 23.5.2-alpha.25 license
 
 Copyright (c) 2016-2024 Emanuele Aliberti, MTKA
 
