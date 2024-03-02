@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 23.5.2-alpha.25
+ * Type definitions for node-mdaemon-api 23.5.2-alpha.26
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -26,14 +26,18 @@ declare module "node-mdaemon-api" {
         version: VersionInfo;
     }
 
-    export interface MdCalResultSimple {
+    export interface MdApiResultBase {
         ErrorCode?: number;
         ErrorMessage?: string;
         Succeeded: boolean;
     }
-    export interface MdCalResult<T> extends MdCalResultSimple {
-        Data?: T;
+
+    export interface MdApiResult<TData> extends MdApiResultBase {
+        Data?: TData;
     }
+
+    export type MdCalResultSimple = MdApiResultBase;
+    export type MdCalResult<T> = MdApiResult<T>;
 
     export interface MdDocumentInfo {
         id: number;
@@ -236,6 +240,13 @@ declare module "node-mdaemon-api" {
         domainName: string,
         callback: (err: Error | null, exists?: boolean
         ) => void): void;
+    /**
+     * @summary Check if a gateway exists
+     * 
+     * @param gatewayName name of the gateway to be checked,
+     * e.g. 'gw.example.com'.
+     */
+    export function gatewayExistsSync(gatewayName: string): boolean;
     /**
      * @summary Get MDaemon information.
      * 
@@ -510,6 +521,36 @@ declare module "node-mdaemon-api" {
         Schedule: MD_AutoResponder;
         SendAs: string;
     }
+    export interface MdGatewayFlags {
+        APPLYQUOTAS: boolean;
+        ATRN: boolean;
+        AUTH: boolean;
+        AUTHALWAYSVALID: boolean;
+        AUTOEXTRACT: boolean;
+        AUTOSPOOL: boolean;
+        ENABLEANTISPAM: boolean;
+        ENABLEANTIVIRUS: boolean;
+        ENABLED: boolean;
+        ETRN: boolean;
+        FILE: boolean;
+        FWDTOADDR: boolean;
+        FWDTOHOST: boolean;
+        HONORIPS: boolean;
+        IGNOREIPS: boolean;
+        KEEPLOCALCOPY: boolean;
+        LDAP: boolean;
+        LOCKATRN: boolean;
+        MINGER: boolean;
+        REFERRALS: boolean;
+        REQUIREAUTH: boolean;
+        SENDWARNING: boolean;
+        TREATASFOREIGN: boolean;
+        USEANYHOST: boolean;
+        USERETRYQ: boolean;
+        USESPECIFICHOST: boolean;
+        V3: boolean;
+        raw: number;
+    }
     export interface MD_Gateway {
         AUTHLogon: string;
         AUTHPassword: string;
@@ -521,7 +562,7 @@ declare module "node-mdaemon-api" {
         FWDHost: string;
         FWDPort: string;
         FWDSendAs: string;
-        Flags: number;
+        Flags: MdGatewayFlags;
         GatewayName: string;
         IPList: string[];
         LDAPBaseEntry: string;
@@ -1190,15 +1231,12 @@ declare module "node-mdaemon-api" {
         ModifiedBy: string,
         Options?: MdDocumentCopyFileIntoFolderOptions
     ): boolean;
-    export interface MdGetMultipleItemsResponse {
-        ErrorCode?: number,
-        ErrorMessage?: string,
+    export interface MdGetMultipleItemsResponse extends MdApiResultBase {
         IDs?: number[],
         ItemCount: number,
         Page: number,
         Path: string,
         Sort: 'ASC' | 'DESC',
-        Succeeded: boolean,
     }
     export function MD_DocumentGetMultipleItems(
         Page: number,
@@ -1248,6 +1286,8 @@ declare module "node-mdaemon-api" {
     export function MD_GatewayLicenseFull(): boolean;
     export function MD_GetGatewayCount(): number;
     export function MD_InitGatewayInfo(GatewayName: string): MD_Gateway;
+    export function MD_VerifyGatewayInfo(Gateway: MD_Gateway): MdApiResultBase;
+    export function MD_WriteGateway(Gateway: MD_Gateway): MDApiResultBase;
 
     //#endregion
 
@@ -1779,10 +1819,12 @@ declare module "node-mdaemon-api" {
         Width: number;
     }
     export function MD_NoteDeleteAllAttachments(NoteItem: MD_NoteItem): void;
-    export function MD_NoteDeleteAllItems(Path: string): MdCalResultSimple;
+    export function MD_NoteDeleteAllItems(Path: string): MdApiResultBase;
     export function MD_NoteGetDefaultFolder(hUser: Buffer): string;
-    export function MD_NoteGetNoteItem(Path: string, Id: number, Requester?: string): MdCalResult<MD_NoteItem>;
+    export function MD_NoteGetNoteItem(Path: string, Id: number, Requester?: string): MdApiResult<MD_NoteItem>;
     export function MD_NoteInitNoteItem(): MD_NoteItem;
+    export function MD_NoteItemCompare(Note1: MD_NoteItem, Note2: MD_NoteItem): boolean;
+    export function MD_NoteWriteNoteItem(Note: MD_NoteItem, Path: string, Requester: string): MdApiResultBase;
 
     //#endregion
 
