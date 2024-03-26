@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 23.5.2-alpha.26
+ * Type definitions for node-mdaemon-api 23.5.3-alpha.27
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -69,11 +69,17 @@ declare module "node-mdaemon-api" {
     }
 
     /**
-     * @see {@link http://help.altn.com/mdaemon/en/semaphore_files.html} for further information.
+     * @see {@link https://help.mdaemon.com/mdaemon/en/semaphore_files.html} for further information.
      */
     export interface MdSemaphores {
+        /** Display alert pop-up to WC users */
+        alert(message: string): boolean;
+        /** Clear the cached quota value for a user. Use '*' for all. */
+        clearQuotaCounts(address?: string): boolean;
         /** Create WATCHDOG.SEM */
         createWatchdog(): boolean;
+        /** Delete a user */
+        delUser(address: string): boolean;
         /** Create UPDATEAV.SEM */
         initiateAntivirusDefinitionUpdate(): boolean;
         /** Create PROCBAD.SEM */

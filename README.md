@@ -139,11 +139,11 @@ Implementation status moved to
    ```cmd
    C:\test-md-node>npm install node-mdaemon-api
    npm notice created a lockfile as package-lock.json. You should commit this file.
-   npm WARN node-mdaemon-api@23.5.2-alpha.26 requires a peer of mdaemon@22.x but none is installed. You must install peer dependencies yourself.
+   npm WARN node-mdaemon-api@23.5.3-alpha.27 requires a peer of mdaemon@22.x but none is installed. You must install peer dependencies yourself.
    npm WARN test-md-node@1.0.0 No description
    npm WARN test-md-node@1.0.0 No repository field.
 
-   + node-mdaemon-api@23.5.2-alpha.26
+   + node-mdaemon-api@23.5.3-alpha.27
    added 1 package from 1 contributor and audited 1 package in 2.278s
    found 0 vulnerabilities
 
@@ -268,7 +268,7 @@ Windows&trade; is a [trademark of Microsoft Corp.](https://www.microsoft.com/en-
 
 ## 6. License
 
-node-mdaemon-api 23.5.2-alpha.26 license
+node-mdaemon-api 23.5.3-alpha.27 license
 
 Copyright (c) 2016-2024 Emanuele Aliberti, MTKA
 
