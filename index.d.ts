@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 23.5.3-alpha.27
+ * Type definitions for node-mdaemon-api 23.5.3-alpha.28
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -423,6 +423,21 @@ declare module "node-mdaemon-api" {
      */
     export function readUsers(callback: (err: Error | null, users?: UserListItem[]) => void): void;
     /**
+     * Retrieve a user's role list.
+     * Roles are 'user', 'admin', 'domainAdmin'.
+     * 
+     * @param email 
+     * @param callback 
+     */
+    export function readUserRoles(email: string, callback: (err: Error | null, roles?: string[]) => void): void;
+    /**
+     * Retrieve a user's role list.
+     * Roles are 'user', 'admin', 'domainAdmin'.
+     * 
+     * @param email 
+     */
+    export function readUserRolesSync(email: string): string[];
+    /**
      * @summary True if MDaemon is present. False otherwise.
      * @readonly
      */
@@ -596,6 +611,19 @@ declare module "node-mdaemon-api" {
         GroupName: string;
         Priority: number;
         TemplateName: string;
+    }
+    export interface MdMultiPOPItemFlags {
+        ENABLED: boolean;
+        REMOVEMAIL: boolean;
+        USEAPOP: boolean;
+        USEOAUTH: boolean;
+        raw: number;
+    }
+    export interface MD_MultiPOPItem {
+        HostName: string;
+        UserName: string;
+        Password: string;
+        Flags: MdMultiPOPItemFlags;
     }
     export interface MD_ODBC {
         DSN: string;
@@ -1757,6 +1785,20 @@ declare module "node-mdaemon-api" {
 
     //#endregion
 
+    //#region MultiPOP APIs
+    export function MD_AddMultiPOPItem(hUser: Buffer, Item: MD_MultiPOPItem): boolean;
+    export function MD_DeleteMultiPOPItem(hUser: Buffer, Item: MD_MultiPOPItem): boolean;
+    export function MD_GetEnableMultiPOP(hUser: Buffer): boolean;
+    export function MD_GetMultiPOPItems(hUser: Buffer, MaxCount?: number /* = 128 */): MD_MultiPOPItem[];
+    export function MD_GetMultiPOPMaxMessageAge(hUser: Buffer): number;
+    export function MD_GetMultiPOPMaxMessageSize(hUser: Buffer): number;
+    export function MD_InitMultiPOPItem(): MD_MultiPOPItem;
+    export function MD_SetEnableMultiPOP(hUser: Buffer, Value: boolean): boolean;
+    export function MD_SetMultiPOPItems(hUser: Buffer, Items: MD_MultiPOPItem[]): boolean;
+    export function MD_SetMultiPOPMaxMessageAge(hUser: Buffer, Value: number): boolean;
+    export function MD_SetMultiPOPMaxMessageSize(hUser: Buffer, Value: number): boolean;
+    //#endregion
+
     //#region Note APIs
     //--------------------------------------------------------------------------
 
@@ -1890,6 +1932,16 @@ declare module "node-mdaemon-api" {
     //#region User APIs
     //--------------------------------------------------------------------------
 
+    /**
+     * Add a new account to the account database
+     * 
+     * @param UserInfo MD_UserInfo object containing the details of the new user
+     * @param Flags OPTIONAL reserved, must be 0
+     */
+    export function MD_AddUser(
+        UserInfo: MD_UserInfo,
+        Flags?: number /* = 0 */
+    ): MdApiResultBase;
     /**
      * UNDOCUMENTED
      * 
