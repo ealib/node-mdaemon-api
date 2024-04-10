@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 23.5.3-alpha.28
+ * Type definitions for node-mdaemon-api 23.5.3-alpha.29
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -612,12 +612,14 @@ declare module "node-mdaemon-api" {
         Priority: number;
         TemplateName: string;
     }
-    export interface MdMultiPOPItemFlags {
+    export interface MdFlags {
+        raw: number;
+    }
+    export interface MdMultiPOPItemFlags extends MdFlags {
         ENABLED: boolean;
         REMOVEMAIL: boolean;
         USEAPOP: boolean;
         USEOAUTH: boolean;
-        raw: number;
     }
     export interface MD_MultiPOPItem {
         HostName: string;
@@ -1138,6 +1140,9 @@ declare module "node-mdaemon-api" {
         Guid: string;
     }
 
+    export interface MdContactItemFlags extends MdFlags {
+
+    }
     export interface MD_ContactItem {
         AccountName: string;
         Anniversary: Date;
@@ -1179,7 +1184,7 @@ declare module "node-mdaemon-api" {
         EmailAddress: string;
         FileAs: string;
         FirstName: string;
-        Flags: number;
+        Flags: MdContactItemFlags;
         FolderID: number;
         FullName: string;
         GovernmentId: string;
@@ -1228,10 +1233,13 @@ declare module "node-mdaemon-api" {
         vCardUid: string;
     }
 
+    export function MD_ContactDeleteAllItems(Path: string): MdApiResultBase;
+    export function MD_ContactGetAllItems(Path: string): MdApiResult<MD_ContactItem[]>;
     export function MD_ContactGetBlackListFolder(hUser: Buffer): string;
     export function MD_ContactGetDefaultFolder(hUser: Buffer): string;
     export function MD_ContactGetPublicFolder(hUser: Buffer): string;
     export function MD_ContactGetWhiteListFolder(hUser: Buffer): string;
+    export function MD_ContactInitItem(): MD_ContactItem;
 
     //#endregion
 
@@ -1889,6 +1897,12 @@ declare module "node-mdaemon-api" {
     export interface MD_RecurrencePattern {
         // TODO
     }
+    export interface MdTaskItemFlags extends MdFlags {
+        NOINVITES: boolean;
+        NOTNEF: boolean;
+        SINGLE_OCCURRENCE: boolean;
+        SYNC_USING_UTC: boolean;
+    }
     export interface MD_TaskItem {
         ActHours: number;
         AttachmentCount: number;
@@ -1905,7 +1919,7 @@ declare module "node-mdaemon-api" {
         DAVDataFile: string;
         DueDate: Date;
         EstHours: number;
-        Flags: number;
+        Flags: MdTaskItemFlags;
         Id: number;
         IsPrivate: boolean;
         IsReadOnly: boolean;
@@ -1924,8 +1938,13 @@ declare module "node-mdaemon-api" {
         iCalUid: string;
     }
 
+    export function MD_TaskDeleteAllItems(Path: string): MdApiResultBase;
+    export function MD_TaskDeleteTaskItem(Path: string, Id: number, Requester?: string): MdApiResultBase;
+    export function MD_TaskGetAllItems(Path: string): MdApiResult<MD_TaskItem[]>;
     export function MD_TaskGetDefaultFolder(hUser: Buffer): string;
     export function MD_TaskGetIDFromiCalUid(Path: string, Uid: string): number | undefined;
+    export function MD_TaskGetTaskItem(Path: string, Id: number, Requester?: string): MdApiResult<MD_TaskItem>;
+    export function MD_TaskInitTaskItem(): MD_TaskItem;
 
     //#endregion
 
