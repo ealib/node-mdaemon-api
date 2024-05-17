@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 23.5.3-alpha.29
+ * Type definitions for node-mdaemon-api 23.5.3-alpha.30
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -495,6 +495,15 @@ declare module "node-mdaemon-api" {
         SearchScope: number;
         UserName: string;
     }
+    export interface MD_AppPassword {
+        ID: string;
+        Name: string;
+        Hash: string;
+        LastUsedIP: string;
+        CreatedTime: Date;
+        LastUsedTime: Date;
+    }
+
     export interface MD_AutoResponder {
         AddToList: string;
         Days: number;
@@ -542,7 +551,10 @@ declare module "node-mdaemon-api" {
         Schedule: MD_AutoResponder;
         SendAs: string;
     }
-    export interface MdGatewayFlags {
+    export interface MdFlags {
+        raw: number;
+    }
+    export interface MdGatewayFlags extends MdFlags {
         APPLYQUOTAS: boolean;
         ATRN: boolean;
         AUTH: boolean;
@@ -570,7 +582,6 @@ declare module "node-mdaemon-api" {
         USERETRYQ: boolean;
         USESPECIFICHOST: boolean;
         V3: boolean;
-        raw: number;
     }
     export interface MD_Gateway {
         AUTHLogon: string;
@@ -611,9 +622,6 @@ declare module "node-mdaemon-api" {
         GroupName: string;
         Priority: number;
         TemplateName: string;
-    }
-    export interface MdFlags {
-        raw: number;
     }
     export interface MdMultiPOPItemFlags extends MdFlags {
         ENABLED: boolean;
@@ -826,6 +834,270 @@ declare module "node-mdaemon-api" {
         'IPF.StickyNote' | /* Notes */
         'IPF.Task' /* Tasks */;
 
+    export interface MD_MeetingAttendee {
+        Email: string;
+        Response: number;
+        SendInvite: boolean;
+        SentInvite: boolean;
+        Type: number;
+    }
+    export interface MD_Reminder {
+        Id: number;
+        Owner: string;
+        Path: string;
+        SendEmail: boolean;
+        Time: Date;
+        Type: number;
+        Uuid: string;
+    };
+
+    export interface MD_OccurrenceChange {
+        NewBusyStatus: number;
+        NewCategories: string;
+        NewComment: string;
+        NewCommentHtml: string;
+        NewEnd: Date;
+        NewIsReminderSet: boolean;
+        NewLocation: string;
+        NewReminderMinutes: number;
+        NewStart: Date;
+        NewSubject: string;
+        OriginalDate: Date;
+    }
+    export interface MD_TimeZone {
+        Bias: number;
+        DaylightBias: number;
+        DaylightDate: Date;
+        StandardDate: Date;
+    }
+    export interface MD_RecurrencePattern {
+        ChangedOccurrences: MD_OccurrenceChange[];
+        DayOfMonth: number;
+        DayOfWeekMask: number;
+        DeletedOccurrences: Date[];
+        End: Date;
+        Instance: number;
+        Interval: number;
+        MonthOfYear: number;
+        Occurrences: number;
+        Start: Date;
+        SubType: number;
+        TimeZone?: MD_TimeZone;
+        Type: number;
+        ui: number;
+    }
+    export interface MD_PIMAttachment {
+        Data: Blob | null;
+        Filename: string;
+        LocalFilePath: string;
+        MimeType: string;
+        Type: number;
+    }
+    export interface MD_ContactPublicKey {
+        Key: string; // The Key must always be in PEM format which is BASE64 encoded
+    }
+    export interface MD_ContactGroupItem {
+        Email: string;
+        FullName: string;
+        Guid: string;
+    }
+    export interface MD_CalItem {
+        AdditionalReminderCount: number;
+        AdditionalReminders: number[]; // in minutes
+        AttachmentCount: number;
+        Attachments: MD_PIMAttachment[];
+        AttendeeCount: number;
+        Attendees: MD_MeetingAttendee[];
+        BusyStatus: number;
+        Categories: string[];
+        CodePage: number;
+        Comment: string;
+        CommentHtml: string;
+        Creator: string;
+        DAVDataFile: string;
+        EventEnd: Date;
+        EventStart: Date;
+        Flags: number;
+        Id: number;
+        IntendedBusyStatus: number;
+        IsAllDay: boolean;
+        IsAppointmentLocation: boolean;
+        IsPrivate: boolean;
+        IsReadOnly: boolean;
+        IsRecurring: boolean;
+        IsReminderSet: boolean;
+        IsTentativePlaceholder: boolean;
+        Label: number;
+        Location: string;
+        Method: number;
+        ModifiedTime: Date;
+        Planner: string;
+        Priority: number;
+        Recurrence: MD_RecurrencePattern;
+        ReminderMinutes: number;
+        Sequence: number;
+        Subject: string;
+        TNEFFile: string;
+        iCalUid: string;
+    }
+    export interface MdContactItemFlags extends MdFlags {
+
+    }
+    export interface MD_ContactItem {
+        AccountName: string;
+        Anniversary: Date;
+        AttachmentCount: number;
+        Attachments: MD_PIMAttachment[];
+        BBPIN: string;
+        Birthday: Date;
+        BusAddress: string;
+        BusAssistant: string;
+        BusAssistantPhone: string;
+        BusCity: string;
+        BusCompany: string;
+        BusCountry: string;
+        BusDepartment: string;
+        BusFax: string;
+        BusIPPhone: string;
+        BusMainPhone: string;
+        BusManager: string;
+        BusOffice: string;
+        BusPager: string;
+        BusPhone2: string;
+        BusPhone: string;
+        BusRadio: string;
+        BusState: string;
+        BusTitle: string;
+        BusWebAddress: string;
+        BusZipCode: string;
+        CarPhoneNumber: string;
+        Categories: string;
+        Children: string;
+        CodePage: number;
+        Comment: string;
+        CommentHtml: string;
+        ContactType: number;
+        CustomerId: string;
+        DAVDataFile: string;
+        EmailAddress2: string;
+        EmailAddress3: string;
+        EmailAddress: string;
+        FileAs: string;
+        FirstName: string;
+        Flags: MdContactItemFlags;
+        FolderID: number;
+        FullName: string;
+        GovernmentId: string;
+        GroupItemCount: number;
+        GroupItems: MD_ContactGroupItem[];
+        Guid: string;
+        HomeAddress: string;
+        HomeCity: string;
+        HomeCountry: string;
+        HomeFax: string;
+        HomeMobile: string;
+        HomePhone2: string;
+        HomePhone: string;
+        HomeState: string;
+        HomeWebAddress: string;
+        HomeZipCode: string;
+        IMAddress2: string;
+        IMAddress3: string;
+        IMAddress: string;
+        ImapUID: number;
+        IsGroup: boolean;
+        IsReadOnly: boolean;
+        LastName: string;
+        MMSAddress: string;
+        MiddleName: string;
+        Mobile2: string;
+        ModifiedTime: Date;
+        NickName: string;
+        OtherAddress: string;
+        OtherCity: string;
+        OtherCountry: string;
+        OtherPhone: string;
+        OtherState: string;
+        OtherZipCode: string;
+        Picture: string;
+        PublicKeys: MD_ContactPublicKey[];
+        PublicKeysCount: number;
+        Revision: number;
+        Spouse: string;
+        Suffix: string;
+        TNEFFile: string;
+        Title: string;
+        YomiCompanyName: string;
+        YomiFirstName: string;
+        YomiLastName: string;
+        vCardUid: string;
+    }
+    export interface MdNoteItemFlags extends MdFlags {
+    
+    }
+    export interface MD_NoteItem {
+        AttachmentCount: number;
+        Attachments: MD_PIMAttachment[];
+        Body: string;
+        BodyHtml: string;
+        Categories: string[];
+        CodePage: number;
+        Color: number; // 0=blue;1=green;2=pink;3=yellow;4=white
+        Contacts: string[];
+        Creator: string;
+        DateCreated: Date;
+        Flags: MdNoteItemFlags;
+        Height: number;
+        Id: number;
+        IsPrivate: boolean;
+        IsReadOnly: boolean;
+        Left: number;
+        ModifiedTime: Date;
+        TNEFFile: string;
+        Top: number;
+        Width: number;
+    }
+    export interface MdTaskItemFlags extends MdFlags {
+        NOINVITES: boolean;
+        NOTNEF: boolean;
+        SINGLE_OCCURRENCE: boolean;
+        SYNC_USING_UTC: boolean;
+    }
+    export interface MD_TaskItem {
+        ActHours: number;
+        AttachmentCount: number;
+        Attachments: MD_PIMAttachment;
+        Billing: string;
+        Categories: string;
+        CodePage: number;
+        Comment: string;
+        CommentHtml: string;
+        Companies: string;
+        Complete: number;
+        CompletedDate: Date;
+        Creator: string;
+        DAVDataFile: string;
+        DueDate: Date;
+        EstHours: number;
+        Flags: MdTaskItemFlags;
+        Id: number;
+        IsPrivate: boolean;
+        IsReadOnly: boolean;
+        IsRecurring: boolean;
+        Mileage: string;
+        ModifiedTime: Date;
+        Priority: number;
+        Recurrence: MD_RecurrencePattern;
+        Reminder: Date;
+        Revision: number;
+        Sequence: number;
+        StartDate: Date;
+        Status: number;
+        Subject: string;
+        TNEFFile: string;
+        iCalUid: string;
+    }
+
     //#endregion MDaemon API types
 
     //#region Alias APIs
@@ -995,15 +1267,6 @@ declare module "node-mdaemon-api" {
 
     //#region AppPassword APIs
 
-    export interface MD_AppPassword {
-        ID: string;
-        Name: string;
-        Hash: string;
-        LastUsedIP: string;
-        CreatedTime: Date;
-        LastUsedTime: Date;
-    }
-
     /**
      * UNDOCUMENTED
      * 
@@ -1110,7 +1373,10 @@ declare module "node-mdaemon-api" {
 
     //#region Calendar APIs
 
+    export function MD_CalGetCalItem(Id: number, Path: string, Requester?: string): MdApiResult<MD_CalItem>;
     export function MD_CalGetDefaultFolder(hUser: Buffer): string;
+    export function MD_CalInitCalItem(): MD_CalItem;
+    export function MD_CalInitCalItem2(Month: number, Day: number, Year: number, Hour: number, Minute: number): MD_CalItem;
 
     //#endregion
 
@@ -1129,109 +1395,6 @@ declare module "node-mdaemon-api" {
     //#endregion
 
     //#region Contacts APIs
-
-    export interface MD_ContactPublicKey {
-        Key: string; // The Key must always be in PEM format which is BASE64 encoded
-    }
-
-    export interface MD_ContactGroupItem {
-        Email: string;
-        FullName: string;
-        Guid: string;
-    }
-
-    export interface MdContactItemFlags extends MdFlags {
-
-    }
-    export interface MD_ContactItem {
-        AccountName: string;
-        Anniversary: Date;
-        AttachmentCount: number;
-        Attachments: MD_PIMAttachment[];
-        BBPIN: string;
-        Birthday: Date;
-        BusAddress: string;
-        BusAssistant: string;
-        BusAssistantPhone: string;
-        BusCity: string;
-        BusCompany: string;
-        BusCountry: string;
-        BusDepartment: string;
-        BusFax: string;
-        BusIPPhone: string;
-        BusMainPhone: string;
-        BusManager: string;
-        BusOffice: string;
-        BusPager: string;
-        BusPhone2: string;
-        BusPhone: string;
-        BusRadio: string;
-        BusState: string;
-        BusTitle: string;
-        BusWebAddress: string;
-        BusZipCode: string;
-        CarPhoneNumber: string;
-        Categories: string;
-        Children: string;
-        CodePage: number;
-        Comment: string;
-        CommentHtml: string;
-        ContactType: number;
-        CustomerId: string;
-        DAVDataFile: string;
-        EmailAddress2: string;
-        EmailAddress3: string;
-        EmailAddress: string;
-        FileAs: string;
-        FirstName: string;
-        Flags: MdContactItemFlags;
-        FolderID: number;
-        FullName: string;
-        GovernmentId: string;
-        GroupItemCount: number;
-        GroupItems: MD_ContactGroupItem[];
-        Guid: string;
-        HomeAddress: string;
-        HomeCity: string;
-        HomeCountry: string;
-        HomeFax: string;
-        HomeMobile: string;
-        HomePhone2: string;
-        HomePhone: string;
-        HomeState: string;
-        HomeWebAddress: string;
-        HomeZipCode: string;
-        IMAddress2: string;
-        IMAddress3: string;
-        IMAddress: string;
-        ImapUID: number;
-        IsGroup: boolean;
-        IsReadOnly: boolean;
-        LastName: string;
-        MMSAddress: string;
-        MiddleName: string;
-        Mobile2: string;
-        ModifiedTime: Date;
-        NickName: string;
-        OtherAddress: string;
-        OtherCity: string;
-        OtherCountry: string;
-        OtherPhone: string;
-        OtherState: string;
-        OtherZipCode: string;
-        Picture: string;
-        PublicKeys: MD_ContactPublicKey[];
-        PublicKeysCount: number;
-        Revision: number;
-        Spouse: string;
-        Suffix: string;
-        TNEFFile: string;
-        Title: string;
-        YomiCompanyName: string;
-        YomiFirstName: string;
-        YomiLastName: string;
-        vCardUid: string;
-    }
 
     export function MD_ContactDeleteAllItems(Path: string): MdApiResultBase;
     export function MD_ContactGetAllItems(Path: string): MdApiResult<MD_ContactItem[]>;
@@ -1810,70 +1973,6 @@ declare module "node-mdaemon-api" {
     //#region Note APIs
     //--------------------------------------------------------------------------
 
-    export interface MD_OccurrenceChange {
-        NewBusyStatus: number;
-        NewCategories: string;
-        NewComment: string;
-        NewCommentHtml: string;
-        NewEnd: Date;
-        NewIsReminderSet: boolean;
-        NewLocation: string;
-        NewReminderMinutes: number;
-        NewStart: Date;
-        NewSubject: string;
-        OriginalDate: Date;
-    }
-    export interface MD_TimeZone {
-        Bias: number;
-        DaylightBias: number;
-        DaylightDate: Date;
-        StandardDate: Date;
-    }
-    export interface MD_RecurrencePattern {
-        ChangedOccurrences: MD_OccurrenceChange[];
-        DayOfMonth: number;
-        DayOfWeekMask: number;
-        DeletedOccurrences: Date[];
-        End: Date;
-        Instance: number;
-        Interval: number;
-        MonthOfYear: number;
-        Occurrences: number;
-        Start: Date;
-        SubType: number;
-        TimeZone?: MD_TimeZone;
-        Type: number;
-        ui: number;
-    }
-    export interface MD_PIMAttachment {
-        Data: Blob | null;
-        Filename: string;
-        LocalFilePath: string;
-        MimeType: string;
-        Type: number;
-    }
-    export interface MD_NoteItem {
-        AttachmentCount: number;
-        Attachments: MD_PIMAttachment[];
-        Body: string;
-        BodyHtml: string;
-        Categories: string[];
-        CodePage: number;
-        Color: number; // 0=blue;1=green;2=pink;3=yellow;4=white
-        Contacts: string[];
-        Creator: string;
-        DateCreated: Date;
-        Flags: number;
-        Height: number;
-        Id: number;
-        IsPrivate: boolean;
-        IsReadOnly: boolean;
-        Left: number;
-        ModifiedTime: Date;
-        TNEFFile: string;
-        Top: number;
-        Width: number;
-    }
     export function MD_NoteDeleteAllAttachments(NoteItem: MD_NoteItem): void;
     export function MD_NoteDeleteAllItems(Path: string): MdApiResultBase;
     export function MD_NoteGetDefaultFolder(hUser: Buffer): string;
@@ -1893,50 +1992,6 @@ declare module "node-mdaemon-api" {
 
     //#region Task APIs
     //--------------------------------------------------------------------------
-
-    export interface MD_RecurrencePattern {
-        // TODO
-    }
-    export interface MdTaskItemFlags extends MdFlags {
-        NOINVITES: boolean;
-        NOTNEF: boolean;
-        SINGLE_OCCURRENCE: boolean;
-        SYNC_USING_UTC: boolean;
-    }
-    export interface MD_TaskItem {
-        ActHours: number;
-        AttachmentCount: number;
-        Attachments: MD_PIMAttachment;
-        Billing: string;
-        Categories: string;
-        CodePage: number;
-        Comment: string;
-        CommentHtml: string;
-        Companies: string;
-        Complete: number;
-        CompletedDate: Date;
-        Creator: string;
-        DAVDataFile: string;
-        DueDate: Date;
-        EstHours: number;
-        Flags: MdTaskItemFlags;
-        Id: number;
-        IsPrivate: boolean;
-        IsReadOnly: boolean;
-        IsRecurring: boolean;
-        Mileage: string;
-        ModifiedTime: Date;
-        Priority: number;
-        Recurrence: MD_RecurrencePattern;
-        Reminder: Date;
-        Revision: number;
-        Sequence: number;
-        StartDate: Date;
-        Status: number;
-        Subject: string;
-        TNEFFile: string;
-        iCalUid: string;
-    }
 
     export function MD_TaskDeleteAllItems(Path: string): MdApiResultBase;
     export function MD_TaskDeleteTaskItem(Path: string, Id: number, Requester?: string): MdApiResultBase;
