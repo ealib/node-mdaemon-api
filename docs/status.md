@@ -3,8 +3,8 @@
 ## Introduction
 
 Please, note that only _some_ functions available in the official
-[MDaemon® SDK](md-sdk) are available to Node.js via `node-mdaemon-api`
-but many more are not yet implemented.
+[MDaemon® SDK](md-sdk.md) are available to Node.js via
+`node-mdaemon-api`, but many more are not yet implemented.
 
 ## v23.5.3-alpha.30 Exports
 
@@ -444,4 +444,4 @@ but many more are not yet implemented.
 
 ---
 
-[Home](readme)
+[Home](readme.md)

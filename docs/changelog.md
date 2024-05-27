@@ -443,4 +443,4 @@ This is an intermediate version whose sole purpose is to make the module compati
 ---
 > MDaemon is copyright © 1996-2024 [MDaemon Technologies Ltd.](https://mdaemon.com/pages/about-us)
 ---
-[Home](readme)
+[Home](readme.md)

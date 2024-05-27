@@ -366,4 +366,4 @@ look into `C:\MDaemon\Docs\API` for the SDK documentation and examples.
 ---
 > MDaemon is copyright © 1996-2024 [MDaemon Technologies Ltd.](https://mdaemon.com/pages/about-us)
 ---
-[Home](readme)
+[Home](readme.md)
