@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 23.5.3-alpha.30
+ * Type definitions for node-mdaemon-api 24.0.0-alpha.31
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -737,42 +737,158 @@ declare module "node-mdaemon-api" {
         WebConfig: number;
     }
     export type MdDatabase =
+        'ACCOUNTTEMPLATESDB' |
+        'ACLSHLOOKUPDB' |
+        'ACTIVEDSDB' |
+        'ADGROUPSDB' |
         'ALIASDB' |
+        'ASSCHEDULEDB' |
+        'ATTACHMENTLINKINGDB' |
         'AUTHDB' |
-        'AUTORESPDB' |
+        'AUTORESPATTACHMENTSDB' |
+        'AUTORESPEXCEPTDB' |
+        'AVEXPIREDB' |  // deprecated
+        'AVMESSAGEDB' | // deprecated
+        'AVSCHEDULEDB' |
+        'BADPASSWORDDB' |
+        'BATVEXCEPTDB' |
+        'BESPOLICYDB' | // deprecated
+        'BISCONFIGDB' |
+        'BISSERVERSDB' | // deprecated
+        'BISSUBSCRIBEDB' |
+        'CALENDARDB' |
+        'CALREMINDDB' |
+        'CENSORDB' |
+        'CFADMDB' |
+        'CFBOUNCEDB' |
+        'CFCOMPRESSDB' |
+        'CFDELFILESDB' |
+        'CFDOMAINEXCDB' |
+        'CFEXCLUDESDB' |
+        'CFILTERDB' |
+        'CFRECDB' |
+        'CFRULESDB' |
+        'CFRULESTATSDB' |
+        'CFSAUPDATEDB' |
+        'CFSNDDB' |
+        'CFSYSRULESDB' |
+        'CFVIRADMDB' |
+        'CFVIRRECDB' |
+        'CFVIRSNDDB' |
+        'CFVIRUPDATEDB' |
+        'CFVIRWRNDB' |
+        'CREDSMATCHWHITELISTDB' |
+        'DELERRDB' |  // deprecated
         'DELUNLESSDB' |
+        'DELWARNDB' | // deprecated
+        'DKSIGNLISTDB' |
+        'DKVRFYEXCEPTDB' |
+        'DMARCCACHEDB' |
+        'DMARCWHITELISTDB' |
+        'DNSBLDB' |
         'DOMAINDB' |
         'DOMAINPOPDB' |
+        'DOMAINSHARINGDB' |
+        'DPOPXTRADB' |
+        'DSALLOWEDDOMAINSDB' |
         'DVUNLESSDB' |
-        'EXCEPTIONDB' |
+        'DYNAMICSCREENDB' |
+        'FROMMODWHITELISTDB' |
         'FWDDB' |
         'FWDUNLESSDB' |
         'GATEWAYDB' |
+        'GREYLISTDB' |
+        'GROUPSDB' |
+        'GUARDIANDB' |
+        'GUICOUNTSDB' |
+        'GWUSERLISTDB' |
+        'HELOLOOKUPWLDB' |
         'HELPDB' |
+        'HIJACKWHITELISTDB' |
+        'HOSTAUTHDB' |
+        'HOSTSCREENDB' |
         'IPCACHEDB' |
         'IPSCREENDB' |
         'IPSHIELDDB' |
+        'LANDOMAINSDB' |
+        'LANIPSDB' |
+        'LDAPCACHEDB' |
         'LDAPDB' |
+        'LISTPRUNEDB' |
+        'LOCALDATADB' |
+        'LOCATIONSDB' | // deprecated
+        'LOGCOLORSDB' |
+        'MAILLOOKUPWLDB' |
         'MDAEMONINIDB' |
+        'MDCAVDB' |
+        'MDOPDB' |
+        'MDPGPDB' |
         'MIMETYPEDB' |
         'MSGIDDB' |
+        'MTEDB' |
         'MULTIPOPDB' |
         'MXCACHEDB' |
+        'NEARQUOTADB' |
+        'NOARCHIVEDB' |
+        'NOATTACHMENTLINKINGDB' |
         'NOCACHEDB' |
         'NOCOMMANDDB' |
+        'NODNSBLDB' |
+        'NOGREYLISTDB' |
+        'NOLOGFROMIPDB' |
+        'NOPRIORITYDB' |
+        'NOSMARTSPOOLDB' |
+        'NOSPAMBOTDB' |
+        'NOSTARTTLSDB' |
         'NOSUCHUSERDB' |
+        'NOTARPITDB' | // deprecated
+        'OAUTHDB' |
+        'OCSETTINGSDB' |
+        'OVERQUOTADB' |
+        'PFDATADB' |
+        'PLUGINSDB' |
+        'POLICYDB' |
+        'POPLOCKDB' |
         'PRIORITYDB' |
+        'PUBLICSUFFIXDB' |
+        'PWEXPIREWARNINGDB' |
+        'QCOUNTSDB' |
+        'QUEUEDUPDATESDB' |
+        'QUOTACOUNTSDB' |// deprecated
+        'RCPTBLACKLISTDB' |
+        'RECALLDB' |
         'RECEIPTDB' |
-        'RELAYDB' |
+        'RECENTDB' |
+        'RELAYDB' | // deprecated
+        'REMINDERSDB' |
+        'REQUIRESTARTTLSDB' |
+        'REQUIRETLSWLDB' |
+        'REVERSEEXCEPTDB' |
         'RFC822TMPDB' |
-        'SPAMBLOCKERDB' |
-        'SPAMCACHEDB' |
-        'SPAMEXCEPTDB' |
+        'SCHEDULEDB' |
+        'SECUREPASSWORDSDB' |
+        'SENDERBLACKLISTDB' |
+        'SPAMBOTIPDB' |
+        'SPAMBOTSENDERDB' |
+        'SPAMHONEYPOTSDB' |
+        'SPFCACHEDB' |
+        'SPFDKAPPROVEDDB' |
+        'SPFEXCEPTDB' |
+        'TARPITCONNECTDB' |
+        'TASKREMINDDB' |
+        'TFAEXCEPTIONIPSDB' |
         'TRANSEXCPTDB' |
         'TRANSLATEDB' |
-        'UIDLDB' |
+        'TRUSTEDHOSTSDB' |
+        'TRUSTEDIPSDB' |
         'UNSUBUSERDB' |
-        'USERLISTDB';
+        'USERLISTDB' |
+        'USERSDELETEDTODAYDB' |
+        'VARIABLEDB' | // deprecated
+        'VBRDB' |
+        'WEBACCESSDB' | // deprecated
+        'WORLDCLIENTDOMAINDB' |
+        'WORLDCLIENTINIDB';
     export type MdVerifyUserInfoLevel =
         'ACCOUNT' |
         'MAILDIR' |
@@ -849,7 +965,7 @@ declare module "node-mdaemon-api" {
         Time: Date;
         Type: number;
         Uuid: string;
-    };
+    }
 
     export interface MD_OccurrenceChange {
         NewBusyStatus: number;
@@ -1033,7 +1149,7 @@ declare module "node-mdaemon-api" {
         vCardUid: string;
     }
     export interface MdNoteItemFlags extends MdFlags {
-    
+
     }
     export interface MD_NoteItem {
         AttachmentCount: number;
@@ -1400,9 +1516,11 @@ declare module "node-mdaemon-api" {
     export function MD_ContactGetAllItems(Path: string): MdApiResult<MD_ContactItem[]>;
     export function MD_ContactGetBlackListFolder(hUser: Buffer): string;
     export function MD_ContactGetDefaultFolder(hUser: Buffer): string;
+    export function MD_ContactGetDomainAllowedSendersFolder(DomainName: string): string | undefined;
     export function MD_ContactGetPublicFolder(hUser: Buffer): string;
     export function MD_ContactGetWhiteListFolder(hUser: Buffer): string;
     export function MD_ContactInitItem(): MD_ContactItem;
+    export function MD_ContactPubAllowedSendersCheck(Path: string, Sender: string): boolean;
 
     //#endregion
 
@@ -1492,7 +1610,7 @@ declare module "node-mdaemon-api" {
     export function MD_GetGatewayCount(): number;
     export function MD_InitGatewayInfo(GatewayName: string): MD_Gateway;
     export function MD_VerifyGatewayInfo(Gateway: MD_Gateway): MdApiResultBase;
-    export function MD_WriteGateway(Gateway: MD_Gateway): MDApiResultBase;
+    export function MD_WriteGateway(Gateway: MD_Gateway): MdApiResultBase;
 
     //#endregion
 
@@ -2252,6 +2370,14 @@ declare module "node-mdaemon-api" {
      * @param hUser buffer containing a user's handle
      */
     export function MD_IsPasswordTooOld(hUser: Buffer): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param OldPath 
+     * @param NewPath 
+     * @param UserEmail 
+     * @param UserMailRoot 
+     */
     export function MD_RenameUserFolder(
         OldPath: string,
         NewPath: string,

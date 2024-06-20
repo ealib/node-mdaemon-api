@@ -1,4 +1,6 @@
-node-mdaemon-api 23.5.3-alpha.30 license 
+# Licenses
+
+node-mdaemon-api 24.0.0-alpha.31 license
 
 Copyright (c) 2016-2024 Emanuele Aliberti, MTKA
 
@@ -14,9 +16,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
---------------------------------------------------------------------------------
+---
 
-This software - node-mdaemon-api 23.5.3-alpha.30 - includes software
+This software - node-mdaemon-api 24.0.0-alpha.31 - includes software
 released by MDaemon Technologies, Ltd. under the following license:
 
 Copyright (c) 1999-2024 MDaemon Technologies, Ltd., All rights reserved.
