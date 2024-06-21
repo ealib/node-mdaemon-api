@@ -17,6 +17,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## 24.0.0-alpha.32 - unreleased
 
+### Added
+
+- export `MD_GroupGetADGroup`
+- export `MD_GroupUpdate`
+- export `MD_GroupWrite`
+- declare `MD_TemplateWrite`
+- declare `MD_TemplateCreate`
+
 ### Fixed
 
 - fix `MD_GetAccessType` exported to Node.js with double quotes
