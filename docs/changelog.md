@@ -15,7 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - implemented `MD_CalDeleteAllAttachments`
 - implemented `MD_CalDeleteAllAttendees`
 
-## 24.0.0-alpha.32 - unreleased
+## 24.0.0-alpha.32 - 2024-06-21
 
 ### Added
 

@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 24.0.0-alpha.31
+ * Type definitions for node-mdaemon-api 24.0.0-alpha.32
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -2653,11 +2653,13 @@ declare module "node-mdaemon-api" {
     //--------------------------------------------------------------------------
 
     export function MD_TemplateCopy(ExistingTemplateName: string, NewTemplateName: string): boolean;
+    export function MD_TemplateCreate(TemplateName: string): boolean;
     export function MD_TemplateDelete(TemplateName: string): boolean;
     export function MD_TemplateExists(TemplateName: string): boolean;
     export function MD_TemplateGetAll(): string[];
     export function MD_TemplateGetFlags(TemplateName: string): number;
     export function MD_TemplateSetFlags(TemplateName: string, Flags: number): boolean;
+    export function MD_TemplateWrite(UserInfo: MD_UserInfo, TemplateName: string): void;
 
     //#endregion
 

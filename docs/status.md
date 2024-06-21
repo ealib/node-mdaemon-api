@@ -6,13 +6,12 @@ Please, note that only _some_ functions available in the official
 [MDaemon® SDK](md-sdk) are available to Node.js via `node-mdaemon-api`
 but many more are not yet implemented.
 
-## v24.0.0-alpha.31 Exports
+## v24.0.0-alpha.32 Exports
 
-### Top level (351 symbols)
+### Top level (356 symbols)
 
 | Name | ES Type |
 |-----:|:-------:|
-|`&quot;MD_GetAccessType&quot;`|function|
 |`MD_AddMultiPOPItem`|function|
 |`MD_AddUser`|function|
 |`MD_AppPasswordCreate`|function|
@@ -73,6 +72,7 @@ but many more are not yet implemented.
 |`MD_ExportAllUsers`|function|
 |`MD_FlagReloadUsers`|function|
 |`MD_GatewayLicenseFull`|function|
+|`MD_GetAccessType`|function|
 |`MD_GetAllowChangeViaEmail`|function|
 |`MD_GetAllowIMAPAccess`|function|
 |`MD_GetAllowPOPAccess`|function|
@@ -161,6 +161,7 @@ but many more are not yet implemented.
 |`MD_GroupDelete`|function|
 |`MD_GroupExists`|function|
 |`MD_GroupFindMember`|function|
+|`MD_GroupGetADGroup`|function|
 |`MD_GroupGetAll`|function|
 |`MD_GroupGetAllWithDesc`|function|
 |`MD_GroupGetCount`|function|
@@ -170,6 +171,8 @@ but many more are not yet implemented.
 |`MD_GroupRemoveMember`|function|
 |`MD_GroupRename`|function|
 |`MD_GroupRenameMember`|function|
+|`MD_GroupUpdate`|function|
+|`MD_GroupWrite`|function|
 |`MD_InitDomainInfo`|function|
 |`MD_InitGatewayInfo`|function|
 |`MD_InitListInfo`|function|
@@ -239,6 +242,7 @@ but many more are not yet implemented.
 |`MD_NoteItemCompare`|function|
 |`MD_NoteWriteNoteItem`|function|
 |`MD_PostAppMessage`|function|
+|`MD_ReadRule`|function|
 |`MD_RegisterWindow`|function|
 |`MD_ReloadUsers`|function|
 |`MD_RenameDomain`|function|
@@ -351,6 +355,7 @@ but many more are not yet implemented.
 |`readMailingListSync`|function|
 |`readMailingLists`|function|
 |`readMailingListsSync`|function|
+|`readRulesSync`|function|
 |`readUserGroups`|function|
 |`readUserGroupsSync`|function|
 |`readUserRoles`|function|
