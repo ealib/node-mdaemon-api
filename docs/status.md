@@ -3,15 +3,16 @@
 ## Introduction
 
 Please, note that only _some_ functions available in the official
-[MDaemon® SDK](md-sdk.md) are available to Node.js via
-`node-mdaemon-api`, but many more are not yet implemented.
+[MDaemon® SDK](md-sdk) are available to Node.js via `node-mdaemon-api`
+but many more are not yet implemented.
 
-## v23.5.3-alpha.30 Exports
+## v24.0.0-alpha.31 Exports
 
-### Top level (346 symbols)
+### Top level (351 symbols)
 
 | Name | ES Type |
 |-----:|:-------:|
+|`&quot;MD_GetAccessType&quot;`|function|
 |`MD_AddMultiPOPItem`|function|
 |`MD_AddUser`|function|
 |`MD_AppPasswordCreate`|function|
@@ -43,9 +44,11 @@ Please, note that only _some_ functions available in the official
 |`MD_ContactGetAllItems`|function|
 |`MD_ContactGetBlackListFolder`|function|
 |`MD_ContactGetDefaultFolder`|function|
+|`MD_ContactGetDomainAllowedSendersFolder`|function|
 |`MD_ContactGetPublicFolder`|function|
 |`MD_ContactGetWhiteListFolder`|function|
 |`MD_ContactInitItem`|function|
+|`MD_ContactPubAllowedSendersCheck`|function|
 |`MD_CreateAlias`|function|
 |`MD_CreateFileName`|function|
 |`MD_CreateUserIMAPFolder`|function|
@@ -70,7 +73,6 @@ Please, note that only _some_ functions available in the official
 |`MD_ExportAllUsers`|function|
 |`MD_FlagReloadUsers`|function|
 |`MD_GatewayLicenseFull`|function|
-|`MD_GetAccessType`|function|
 |`MD_GetAllowChangeViaEmail`|function|
 |`MD_GetAllowIMAPAccess`|function|
 |`MD_GetAllowPOPAccess`|function|
@@ -240,6 +242,7 @@ Please, note that only _some_ functions available in the official
 |`MD_RegisterWindow`|function|
 |`MD_ReloadUsers`|function|
 |`MD_RenameDomain`|function|
+|`MD_RenameUserFolder`|function|
 |`MD_RenameUserIMAPFolder`|function|
 |`MD_SendAppMessage`|function|
 |`MD_SendInstantMessage`|function|
@@ -300,12 +303,14 @@ Please, note that only _some_ functions available in the official
 |`MD_TaskGetTaskItem`|function|
 |`MD_TaskInitTaskItem`|function|
 |`MD_TemplateCopy`|function|
+|`MD_TemplateCreate`|function|
 |`MD_TemplateDelete`|function|
 |`MD_TemplateExists`|function|
 |`MD_TemplateGetAll`|function|
 |`MD_TemplateGetFlags`|function|
 |`MD_TemplateRename`|function|
 |`MD_TemplateSetFlags`|function|
+|`MD_TemplateWrite`|function|
 |`MD_TranslateAlias`|function|
 |`MD_UnregisterWindow`|function|
 |`MD_UpdateSuppressList`|function|

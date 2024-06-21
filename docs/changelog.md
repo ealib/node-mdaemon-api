@@ -8,12 +8,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 > are made available to the Node.js developer for ease of development
 > and completeness.
 
-## 24.0.0-alpha.31 - unreleased
+## 24.0.0-alpha.33 - unreleased
 
 ### Added
 
 - implemented `MD_CalDeleteAllAttachments`
 - implemented `MD_CalDeleteAllAttendees`
+
+## 24.0.0-alpha.32 - unreleased
+
+### Fixed
+
+- fix `MD_GetAccessType` exported to Node.js with double quotes
+
+## 24.0.0-alpha.31 - 2024-06-20
+
+### Added
+
+- implemented `MD_ContactGetDomainAllowedSendersFolder`
+- implemented `MD_ContactPubAllowedSendersCheck`
+- implemented `MD_RenameUserFolder`
+- implemented `MD_TemplateCreate`
+- implemented `MD_TemplateWrite`
 
 ### Fixed
 
