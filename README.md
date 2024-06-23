@@ -11,6 +11,8 @@
 
 An unofficial MDaemon native APIs binding for Node.js.
 
+![node-mdaemon-api architecture](architecture.jpg)
+
 ## Legal disclaimer
 
 MDaemon® is a trademark of [MDaemon Technologies, Ltd.](https://mdaemon.com/pages/about-us)
