@@ -11,7 +11,15 @@
 
 An unofficial MDaemon native APIs binding for Node.js.
 
-![node-mdaemon-api architecture](architecture.jpg)
+@startuml
+
+#Green:Node.js;
+-> load native module;
+#Yellow:node-mdaemon-api;
+-> use native APIs;
+#Red:MDaemon;
+
+@enduml
 
 ## Legal disclaimer
 
