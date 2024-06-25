@@ -11,17 +11,23 @@
 
 An unofficial MDaemon native APIs binding for Node.js.
 
-```plantuml
-@startuml
+```mermaid
+---
+title Architecture
+---
+flowchart TD
+    node{{Node.js}}
+    nma((node-mdaemon-api))
+    md[/MDaemon/]
 
-#Green:Node.js;
--> load native module;
-#Yellow:node-mdaemon-api;
--> use native APIs;
-#Red:MDaemon;
+    node<-- native module -->nma
+    nma<-- native APIs -->md
 
-@enduml
+    style node fill:#0f0
+    style nma fill:#ff0
+    style md fill:#f00
 ```
+
 
 ## Legal disclaimer
 
