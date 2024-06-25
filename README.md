@@ -11,6 +11,7 @@
 
 An unofficial MDaemon native APIs binding for Node.js.
 
+```plantuml
 @startuml
 
 #Green:Node.js;
@@ -20,6 +21,7 @@ An unofficial MDaemon native APIs binding for Node.js.
 #Red:MDaemon;
 
 @enduml
+```
 
 ## Legal disclaimer
 
