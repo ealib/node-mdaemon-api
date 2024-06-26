@@ -8,12 +8,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 > are made available to the Node.js developer for ease of development
 > and completeness.
 
-## 24.0.0-alpha.33 - unreleased
+## 24.0.1-alpha.33 - unreleased
 
 ### Added
 
 - implemented `MD_CalDeleteAllAttachments`
 - implemented `MD_CalDeleteAllAttendees`
+
+### Changed
+
+- built with MDaemon 24.0.1 headers
+- built with [Node v20.15.0 (LTS)](https://nodejs.org/en/blog/release/v20.15.0) headers
 
 ## 24.0.0-alpha.32 - 2024-06-21
 
