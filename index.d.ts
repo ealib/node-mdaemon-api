@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 24.0.0-alpha.32
+ * Type definitions for node-mdaemon-api 24.0.1-alpha.33
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -40,6 +40,7 @@ declare module "node-mdaemon-api" {
     export type MdCalResult<T> = MdApiResult<T>;
 
     export interface MdDocumentInfo {
+        description: string;
         id: number;
         fileName: string;
         fileSize: number;
@@ -1214,6 +1215,20 @@ declare module "node-mdaemon-api" {
         iCalUid: string;
     }
 
+    export interface MD_RuleCondition {
+        Header: string;
+        MatchText: string;
+        Relation: 'ISEQUALTO' | 'ISNOTEQUALTO' | 'CONTAINS' | 'DOESNOTCONTAIN' | 'STARTSWITH' | 'ENDSWITH' | 'EXISTS' | 'DOESNOTEXIST' | 'ISGREATERTHAN' | 'ISLESSTHAN';
+
+    }
+    export interface MD_Rule {
+        Conditions: Array<MD_RuleCondition>;
+        Email: string;
+        Folder: string;
+        LogicOperator?: 'AND' | 'OR'; // NumConditions > 1
+        NumConditions: number;
+    }
+
     //#endregion MDaemon API types
 
     //#region Alias APIs
@@ -1528,6 +1543,7 @@ declare module "node-mdaemon-api" {
 
     export function MD_DocumentDeleteDocument(Path: string, Id: number, Requester?: string): boolean;
     export function MD_DocumentGetDefaultFolder(hUser: Buffer): string;
+    export function MD_DocumentGetDescription(Path: string, Id: number, Requester?: string): string | undefined;
     export function MD_DocumentGetFileName(Path: string, Id: number, Requester?: string): string | undefined;
     export function MD_DocumentGetFileSize(Path: string, Id: number, Requester?: string): BigInt | undefined
     export function MD_DocumentGetModifiedBy(Path: string, Id: number, Requester?: string): string | undefined
@@ -1544,6 +1560,7 @@ declare module "node-mdaemon-api" {
         Options?: MdDocumentCopyDocumentOptions
     ): boolean;
     export interface MdDocumentCopyFileIntoFolderOptions {
+        Description?: string;
         OverwriteExisting?: boolean;
         Requester?: string;
     }
@@ -1575,6 +1592,12 @@ declare module "node-mdaemon-api" {
         NewFileName: string,
         Requester?: string
     ): boolean;
+    export function DocumentSetDescription(
+        Path: string,
+        Id: number,
+        Description: string,
+        Requester?: string
+    ): MdApiResultBase;
 
     //#endregion
 
@@ -2692,6 +2715,88 @@ declare module "node-mdaemon-api" {
     ): void;
 
     //#endregion
+
+    //#region Rules
+
+    /**
+     * Add an IMAP rule to a user's rule list.
+     * 
+     * @param hUser handle to a valid user
+     * @param Rule MD_Rule object to add
+     */
+    export function MD_AddRule(hUser: Buffer, Rule: MD_Rule): boolean;
+    /**
+     * Update an existing IMAP rule
+     * 
+     * @param hUser handle to a valid user
+     * @param Id existing rule's index
+     * @param Rule Rule object to use to update rule with given Id
+     */
+    export function MD_ChangeRule(hUser: Buffer, Id: number, Rule: MD_Rule): boolean;
+    /**
+     * Delete a user's IMAP rule by Id
+     * 
+     * @param hUser handle to a valid user
+     * @param Id IMAP rule index, starting at 0 for the first rule
+     */
+    export function MD_DeleteRule(hUser: Buffer, Id: number): boolean;
+    /**
+     * Move an existing IMAP rule to index+1
+     * 
+     * @param hUser handle to a valid user
+     * @param Id index of an existing rule
+     */
+    export function MD_MoveRuleDown(hUser: Buffer, Id: number): boolean;
+    /**
+     * Move an existing IMAP rule to index-1
+     * 
+     * @param hUser handle to a valid user
+     * @param Id index of an existing rule
+     */
+    export function MD_MoveRuleUp(hUser: Buffer, Id: number): boolean;
+    /**
+     * Read a user's IMAP rule
+     * 
+     * @param hUser handle to a valid user
+     * @param Id IMAP rule index, starting at 0 for the first rule
+     */
+    export function MD_ReadRule(hUser: Buffer, Id: number): MD_Rule | undefined;
+    /**
+     * Deserialize a string to an MD_Rule object.
+     * 
+     * @param Rule rule string to deserialise
+     */
+    export function MD_RuleStringToRuleStruct(Rule: string): MD_Rule | undefined;
+    /**
+     * Serialise a MD_Rule object to a string.
+     * 
+     * @param Rule rule object to serialise
+     */
+    export function MD_RuleStructToRuleString(Rule: MD_Rule): string | undefined;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param Email 
+     * @param DisplayPath 
+     * @param DB 
+     * @param Enable OPTIONAL DEFAULT false 
+     */
+    export function MD_SetupTicketRules(Email: string, DisplayPath: string, DB: string, Enable?: boolean): void;
+    /**
+     * Read a user's IMAP rule list
+     * 
+     * @param hUser handle to a valid user
+     */
+    export function readRulesSync(hUser: Buffer): Array<MD_Rule>;
+    /**
+     * Read a user's IMAP rule list asynchronously
+     * 
+     * @param hUser handle to a valid user
+     * @param callback async callback
+     */
+    export function readRules(hUser: Buffer, callback: (err: Error | null, rules: Array<MD_Rule>) => void): undefined;
+
+    //#endregion Rules
 
     //#endregion
 }

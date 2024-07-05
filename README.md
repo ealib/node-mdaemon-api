@@ -11,24 +11,6 @@
 
 An unofficial MDaemon native APIs binding for Node.js.
 
-```mermaid
----
-title Architecture
----
-flowchart TD
-    node{{Node.js}}
-    nma((node-mdaemon-api))
-    md[/MDaemon/]
-
-    node<-- native module -->nma
-    nma<-- native APIs -->md
-
-    style node fill:#0f0
-    style nma fill:#ff0
-    style md fill:#f00
-```
-
-
 ## Legal disclaimer
 
 MDaemon® is a trademark of [MDaemon Technologies, Ltd.](https://mdaemon.com/pages/about-us)
@@ -41,4 +23,4 @@ Windows&trade; is a [trademark of Microsoft Corp.](https://www.microsoft.com/en-
 
 ## License
 
-node-mdaemon-api 24.0.0-alpha.32 is [MIT licensed](license.md).
+node-mdaemon-api 24.0.1-alpha.33 is [MIT licensed](license.md).
