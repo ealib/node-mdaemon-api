@@ -3,7 +3,7 @@ on: push
 name: Build and deploy GH Pages
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     if: github.ref == 'refs/heads/main'
     steps:
       - name: checkout
@@ -12,4 +12,4 @@ jobs:
         uses: shalzz/zola-deploy-action@v0.17.2
         env:
           PAGES_BRANCH: main
-          #TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
