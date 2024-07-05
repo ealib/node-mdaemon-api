@@ -1,10 +1,9 @@
-# MDaemon® SDK
-
-MDaemon® SDK is not available separately from the very MDaemon®.
-After installing MDaemon® - for instance in `C:\MDaemon` directory -
-look into `C:\MDaemon\Docs\API` for the SDK documentation and examples.
-
-## Directory Tree of *API*
++++
+title = "Directory Tree of API"
+sort_by = "weight"
+weight = 200
++++
+# Directory Tree of API
 
 * API
   * ASP/
@@ -344,26 +343,3 @@ look into `C:\MDaemon\Docs\API` for the SDK documentation and examples.
   * `MDUserImports.h`
   * `PluginAPI.h`
   * `Plugins.txt`
-
-## My `include/altn` directory tree
-
-* `include/altn`
-  * `DLL`
-    * `DynScrnDLL`
-      * `DynScrn.h`
-  * `MDCalendarDLL`
-    * `MDCalendarImports.cpp`
-    * `MDCalendarImports.h`
-  * `MDServer`
-    * `PluginAPI.h`
-  * `MDUserCOM`
-    * `MDUserCOM_i.c`
-    * `MDUserCOM.h`
-  * `MDUserDLL`
-    * `MDUserImports.cpp`
-    * `MDUserImports.h`
-  
----
-> MDaemon is copyright © 1996-2024 [MDaemon Technologies Ltd.](https://mdaemon.com/pages/about-us)
----
-[Home](readme.md)

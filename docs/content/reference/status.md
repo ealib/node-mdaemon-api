@@ -1,18 +1,18 @@
++++
+title = "APIs implementation status"
+sort_by = "weight"
+weight = 200
++++
 # APIs implementation status
 
-## Introduction
+## v24.0.1-alpha.33 Exports
 
-Please, note that only _some_ functions available in the official
-[MDaemon® SDK](md-sdk) are available to Node.js via `node-mdaemon-api`
-but many more are not yet implemented.
-
-## v24.0.0-alpha.32 Exports
-
-### Top level (356 symbols)
+### Top level (367 symbols)
 
 | Name | ES Type |
 |-----:|:-------:|
 |`MD_AddMultiPOPItem`|function|
+|`MD_AddRule`|function|
 |`MD_AddUser`|function|
 |`MD_AppPasswordCreate`|function|
 |`MD_AppPasswordDelete`|function|
@@ -27,6 +27,7 @@ but many more are not yet implemented.
 |`MD_CalGetDefaultFolder`|function|
 |`MD_CalInitCalItem`|function|
 |`MD_CalInitCalItem2`|function|
+|`MD_ChangeRule`|function|
 |`MD_ClearListSettingsCache`|function|
 |`MD_ClearSettingsCache`|function|
 |`MD_ClusterGetEnabled`|function|
@@ -58,16 +59,19 @@ but many more are not yet implemented.
 |`MD_DeleteList`|function|
 |`MD_DeleteMessageFile`|function|
 |`MD_DeleteMultiPOPItem`|function|
+|`MD_DeleteRule`|function|
 |`MD_DocumentCopyDocument`|function|
 |`MD_DocumentCopyFileIntoFolder`|function|
 |`MD_DocumentDeleteDocument`|function|
 |`MD_DocumentGetDefaultFolder`|function|
+|`MD_DocumentGetDescription`|function|
 |`MD_DocumentGetFileName`|function|
 |`MD_DocumentGetFileSize`|function|
 |`MD_DocumentGetModifiedBy`|function|
 |`MD_DocumentGetModifiedTime`|function|
 |`MD_DocumentGetMultipleItems`|function|
 |`MD_DocumentRenameDocument`|function|
+|`MD_DocumentSetDescription`|function|
 |`MD_EraseAutoResp`|function|
 |`MD_ExportAllUsers`|function|
 |`MD_FlagReloadUsers`|function|
@@ -233,6 +237,8 @@ but many more are not yet implemented.
 |`MD_ListUpdateDomain`|function|
 |`MD_ListWriteMember`|function|
 |`MD_LogonUser`|function|
+|`MD_MoveRuleDown`|function|
+|`MD_MoveRuleUp`|function|
 |`MD_NoteDeleteAllAttachments`|function|
 |`MD_NoteDeleteAllItems`|function|
 |`MD_NoteGetAllItems`|function|
@@ -248,6 +254,8 @@ but many more are not yet implemented.
 |`MD_RenameDomain`|function|
 |`MD_RenameUserFolder`|function|
 |`MD_RenameUserIMAPFolder`|function|
+|`MD_RuleStringToRuleStruct`|function|
+|`MD_RuleStructToRuleString`|function|
 |`MD_SendAppMessage`|function|
 |`MD_SendInstantMessage`|function|
 |`MD_SetAccessType`|function|
@@ -297,6 +305,7 @@ but many more are not yet implemented.
 |`MD_SetSubAddressing`|function|
 |`MD_SetUseDefaultPruning`|function|
 |`MD_SetUserInfo`|function|
+|`MD_SetupTicketRules`|function|
 |`MD_SpoolMessage`|function|
 |`MD_StripSubAddressedPath`|function|
 |`MD_TaskDeleteAllItems`|function|
@@ -355,6 +364,7 @@ but many more are not yet implemented.
 |`readMailingListSync`|function|
 |`readMailingLists`|function|
 |`readMailingListsSync`|function|
+|`readRules`|function|
 |`readRulesSync`|function|
 |`readUserGroups`|function|
 |`readUserGroupsSync`|function|
@@ -447,11 +457,3 @@ but many more are not yet implemented.
 |`unlockProcessing`|function|
 |`updateDmarcPublicSuffixConfig`|function|
 |`watchdogExists`|function|
-
----
-
-> MDaemon is copyright © 1996-2024 [MDaemon Technologies Ltd.](https://mdaemon.com/pages/about-us)
-
----
-
-[Home](readme.md)
