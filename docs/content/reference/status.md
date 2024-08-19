@@ -5,9 +5,9 @@ weight = 200
 +++
 # APIs implementation status
 
-## v24.0.1-alpha.33 Exports
+## v24.0.2-alpha.34 Exports
 
-### Top level (367 symbols)
+### Top level (380 symbols)
 
 | Name | ES Type |
 |-----:|:-------:|
@@ -51,7 +51,10 @@ weight = 200
 |`MD_ContactPubAllowedSendersCheck`|function|
 |`MD_CreateAlias`|function|
 |`MD_CreateFileName`|function|
+|`MD_CreateIMAPFolder`|function|
+|`MD_CreatePublicIMAPFolder`|function|
 |`MD_CreateUserIMAPFolder`|function|
+|`MD_DecodeIMAPFolderName`|function|
 |`MD_DeleteAlias`|function|
 |`MD_DeleteAllAliases`|function|
 |`MD_DeleteDomain`|function|
@@ -59,7 +62,9 @@ weight = 200
 |`MD_DeleteList`|function|
 |`MD_DeleteMessageFile`|function|
 |`MD_DeleteMultiPOPItem`|function|
+|`MD_DeletePublicIMAPFolder`|function|
 |`MD_DeleteRule`|function|
+|`MD_DeleteUserIMAPFolder`|function|
 |`MD_DocumentCopyDocument`|function|
 |`MD_DocumentCopyFileIntoFolder`|function|
 |`MD_DocumentDeleteDocument`|function|
@@ -72,11 +77,13 @@ weight = 200
 |`MD_DocumentGetMultipleItems`|function|
 |`MD_DocumentRenameDocument`|function|
 |`MD_DocumentSetDescription`|function|
+|`MD_EncodeIMAPFolderName`|function|
 |`MD_EraseAutoResp`|function|
 |`MD_ExportAllUsers`|function|
 |`MD_FlagReloadUsers`|function|
 |`MD_GatewayLicenseFull`|function|
 |`MD_GetAccessType`|function|
+|`MD_GetAddrBookParms`|function|
 |`MD_GetAllowChangeViaEmail`|function|
 |`MD_GetAllowIMAPAccess`|function|
 |`MD_GetAllowPOPAccess`|function|
@@ -123,6 +130,8 @@ weight = 200
 |`MD_GetGatewayCount`|function|
 |`MD_GetGatewayNames`|function|
 |`MD_GetHideFromEveryone`|function|
+|`MD_GetIMAPFolderList`|function|
+|`MD_GetIMAPFolders`|function|
 |`MD_GetIsAdmin`|function|
 |`MD_GetIsDisabled`|function|
 |`MD_GetIsDomainAdmin`|function|
@@ -146,6 +155,7 @@ weight = 200
 |`MD_GetPasswordCreateDate`|function|
 |`MD_GetProcessCalendarRequests`|function|
 |`MD_GetPruningFlags`|function|
+|`MD_GetPublicIMAPFolderPath`|function|
 |`MD_GetQuotaCounts`|function|
 |`MD_GetRemoteQueues`|function|
 |`MD_GetRequireAppPassword`|function|
@@ -204,6 +214,7 @@ weight = 200
 |`MD_ListArchiveCatalog`|function|
 |`MD_ListCrackMessage`|function|
 |`MD_ListDefaultMode`|function|
+|`MD_ListDigestHour`|function|
 |`MD_ListDigestMBF`|function|
 |`MD_ListEnabled`|function|
 |`MD_ListExists`|function|
@@ -252,6 +263,7 @@ weight = 200
 |`MD_RegisterWindow`|function|
 |`MD_ReloadUsers`|function|
 |`MD_RenameDomain`|function|
+|`MD_RenamePublicIMAPFolder`|function|
 |`MD_RenameUserFolder`|function|
 |`MD_RenameUserIMAPFolder`|function|
 |`MD_RuleStringToRuleStruct`|function|
@@ -308,6 +320,7 @@ weight = 200
 |`MD_SetupTicketRules`|function|
 |`MD_SpoolMessage`|function|
 |`MD_StripSubAddressedPath`|function|
+|`MD_SubscribeIMAPFolder`|function|
 |`MD_TaskDeleteAllItems`|function|
 |`MD_TaskDeleteTaskItem`|function|
 |`MD_TaskGetAllItems`|function|

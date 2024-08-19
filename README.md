@@ -8,8 +8,27 @@
 ![GitHub issues](https://img.shields.io/github/issues/ealib/node-mdaemon-api)
 ![npm](https://img.shields.io/npm/dm/node-mdaemon-api)
 ![Node-API v9 Badge](https://img.shields.io/badge/Node--API-v9-green.svg)
+[![Matrix](https://img.shields.io/matrix/mdaemon-ecosystem:matrix.org?label=Matrix%20chat)](https://matrix.to/#/#mdaemon-ecosystem:matrix.org)
 
 An unofficial MDaemon native APIs binding for Node.js.
+
+## Contact Options
+
+Two contact options exist, the primary one being [Matrix](#matrix). These are in addition to
+[GitHub issues](https://github.com/ealib/node-mdaemon-api/issues)
+for creating a
+[new issue](https://github.com/ealib/node-mdaemon-api/issues/new).
+
+### Matrix
+
+Community members are invited to join the [Matrix Space](https://matrix.to/#/#mdaemon-ecosystem:matrix.org) which includes
+the [Development Room](https://matrix.to/#/#mdaemon-dev:matrix.org) and the
+[MDaemon Room](https://matrix.to/#/#mdaemon:matrix.org) and
+[Security Gateway Room](https://matrix.to/#/#security-gateway:matrix.org).
+
+### Email
+
+You can contact me by email via [dev@mtka.eu](mailto:dev@mtka.eu).
 
 ## Legal disclaimer
 
@@ -23,4 +42,4 @@ Windows&trade; is a [trademark of Microsoft Corp.](https://www.microsoft.com/en-
 
 ## License
 
-node-mdaemon-api 24.0.1-alpha.33 is [MIT licensed](license.md).
+node-mdaemon-api 24.0.2-alpha.34 is [MIT licensed](license.md).

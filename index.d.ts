@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 24.0.1-alpha.33
+ * Type definitions for node-mdaemon-api 24.0.2-alpha.34
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -495,6 +495,10 @@ declare module "node-mdaemon-api" {
         SearchFlags: number;
         SearchScope: number;
         UserName: string;
+    }    
+    export interface MdAddrBookParams {
+        CheckAddrBook: boolean;
+        UpdateAddrBook: boolean;
     }
     export interface MD_AppPassword {
         ID: string;
@@ -504,7 +508,6 @@ declare module "node-mdaemon-api" {
         CreatedTime: Date;
         LastUsedTime: Date;
     }
-
     export interface MD_AutoResponder {
         AddToList: string;
         Days: number;
@@ -945,11 +948,14 @@ declare module "node-mdaemon-api" {
      * See https://docs.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxosfld/68a85898-84fe-43c4-b166-4711c13cdd61
      */
     export type MdFolderClass =
-        'IPF.Appointment' | /* Calendar */
-        'IPF.Contact' | /* Contacts */
-        'IPF.Document' | /* Documents */
-        'IPF.StickyNote' | /* Notes */
-        'IPF.Task' /* Tasks */;
+        "IPF.Appointment" |     /* Calendar */
+        "IPF.Contact" |         /* Contacts */
+        "IPF.Task" |            /* Tasks */
+        "IPF.StickyNote" |      /* Notes */
+        "IPF.Document" |        /* Documents */
+        "IPF.Journal" |
+        "IPF.Hidden" |
+        "IPF.Note";
 
     export interface MD_MeetingAttendee {
         Email: string;
@@ -1228,6 +1234,13 @@ declare module "node-mdaemon-api" {
         LogicOperator?: 'AND' | 'OR'; // NumConditions > 1
         NumConditions: number;
     }
+    export interface MD_ImapFolderInfo {
+        FolderName: string;
+        FolderPath: string;
+        FolderOwner: string;
+        FolderType: MdFolderClass;
+    }
+
 
     //#endregion MDaemon API types
 
@@ -1266,12 +1279,12 @@ declare module "node-mdaemon-api" {
     /**
      * UNDOCUMENTED
      * 
-     * @param RootPath 
-     * @param Importance 
-     * @param Prefix 
-     * @param Extension 
+     * @param RootPath
+     * @param Importance  0..99; negative numbers coalesce to 50; numbers greater than 99 coalesce to 99
+     * @param Prefix
+     * @param Extension OPTIONAL (default ".msg")
      */
-    export function MD_CreateFileName(RootPath: string, Importance: number, Prefix: string, Extension: string): string | undefined;
+    export function MD_CreateFileName(RootPath: string, Importance: number, Prefix: string, Extension?: string): string | undefined;
     /**
      * UNDOCUMENTED
      * 
@@ -1819,6 +1832,15 @@ declare module "node-mdaemon-api" {
      */
     export function MD_ListDefaultMode(ListName: string): string | undefined;
     /**
+     * UNDOCUMENTED
+     * 
+     * @param ListName list name; example "example-list@example.com" 
+     * @param Hour 9 | 12 | 15 | 18
+     * 
+     * Note: on digest disabled, it consistently fails
+     */
+    export function MD_ListDigestHour(ListName: string, Hour: number): boolean;
+    /**
      * Return the name of the digest MBF file.
      * 
      * @param ListName list name; example "example-list@example.com"
@@ -2168,19 +2190,6 @@ declare module "node-mdaemon-api" {
         Password: string
     ): boolean;
     /**
-     * UNDOCUMENTED
-     * 
-     * @param hUser 
-     * @param Path 
-     * @param FolderClass 
-     * @param UnknownFlag 
-     */
-    export function MD_CreateUserIMAPFolder(
-        hUser: Buffer,
-        Path: string,
-        FolderClass?: MdFolderClass | null,
-        UnknownFlag?: boolean): boolean;
-    /**
      * Options for MD_DeleteUser.
      */
     export interface MdDeleteUserOptions {
@@ -2236,6 +2245,7 @@ declare module "node-mdaemon-api" {
      * @returns {MdAccessType}
      */
     export function MD_GetAccessType(hUser: Buffer): MdAccessType;
+    export function MD_GetAddrBookParms(hUser: Buffer): MdAddrBookParams | undefined;
     export function MD_GetAllowChangeViaEmail(hUser: Buffer): boolean;
     export function MD_GetAllowIMAPAccess(hUser: Buffer): boolean;
     export function MD_GetAllowPOPAccess(hUser: Buffer): boolean;
@@ -2349,15 +2359,6 @@ declare module "node-mdaemon-api" {
     export function MD_GetRequireTFA(hUser: Buffer): boolean;
     export function MD_GetSignatureFile(hUser: Buffer): string | undefined;
     export function MD_GetSubAddressing(hUser: Buffer): boolean;
-    /**
-     * UNDOCUMENTED
-     * 
-     * @param hUser buffer containing a user's handle
-     * @param IMAPFolderPath OPTIONAL default is "INBOX"
-     */
-    export function MD_GetUserIMAPFolderPath(
-        hUser: Buffer,
-        IMAPFolderPath: string): string;
     export function MD_GetUserInfo(hUser: Buffer): MD_UserInfo | undefined;
     export function MD_InitUserInfo(): MD_UserInfo;
     /**
@@ -2393,33 +2394,6 @@ declare module "node-mdaemon-api" {
      * @param hUser buffer containing a user's handle
      */
     export function MD_IsPasswordTooOld(hUser: Buffer): boolean;
-    /**
-     * UNDOCUMENTED
-     * 
-     * @param OldPath 
-     * @param NewPath 
-     * @param UserEmail 
-     * @param UserMailRoot 
-     */
-    export function MD_RenameUserFolder(
-        OldPath: string,
-        NewPath: string,
-        UserEmail: string,
-        UserMailRoot: string
-    ): boolean;
-    /**
-     * UNDOCUMENTED
-     * 
-     * @param hUser buffer containing a user's handle
-     * @param OldIMAPPath 
-     * @param NewIMAPPath 
-     */
-    export function MD_RenameUserIMAPFolder(
-        hUser: Buffer,
-        OldIMAPPath: string,
-        NewIMAPPath: string,
-
-    ): boolean;
     /**
      * Set a user's allow POP and allow IMAP access flags.
      * 
@@ -2716,7 +2690,7 @@ declare module "node-mdaemon-api" {
 
     //#endregion
 
-    //#region Rules
+    //#region User IMAP Rules
 
     /**
      * Add an IMAP rule to a user's rule list.
@@ -2796,7 +2770,155 @@ declare module "node-mdaemon-api" {
      */
     export function readRules(hUser: Buffer, callback: (err: Error | null, rules: Array<MD_Rule>) => void): undefined;
 
-    //#endregion Rules
+    //#endregion User IMAP Rules
+
+    //#region IMAP Folders
+    //-----------------------------------------------------------------
+
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser buffer containing a user's handle 
+     */
+    export function MD_GetIMAPFolders(hUser: Buffer): MdApiResult<string[]>;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Flags 
+     */
+    export function MD_GetIMAPFolderList(
+        hUser: Buffer,
+        Flags: number): MdApiResult<MD_ImapFolderInfo>;
+    /**
+     * UNDOCUMENTED
+     * 
+     * Translate a logical IMAP folder name to its full file system path.
+     * 
+     * @param FolderName 
+     */
+    export function MD_GetPublicIMAPFolderPath(FolderName: string): string | undefined;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param FolderName OPTIONAL default is "INBOX"
+     */
+    export function MD_GetUserIMAPFolderPath(
+        hUser: Buffer,
+        FolderName?: string): string | undefined;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param OldFolderName 
+     * @param NewFolderName 
+     */
+    export function MD_RenamePublicIMAPFolder(
+        OldFolderName: string,
+        NewFolderName: string): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param OldFolderName 
+     * @param NewFolderName 
+     */
+    export function MD_RenameUserIMAPFolder(
+        hUser: Buffer,
+        OldFolderName: string,
+        NewFolderName: string): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param OldPath 
+     * @param NewPath 
+     * @param UserEmail 
+     * @param UserMailRoot 
+     */
+    export function MD_RenameUserFolder(
+        OldPath: string,
+        NewPath: string,
+        UserEmail: string,
+        UserMailRoot: string
+    ): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param FolderName 
+     * @param SubFolderName 
+     */
+    export function MD_CreateIMAPFolder(
+        hUser: Buffer,
+        FolderName: string,
+        SubFolderName?: string): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param FolderName 
+     * @param SubFolderName 
+     */
+    export function MD_CreatePublicIMAPFolder(
+        FolderName: string,
+        SubFolderName: string): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Path 
+     * @param FolderClass 
+     * @param UnknownFlag 
+     */
+    export function MD_CreateUserIMAPFolder(
+        hUser: Buffer,
+        Path: string,
+        FolderClass?: MdFolderClass | null,
+        UnknownFlag?: boolean): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param FolderName 
+     */
+    export function MD_DecodeIMAPFolderName(FolderName: string): string | undefined;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param FolderName 
+     * @param unknown 
+     */
+    export function MD_DeletePublicIMAPFolder(
+        FolderName: string,
+        unknown?: number): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param FolderName 
+     * @param unknown 
+     */
+    export function MD_DeleteUserIMAPFolder(
+        hUser: Buffer,
+        FolderName: string,
+        unknown?: number): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param FolderName 
+     */
+    export function MD_EncodeIMAPFolderName(FolderName: string): string | undefined;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param FolderName 
+     * @param Subscribe OPTIONAL default true
+     */
+    export function MD_SubscribeIMAPFolder(
+        hUser: Buffer,
+        FolderName: string,
+        Subscribe?: boolean): boolean;
+
+    //#endregion IMAP Folders
 
     //#endregion
 }
