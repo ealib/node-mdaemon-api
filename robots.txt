@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+Allow: /
+Sitemap: https://ealib.github.io/node-mdaemon-api/sitemap.xml
