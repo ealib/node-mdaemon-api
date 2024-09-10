@@ -5,9 +5,9 @@ weight = 200
 +++
 # APIs implementation status
 
-## v24.0.2-alpha.34 Exports
+## v24.0.2-alpha.35 Exports
 
-### Top level (380 symbols)
+### Top level (385 symbols)
 
 | Name | ES Type |
 |-----:|:-------:|
@@ -84,6 +84,7 @@ weight = 200
 |`MD_GatewayLicenseFull`|function|
 |`MD_GetAccessType`|function|
 |`MD_GetAddrBookParms`|function|
+|`MD_GetAddrBookWhiteList`|function|
 |`MD_GetAllowChangeViaEmail`|function|
 |`MD_GetAllowIMAPAccess`|function|
 |`MD_GetAllowPOPAccess`|function|
@@ -165,6 +166,7 @@ weight = 200
 |`MD_GetSharedUserInfo`|function|
 |`MD_GetSignatureFile`|function|
 |`MD_GetSubAddressing`|function|
+|`MD_GetUpdateAddrBookWhiteList`|function|
 |`MD_GetUseDefaultPruning`|function|
 |`MD_GetUserIMAPFolderPath`|function|
 |`MD_GetUserInfo`|function|
@@ -264,13 +266,14 @@ weight = 200
 |`MD_ReloadUsers`|function|
 |`MD_RenameDomain`|function|
 |`MD_RenamePublicIMAPFolder`|function|
-|`MD_RenameUserFolder`|function|
 |`MD_RenameUserIMAPFolder`|function|
 |`MD_RuleStringToRuleStruct`|function|
 |`MD_RuleStructToRuleString`|function|
 |`MD_SendAppMessage`|function|
 |`MD_SendInstantMessage`|function|
 |`MD_SetAccessType`|function|
+|`MD_SetAddrBookParms`|function|
+|`MD_SetAddrBookWhiteList`|function|
 |`MD_SetAllowChangeViaEmail`|function|
 |`MD_SetAllowIMAPAccess`|function|
 |`MD_SetAllowPOPAccess`|function|
@@ -315,6 +318,7 @@ weight = 200
 |`MD_SetRequireAppPassword`|function|
 |`MD_SetRequireTFA`|function|
 |`MD_SetSubAddressing`|function|
+|`MD_SetUpdateAddrBookWhiteList`|function|
 |`MD_SetUseDefaultPruning`|function|
 |`MD_SetUserInfo`|function|
 |`MD_SetupTicketRules`|function|
@@ -379,6 +383,7 @@ weight = 200
 |`readMailingListsSync`|function|
 |`readRules`|function|
 |`readRulesSync`|function|
+|`readSettingsSync`|function|
 |`readUserGroups`|function|
 |`readUserGroupsSync`|function|
 |`readUserRoles`|function|
