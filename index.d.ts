@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 24.0.2-alpha.34
+ * Type definitions for node-mdaemon-api 24.0.2-alpha.35
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -296,6 +296,13 @@ declare module "node-mdaemon-api" {
         ip?: string
     ): void;
     /**
+     * Read a configuration file in MDaemon\App and convert it to a
+     * plain ES object.
+     * 
+     * @param fileName OPTIONAL default "MDaemon.ini"
+     */
+    export function readSettingsSync(fileName?: string): object;
+    /**
      * @summary It retrieves all possible information about a document,
      * given the path where it is located and its local ID. Asynchronous
      * API.
@@ -495,7 +502,7 @@ declare module "node-mdaemon-api" {
         SearchFlags: number;
         SearchScope: number;
         UserName: string;
-    }    
+    }
     export interface MdAddrBookParams {
         CheckAddrBook: boolean;
         UpdateAddrBook: boolean;
@@ -1273,9 +1280,9 @@ declare module "node-mdaemon-api" {
     /**
      * UNDOCUMENTED
      * 
-     * @param UnknownInt 
+     * @param unknown 
      */
-    export function MD_ClearSettingsCache(UnknownInt: number): string;
+    export function MD_ClearSettingsCache(unknown: number): string;
     /**
      * UNDOCUMENTED
      * 
@@ -2179,6 +2186,7 @@ declare module "node-mdaemon-api" {
         UserInfo: MD_UserInfo,
         Flags?: number /* = 0 */
     ): MdApiResultBase;
+
     /**
      * UNDOCUMENTED
      * 
@@ -2245,7 +2253,6 @@ declare module "node-mdaemon-api" {
      * @returns {MdAccessType}
      */
     export function MD_GetAccessType(hUser: Buffer): MdAccessType;
-    export function MD_GetAddrBookParms(hUser: Buffer): MdAddrBookParams | undefined;
     export function MD_GetAllowChangeViaEmail(hUser: Buffer): boolean;
     export function MD_GetAllowIMAPAccess(hUser: Buffer): boolean;
     export function MD_GetAllowPOPAccess(hUser: Buffer): boolean;
@@ -2361,6 +2368,53 @@ declare module "node-mdaemon-api" {
     export function MD_GetSubAddressing(hUser: Buffer): boolean;
     export function MD_GetUserInfo(hUser: Buffer): MD_UserInfo | undefined;
     export function MD_InitUserInfo(): MD_UserInfo;
+
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser buffer containing a user's handle
+     */
+    export function MD_GetAddrBookParms(hUser: Buffer): MdAddrBookParams | undefined;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param CheckAddrBook 
+     * @param UpdateAddrBook 
+     */
+    export function MD_SetAddrBookParms(
+        hUser: Buffer,
+        CheckAddrBook: boolean,
+        UpdateAddrBook: boolean): boolean;
+
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser buffer containing a user's handle
+     */
+    export function MD_GetAddrBookWhiteList(hUser: Buffer): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value
+     */
+    export function MD_SetAddrBookWhiteList(hUser: Buffer, Value: boolean): boolean;
+
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser buffer containing a user's handle
+     */
+    export function MD_GetUpdateAddrBookWhiteList(hUser: Buffer): boolean;
+    /**
+     * UNDOCUMENTED
+     * 
+     * @param hUser buffer containing a user's handle
+     * @param Value
+     */
+    export function MD_SetUpdateAddrBookWhiteList(hUser: Buffer, Value: boolean): boolean;
+
     /**
      * @example
      * 
@@ -2774,41 +2828,70 @@ declare module "node-mdaemon-api" {
 
     //#region IMAP Folders
     //-----------------------------------------------------------------
+    // NOTE
+    //
+    // Folder names use {MDaemon.ini [Special] IMAPFolderDelimiter} as
+    // segment delimiter character (default is Solidus: U+002F). Path
+    // names use backslash character (Reverse Solidus: U+005C) as
+    // segment delimiter character.
+    //-----------------------------------------------------------------
 
+    export interface MdFolderDeleteOptions {
+        DeleteSubfolders?: boolean;
+        PreserveFolder?: boolean;
+    }
+    export interface MdFolderSearchOptions {
+        PersonalFolders?: boolean;
+        PublicFolders?: boolean;
+        SharedFolders?: boolean;
+    }
     /**
      * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle 
+     * 
+     * @deprecated
      */
     export function MD_GetIMAPFolders(hUser: Buffer): MdApiResult<string[]>;
     /**
      * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
-     * @param Flags 
+     * @param Options OPTIONAL
      */
     export function MD_GetIMAPFolderList(
         hUser: Buffer,
-        Flags: number): MdApiResult<MD_ImapFolderInfo>;
+        Options?: MdFolderSearchOptions | number): MdApiResult<MD_ImapFolderInfo[]>;
     /**
      * UNDOCUMENTED
      * 
-     * Translate a logical IMAP folder name to its full file system path.
+     * Translate a public IMAP folder name to its full file system path.
+     * Folder names are relative to the [Public Folders] PublicFolderPrefix.
      * 
      * @param FolderName 
+     * 
+     * @returns Native, encoded file system path corresponding to FolderName.
      */
     export function MD_GetPublicIMAPFolderPath(FolderName: string): string | undefined;
     /**
      * UNDOCUMENTED
      * 
+     * Translate a user's IMAP folder name to its full file system path.
+     * Folder names are relative to the mailbox root.
+     *
      * @param hUser buffer containing a user's handle
      * @param FolderName OPTIONAL default is "INBOX"
+     * 
+     * @returns Native, encoded file system path corresponding to FolderName.
      */
     export function MD_GetUserIMAPFolderPath(
         hUser: Buffer,
         FolderName?: string): string | undefined;
     /**
      * UNDOCUMENTED
+     * 
+     * Rename a public IMAP folder.
+     * Folder names are relative to the [Public Folders] PublicFolderPrefix.
      * 
      * @param OldFolderName 
      * @param NewFolderName 
@@ -2818,6 +2901,9 @@ declare module "node-mdaemon-api" {
         NewFolderName: string): boolean;
     /**
      * UNDOCUMENTED
+     * 
+     * Rename a user's IMAP folder.
+     * Folder names are relative to the mailbox root.
      * 
      * @param hUser buffer containing a user's handle
      * @param OldFolderName 
@@ -2830,76 +2916,78 @@ declare module "node-mdaemon-api" {
     /**
      * UNDOCUMENTED
      * 
-     * @param OldPath 
-     * @param NewPath 
-     * @param UserEmail 
-     * @param UserMailRoot 
-     */
-    export function MD_RenameUserFolder(
-        OldPath: string,
-        NewPath: string,
-        UserEmail: string,
-        UserMailRoot: string
-    ): boolean;
-    /**
-     * UNDOCUMENTED
+     * Create a new email folder in a user's given root folder.
      * 
      * @param hUser buffer containing a user's handle
-     * @param FolderName 
-     * @param SubFolderName 
+     * @param FolderName name of the new folder
+     * @param RootFolderName OPTIONAL if missing, use hUser's root folder.
+     * 
+     * @deprecated Use MD_CreateUserIMAPFolder instead.
      */
     export function MD_CreateIMAPFolder(
         hUser: Buffer,
         FolderName: string,
-        SubFolderName?: string): boolean;
+        RootFolderName?: string): boolean;
     /**
      * UNDOCUMENTED
      * 
-     * @param FolderName 
-     * @param SubFolderName 
+     * @param FolderName full folder name to create
+     * @param FolderClass OPTIONAL default is email folder
      */
     export function MD_CreatePublicIMAPFolder(
         FolderName: string,
-        SubFolderName: string): boolean;
+        FolderClass?: MdFolderClass): boolean;
     /**
      * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
-     * @param Path 
-     * @param FolderClass 
-     * @param UnknownFlag 
+     * @param FolderName full folder name to create
+     * @param FolderClass OPTIONAL default is email folder
+     * @param Subscribe OPTIONAL default is false
+     * 
+     * @example
+     * ```js
+     * const md = require('node-mdaemon-api');
+     * const userHandle = md.MD_GetByEMail('example@example.com');
+     * const folderName = 'Documents/Reports';
+     * if (md.MD_CreateUserIMAPFolder(userHandle, folderName, 'IPF.Document')) {
+     *  console.log(folderName, 'created successfully!');
+     * }
+     * md.MD_GetFree(userHandle);
+     * ```
      */
     export function MD_CreateUserIMAPFolder(
         hUser: Buffer,
-        Path: string,
-        FolderClass?: MdFolderClass | null,
-        UnknownFlag?: boolean): boolean;
+        FolderName: string,
+        FolderClass?: MdFolderClass,
+        Subscribe?: boolean): boolean;
     /**
      * UNDOCUMENTED
      * 
-     * @param FolderName 
+     * @param FolderName Modified UTF-7 (ANSI)
+     * @returns UTF-8 string
      */
     export function MD_DecodeIMAPFolderName(FolderName: string): string | undefined;
     /**
      * UNDOCUMENTED
      * 
      * @param FolderName 
-     * @param unknown 
+     * @param Options OPTIONAL
      */
     export function MD_DeletePublicIMAPFolder(
         FolderName: string,
-        unknown?: number): boolean;
+        Options?: MdFolderDeleteOptions | number): boolean;
     /**
      * UNDOCUMENTED
      * 
      * @param hUser buffer containing a user's handle
      * @param FolderName 
-     * @param unknown 
+     * @param Options OPTIONAL
      */
     export function MD_DeleteUserIMAPFolder(
         hUser: Buffer,
         FolderName: string,
-        unknown?: number): boolean;
+        Options?: MdFolderDeleteOptions | number): boolean;
     /**
      * UNDOCUMENTED
      * 
