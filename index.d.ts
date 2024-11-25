@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 24.0.2-alpha.35
+ * Type definitions for node-mdaemon-api 24.5.2-alpha.36
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -1282,7 +1282,7 @@ declare module "node-mdaemon-api" {
      * 
      * @param unknown 
      */
-    export function MD_ClearSettingsCache(unknown: number): string;
+    export function MD_ClearSettingsCache(unknown: number): void;
     /**
      * UNDOCUMENTED
      * 
@@ -1821,6 +1821,12 @@ declare module "node-mdaemon-api" {
      */
     export function MD_ListArchiveCatalog(ListName: string): MdListArchiveCatalogConfig;
     /**
+     * UNDOCUMENTED
+     * 
+     * @param ListName list name; example "example-list@example.com"
+     */
+    export function MD_ListAutoPruneFailureCount(ListName: string): number;
+    /**
      * Get a list's CrackMessage flag.
      * 
      * @param ListName list name; example "example-list@example.com"
@@ -1977,6 +1983,13 @@ declare module "node-mdaemon-api" {
      * @param Email address to remove
      */
     export function MD_ListRemoveMember(ListName: string, Email: string): boolean;
+    /**
+     * Rename a list.
+     * 
+     * @param OldListName 
+     * @param NewListName 
+     */
+    export function MD_ListRenameList(OldListName: string, NewListName: string): boolean;
     /**
      * UNDOCUMENTED
      * 
@@ -2845,6 +2858,17 @@ declare module "node-mdaemon-api" {
         PublicFolders?: boolean;
         SharedFolders?: boolean;
     }
+    export interface MdFolderAccessMask {
+        Admin?: boolean;
+        Create?: boolean;
+        Delete?: boolean;
+        Insert?: boolean;
+        Lookup?: boolean;
+        Post?: boolean;
+        Read?: boolean;
+        Seen?: boolean;
+        Write?: boolean;
+    }
     /**
      * UNDOCUMENTED
      * 
@@ -3005,6 +3029,10 @@ declare module "node-mdaemon-api" {
         hUser: Buffer,
         FolderName: string,
         Subscribe?: boolean): boolean;
+
+    export function MD_GetPublicFolderAccessMask(FolderPath: string, Email: string): MdFolderAccessMask;
+    export function MD_GetPublicIMAPFolderAccess(FolderName: string, Email: string): MdFolderAccessMask;
+    export function MD_GetSharedFolderAccessMask(FolderName: string, Email: string): MdFolderAccessMask;
 
     //#endregion IMAP Folders
 

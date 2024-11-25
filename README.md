@@ -5,7 +5,8 @@
 ![NPM](https://nodei.co/npm/node-mdaemon-api.png)
 
 ![npm](https://img.shields.io/npm/v/node-mdaemon-api)
-![GitHub issues](https://img.shields.io/github/issues/ealib/node-mdaemon-api)
+[![GitHub issues](https://img.shields.io/github/issues/ealib/node-mdaemon-api)](https://github.com/ealib/node-mdaemon-api/issues)
+[![Closed Issues Badge](https://img.shields.io/github/issues-closed/ealib/node-mdaemon-api?color=%238256d0)](https://github.com/ealib/node-mdaemon-api/issues?q=is%3Aissue+is%3Aclosed)
 ![npm](https://img.shields.io/npm/dm/node-mdaemon-api)
 ![Node-API v9 Badge](https://img.shields.io/badge/Node--API-v9-green.svg)
 [![Matrix](https://img.shields.io/matrix/mdaemon-ecosystem:matrix.org?label=Matrix%20chat)](https://matrix.to/#/#mdaemon-ecosystem:matrix.org)
@@ -42,4 +43,4 @@ Windows&trade; is a [trademark of Microsoft Corp.](https://www.microsoft.com/en-
 
 ## License
 
-node-mdaemon-api 24.0.2-alpha.35 is [MIT licensed](license.md).
+node-mdaemon-api 24.5.2-alpha.36 is [MIT licensed](license.md).
