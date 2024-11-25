@@ -43,4 +43,4 @@ Windows&trade; is a [trademark of Microsoft Corp.](https://www.microsoft.com/en-
 
 ## License
 
-node-mdaemon-api 24.5.2-alpha.36 is [MIT licensed](license.md).
+node-mdaemon-api 24.5.2-alpha.37 is [MIT licensed](license.md).
