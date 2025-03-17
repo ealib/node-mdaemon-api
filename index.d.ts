@@ -1,5 +1,5 @@
 /**
- * Type definitions for node-mdaemon-api 24.5.2-alpha.37
+ * Type definitions for node-mdaemon-api 25.0.0-alpha.38
  * Project: Unofficial Node.js binding for MDaemon APIs
  * Definitions by: MTKA https://mtka.eu/
  * 
@@ -51,6 +51,7 @@ declare module "node-mdaemon-api" {
     export interface MdInfo {
         is64bit: boolean;
         isBetaVersion: boolean;
+        isCloudVersion: boolean;
         isDebugVersion: boolean;
         isLicenseActive: boolean;
         isPresent: boolean;
@@ -1332,6 +1333,10 @@ declare module "node-mdaemon-api" {
     export function MD_IsAVLicenseTooSmall(UserCount: number): boolean;
     /**
      * UNDOCUMENTED
+     */
+    export function MD_IsCloudVersion(): boolean;
+    /**
+     * UNDOCUMENTED
      * 
      * @param Password 
      */
@@ -2109,9 +2114,28 @@ declare module "node-mdaemon-api" {
      */
     export function MD_InitMessageInfo(): MD_MessageInfo;
     /**
-     * @summary Post an instant message.
+     * @summary Post an "instant message".
+     * 
+     * @description Convert a MD_MessageInfo into an XMPP "headline" message.
+     * 
+     * @see https://xmpp.org/rfcs/rfc3921.html
      * 
      * @param MessageInfo 
+     * 
+     * @returns 0 on success.
+     * 
+     * @example 
+     * ```javascript
+     * const messageInfo = {
+     *   From: 'mdaemon@example.com',
+     *   To: 'user1@example.com',
+     *   Subject: 'Example IM',
+     *   CharSet: 'UTF-8',
+     *   MessageBody: 'Erwin Schrödinger ist nicht anwesend.',
+     * };
+     *
+     * const apiResult = md.MD_SendInstantMessage(messageInfo);
+     * ```
      */
     export function MD_SendInstantMessage(
         MessageInfo: MD_MessageInfo

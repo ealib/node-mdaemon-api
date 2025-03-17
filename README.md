@@ -2,14 +2,14 @@
 
 # Unofficial Node.js binding for MDaemon APIs
 
-![NPM](https://nodei.co/npm/node-mdaemon-api.png)
-
-![npm](https://img.shields.io/npm/v/node-mdaemon-api)
-[![GitHub issues](https://img.shields.io/github/issues/ealib/node-mdaemon-api)](https://github.com/ealib/node-mdaemon-api/issues)
-[![Closed Issues Badge](https://img.shields.io/github/issues-closed/ealib/node-mdaemon-api?color=%238256d0)](https://github.com/ealib/node-mdaemon-api/issues?q=is%3Aissue+is%3Aclosed)
-![npm](https://img.shields.io/npm/dm/node-mdaemon-api)
-![Node-API v9 Badge](https://img.shields.io/badge/Node--API-v9-green.svg)
-[![Matrix](https://img.shields.io/matrix/mdaemon-ecosystem:matrix.org?label=Matrix%20chat)](https://matrix.to/#/#mdaemon-ecosystem:matrix.org)
+![NPM Version](https://img.shields.io/npm/v/node-mdaemon-api?style=flat-square)
+![NPM Last Update](https://img.shields.io/npm/last-update/node-mdaemon-api?style=flat-square)
+[![GitHub issues](https://img.shields.io/github/issues/ealib/node-mdaemon-api?style=flat-square)](https://github.com/ealib/node-mdaemon-api/issues)
+[![Closed Issues Badge](https://img.shields.io/github/issues-closed/ealib/node-mdaemon-api?color=%238256d0&style=flat-square)](https://github.com/ealib/node-mdaemon-api/issues?q=is%3Aissue+is%3Aclosed)
+![npm](https://img.shields.io/npm/dm/node-mdaemon-api?style=flat-square)
+![Node-API v9 Badge](https://img.shields.io/badge/Node--API-v9-green.svg?style=flat-square)
+![Node Current](https://img.shields.io/node/v/node-mdaemon-api?style=flat-square)
+![NPM Type Definitions](https://img.shields.io/npm/types/node-mdaemon-api?style=flat-square)
 
 An unofficial MDaemon native APIs binding for Node.js.
 
@@ -43,4 +43,4 @@ Windows&trade; is a [trademark of Microsoft Corp.](https://www.microsoft.com/en-
 
 ## License
 
-node-mdaemon-api 24.5.2-alpha.37 is [MIT licensed](license.md).
+node-mdaemon-api 25.0.0-alpha.38 is [MIT licensed](license.md).

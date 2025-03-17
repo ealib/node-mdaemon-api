@@ -1,8 +1,9 @@
 # Licenses
 
-node-mdaemon-api 24.5.2-alpha.37 license
+node-mdaemon-api 25.0.0-alpha.38 license
 
-Copyright (c) 2016-2024 Emanuele Aliberti, MTKA
+```
+Copyright (c) 2016-2025 Emanuele Aliberti, MTKA
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -15,13 +16,15 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+```
 
 ---
 
-This software - node-mdaemon-api 24.5.2-alpha.37 - includes software
+This software - node-mdaemon-api 25.0.0-alpha.38 - includes software
 released by MDaemon Technologies, Ltd. under the following license:
 
-Copyright (c) 1999-2024 MDaemon Technologies, Ltd., All rights reserved.
+```
+Copyright (c) 1999-2025 MDaemon Technologies, Ltd., All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -36,7 +39,7 @@ met:
 
 3. Neither the name of the copyright holder nor the names of its
    contributors may be used to endorse or promote products derived from
-   this software without specific prior written permission. 
+   this software without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -49,3 +52,4 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
 THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+```
