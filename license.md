@@ -1,6 +1,6 @@
 # Licenses
 
-node-mdaemon-api 25.0.0-alpha.38 license
+node-mdaemon-api 25.0.3-alpha.39 license
 
 ```
 Copyright (c) 2016-2025 Emanuele Aliberti, MTKA
@@ -20,7 +20,7 @@ THE SOFTWARE.
 
 ---
 
-This software - node-mdaemon-api 25.0.0-alpha.38 - includes software
+This software - node-mdaemon-api 25.0.3-alpha.39 - includes software
 released by MDaemon Technologies, Ltd. under the following license:
 
 ```
