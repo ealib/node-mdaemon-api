@@ -1,9 +1,9 @@
 # Licenses
 
-node-mdaemon-api 25.5.2-alpha.44 license
+node-mdaemon-api 26.0.3-alpha.45 license
 
 ```
-Copyright (c) 2016-2025 Emanuele Aliberti, MTKA
+Copyright (c) 2016-2026 Emanuele Aliberti, MTKA
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -20,11 +20,11 @@ THE SOFTWARE.
 
 ---
 
-This software - node-mdaemon-api 25.5.2-alpha.44 - includes software
+This software - node-mdaemon-api 26.0.3-alpha.45 - includes software
 released by MDaemon Technologies, Ltd. under the following license:
 
 ```
-Copyright (c) 1999-2025 MDaemon Technologies, Ltd., All rights reserved.
+Copyright (c) 1999-2026 MDaemon Technologies, Ltd., All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
